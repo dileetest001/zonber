@@ -1,0 +1,33 @@
+@import "./common";
+
+
+html {
+    scrollbar-arrow-color:#333333;
+    scrollbar-base-color:#fff;
+    scrollbar-3dlight-color:#fff;
+    scrollbar-darkshadow-color:#fff;
+    scrollbar-face-color:#333333;
+    scrollbar-highlight-color:#fff;
+    scrollbar-shadow-color:#fff;
+    scrollbar-track-color:#fff;
+}
+
+::-webkit-scrollbar {
+    width:4px;
+    height:0px;
+    border:0;
+}
+
+::-webkit-scrollbar-track {
+    background : #fff;
+    -webkit-border-radius:0px;
+    border-radius:0px;
+}
+
+::-webkit-scrollbar-thumb {
+    height:2px;
+    width:50px;
+    background:#333333;
+    -webkit-border-radius:0px;
+    border-radius:0px;
+}

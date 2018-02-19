@@ -4,6 +4,7 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use App\Console\Commands\CurlBtcInfo;
 
 class Kernel extends ConsoleKernel
 {
@@ -14,6 +15,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         //
+        Commands\CurlBtcInfo::class,
     ];
 
     /**
@@ -24,8 +26,14 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
+        $CurlBtcInfo = new CurlBtcInfo();
+        
+        $schedule->call(function () use ($CurlBtcInfo) {
+            $CurlBtcInfo->handle();
+            $CurlBtcInfo->handle();
+            $CurlBtcInfo->handle();
+        })->everyMinute()->name('get-btc-info3412')->withoutOverlapping();
+        
     }
 
     /**

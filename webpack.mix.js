@@ -14,9 +14,15 @@ let mix = require('laravel-mix');
 //mix.js('resources/assets/js/app.js', 'public/js')
 //   .sass('resources/assets/sass/app.scss', 'public/css');
 
+// 공통
 mix.js([
         'resources/assets/js/app.js',
         'resources/assets/js/common.js',
-        'resources/assets/js/homepage/main/vue.js'
-    ], 'public/js/main.js')
-    .sass('resources/assets/sass/homepage/main.scss', 'public/css/main.css');
+    ], 'public/js/common/common.js')
+    .sass('resources/assets/sass/common_scss.scss', 'public/css/common.css');
+
+
+// btc 페이지
+mix.js([
+        'resources/assets/js/homepage/coin.js'
+    ], 'public/js/homepage/coin.js');

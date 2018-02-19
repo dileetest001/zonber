@@ -13,12 +13,12 @@
 
 // 메인 접속
 Route::get('/', function () {
-    return Redirect::to('/homepage/view/main');
+    return Redirect::to('/homepage/view/coin/btc');
 });
 
 
 // view
-Route::get('/homepage/view/{action}', 'HomepageViewController@controllerAction');
+Route::get('/homepage/view/{action}/{room_id}', 'HomepageViewController@controllerAction');
 
 // ajax
 Route::post('/homepage/ajax/{action}', 'HomepageAjaxController@controllerAction');

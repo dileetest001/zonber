@@ -54,6 +54,16 @@ return [
             'engine' => null,
         ],
 
+        'zonber' => [
+            'driver' => 'mysql',
+            'host' => '175.126.123.236',
+            'port' => '3306',
+            'database' => 'zonber',
+            'username' => 'trendremote',
+            'password' => 'trendremote1222',
+            'unix_socket' => env('DB_SOCKET', ''),
+        ],
+        
         'pgsql' => [
             'driver' => 'pgsql',
             'host' => env('DB_HOST', '127.0.0.1'),
@@ -111,6 +121,12 @@ return [
         'default' => [
             'host' => env('REDIS_HOST', '127.0.0.1'),
             'password' => env('REDIS_PASSWORD', null),
+            'port' => env('REDIS_PORT', 6379),
+            'database' => 0,
+        ],
+        
+        'redis_socket' => [
+            'host' => env('REDIS_HOST', '127.0.0.1'),
             'port' => env('REDIS_PORT', 6379),
             'database' => 0,
         ],

@@ -1,5 +1,1 @@
-@if ($page == 'main')
-<link rel="stylesheet" href="{{ mix('/css/main.css') }}">
-@else
-
-@endif
+<link rel="stylesheet" href="{{ mix('/css/common.css') }}">
