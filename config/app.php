@@ -124,7 +124,16 @@ return [
     'log' => env('APP_LOG', 'single'),
 
     'log_level' => env('APP_LOG_LEVEL', 'debug'),
-
+    
+    'access_coin' => [
+        'btc', 
+        'bch', 
+        'eth', 
+        'etc', 
+        'xrp', 
+        'ltc', 
+        'btg', 
+    ],
     /*
     |--------------------------------------------------------------------------
     | Autoloaded Service Providers

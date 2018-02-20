@@ -65,17 +65,13 @@
     </div>
 </template>
 
-<style scoped>
+<style>
 table {
     border : 1px solid #bb504e;
 }
 th, td {
     padding : 15px;
     text-align : right;
-}
-
-.iframe_div {
-    height:480px;
 }
 
 .bitfinex {
@@ -92,6 +88,22 @@ th, td {
 .premium {
     border : 1px solid #d8bdbd;
 }
+
+@media (max-width: 720px) {
+    .iframe_div {
+        height:410px;
+    }
+}
+@media (min-width: 720px) and (max-width: 990px) {
+    .iframe_div {
+        height:500px;
+    }
+}
+@media (min-width: 990px) {
+    .iframe_div {
+        height:500px;
+    }
+}
 </style>
 
 <script>
@@ -101,6 +113,9 @@ export default {
         // 차트 iframe
         this.setChartIframe();
         
+        this.getBithumbFromServer();
+        this.getCoinoneFromServer();
+        this.getBitfinexFromServer();
         this.getBitfinexInfo();
         this.getBithumbInfo();
         this.getCoinoneInfo();
@@ -139,28 +154,61 @@ export default {
         'room_id'
     ],
     methods: {
+        getBitfinexFromServer : function() {
+            asyncRequest({
+                url : '/homepage/ajax/get_coin_info',
+                data: {
+                    currency : this.room_id,
+                    trade_market : 1,
+                },
+                dataType : 'json',
+                success: (result) => {
+                    this.bitfinex_usd = number_format(result.usd, 2);
+                    this.bitfinex_krw = number_format(result.krw);
+                    this.bitfinex_usd_org = result.usd;
+                    this.bitfinex_krw_org = result.krw;
+                    
+                    this.setBithumbPremium();
+                    this.setCoinonePremium();
+                }
+            });
+        },
+        getBithumbFromServer : function() {
+            asyncRequest({
+                url : '/homepage/ajax/get_coin_info',
+                data: {
+                    currency : this.room_id,
+                    trade_market : 2,
+                },
+                dataType : 'json',
+                success: (result) => {
+                    this.bithumb_usd = number_format(result.usd, 2);
+                    this.bithumb_krw = number_format(result.krw);
+                    this.bithumb_usd_org = result.usd;
+                    this.bithumb_krw_org = result.krw;
+                }
+            });
+        },
+        getCoinoneFromServer : function() {
+            asyncRequest({
+                url : '/homepage/ajax/get_coin_info',
+                data: {
+                    currency : this.room_id,
+                    trade_market : 3,
+                },
+                dataType : 'json',
+                success: (result) => {
+                    this.coinone_usd = number_format(result.usd, 2);
+                    this.coinone_krw = number_format(result.krw);
+                    this.coinone_usd_org = result.usd;
+                    this.coinone_krw_org = result.krw;
+                }
+            });
+        },
         getBitfinexInfo : function() {
-            var currency = this.room_id.toUpperCase()+'USD';
             setInterval(() => {
-                asyncRequest({
-                    url : '/homepage/ajax/get_coin_info',
-                    data: {
-                        currency : this.room_id,
-                        trade_market : 1,
-                    },
-                    dataType : 'json',
-                    success: (result) => {
-                        this.bitfinex_usd = number_format(result.usd);
-                        this.bitfinex_krw = number_format(result.krw);
-                        this.bitfinex_usd_org = result.usd;
-                        this.bitfinex_krw_org = result.krw;
-                        
-                        this.setBithumbPremium();
-                        this.setCoinonePremium();
-                    }
-                });
-                
-            }, 1800);
+                this.getBitfinexFromServer();
+            }, 3000);
         },
         getBithumbInfo : function() {
             var currency = this.room_id.toUpperCase();
@@ -176,7 +224,7 @@ export default {
                         if (result.status === '0000') {
                             var price = result.data.asks[0].price;
                             
-                            this.bithumb_usd = number_format(price/this.dolor);
+                            this.bithumb_usd = number_format(price/this.dolor, 2);
                             this.bithumb_krw = number_format(price);
                             this.bithumb_usd_org = price/this.dolor;
                             this.bithumb_krw_org = price;
@@ -186,7 +234,7 @@ export default {
                     }
                 });
 
-            }, 3600);
+            }, 1800);
         },
         getCoinoneInfo : function() {
             var currency = this.room_id.toLowerCase();
@@ -202,8 +250,8 @@ export default {
                         
                         if (result.errorCode === '0') {
                             var price = result.ask[0].price;
+                            this.coinone_usd = number_format(price/this.dolor, 2);
                             this.coinone_krw = number_format(price);
-                            this.coinone_usd = number_format(price/this.dolor);
                             this.coinone_usd_org = price/this.dolor;
                             this.coinone_krw_org = price;
                             
@@ -211,21 +259,19 @@ export default {
                         }
                     }
                 });
-            }, 3600);
+            }, 1800);
         },
         setBithumbPremium : function() {
             if (this.bitfinex_usd !== 'load..' && this.bithumb_usd !== 'load..') {
-                this.bithumb_premium_usd = number_format(this.bithumb_usd_org - this.bitfinex_usd_org);
+                this.bithumb_premium_usd = number_format(this.bithumb_usd_org - this.bitfinex_usd_org, 2);
                 this.bithumb_premium_krw  = number_format(this.bithumb_krw_org - this.bitfinex_krw_org);
                 this.bithumb_premium_usd_percent = number_format((this.bithumb_usd_org - this.bitfinex_usd_org) / this.bitfinex_usd_org * 100, 2);
                 this.bithumb_premium_krw_percent = number_format((this.bithumb_krw_org - this.bitfinex_krw_org) / this.bitfinex_krw_org * 100, 2);
-                
-                
             }
         },
         setCoinonePremium : function() {
             if (this.bitfinex_usd !== 'load..'  && this.coinone_usd !== 'load..') {
-                this.coinone_premium_usd = number_format(this.coinone_usd_org - this.bitfinex_usd_org);
+                this.coinone_premium_usd = number_format(this.coinone_usd_org - this.bitfinex_usd_org, 2);
                 this.coinone_premium_krw  = number_format(this.coinone_krw_org - this.bitfinex_krw_org);
                 this.coinone_premium_usd_percent = number_format((this.coinone_usd_org - this.bitfinex_usd_org) / this.bitfinex_usd_org * 100, 2);
                 this.coinone_premium_krw_percent = number_format((this.coinone_krw_org - this.bitfinex_krw_org) / this.bitfinex_krw_org * 100, 2);
@@ -253,4 +299,3 @@ export default {
     }
 }
 </script>
-pt>

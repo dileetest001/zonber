@@ -1,23 +1,25 @@
 <template>
     <div>
         <div class="ad_info">
-            <br>
             <p>{{ room_id }} 기부 </p>
-            <p>{{ account }}</p>
+            <p v-html='account'></p>
         </div>
         <div class='message_body'>
             <div class="message_header">
-                <span>ID : <span class="userid">{{ user_id }}</span> </span>
+                <span>
+                    ID : <span class="userid">{{ user_id }} </span>
+                    닉네임 : <input type='text' id='nick_name' maxlength="5" size="10" v-model='nick_name'/>
+                </span>
                 <br>
                 <span>접속 : <span class='client_count'>{{ client_count }}</span> </span> 
                 <span><span class="datetime">{{ datetime }}</span> </span>
             </div>
             <div class='message_content' id='message_content'>
                 <div v-html='message_content'></div>
-            </div>
+            </div>                 
             <div class='send_message'>
                 <form onsubmit="return false;" method="post">
-                    <input class='message' id='message' v-on:keyup.13='sendMessage' type='text' autocomplete='off'/> 
+                    <input class='message' maxlength="100" id='message' v-on:keyup.13='sendMessage' type='text' autocomplete='off'/> 
                 </form>
             </div>
         </div>
@@ -27,21 +29,11 @@
 <style>
 .ad_info {
     border : 1px solid #bb504e;
-    height:100px;
     text-align: center;
 }
 
 .message_body {
     border : ridge;
-}
-.message_content {
-    overflow:auto;
-    overflow-x:hidden;
-    height:400px;
-    line-height:150%;
-    background-color:white;
-    word-wrap:break-word;
-    border : solid 1px #968c8c;
 }
 
 .send_message {
@@ -71,16 +63,43 @@ li {
 
 .message_text {
     margin-left : 30px;
-    font-size : 14px;
+    font-size : 13px;
     color: black;
 }
 
 .message_id {
     background-color:#f7f7f7; 
-    color: #bf7878; 
-    font-size : 12px;
+    font-size : 11px;
 }
 
+.my_id {
+    color: #bf7878; 
+}
+
+.other_id {
+    color: #27122d; 
+}
+
+.message_content {
+    overflow:auto;
+    height:600px;
+    line-height:150%;
+    background-color:white;
+    word-wrap:break-word;
+    border : solid 1px #968c8c;
+}
+
+@media (max-width: 720px) {
+    .message_content {
+        height:300px;
+    }
+}
+@media (min-width: 720px) and (max-width: 990px) {
+
+}
+@media (min-width: 990px) {
+
+}
 </style>
 
 
@@ -89,12 +108,14 @@ li {
 export default {
     created : function() {
         this.user_id = this.room_id+"_"+Math.floor(Math.random()*10000)+1;
+        this.user_id_org = this.user_id;
         
         var message = {
             'room_id' : this.room_id,
-            'user_id' : this.user_id
+            'user_id' : this.user_id_org
         };
-
+        
+        // room join
         this.socket.emit('joinRoom', JSON.stringify(message));
         this.datetime = this.getDateTime();
         
@@ -107,13 +128,11 @@ export default {
         } else if (this.room_id == 'etc') {
             this.account = '0xb65a305af59396f65f1c615fb9df1e934dcab48b';
         } else if (this.room_id == 'xrp') {
-            this.account = 'rN9qNpgnBaZwqCg8CvUZRPqCcPPY7wfWep // 1752738475';
+            this.account = 'rN9qNpgnBaZwqCg8CvUZRPqCcPPY7wfWep <br> 1752738475';
         } else if (this.room_id == 'ltc') {
             this.account = '3J3vtAJ1AkvxU5EZQS11q8awzKxAozxpdo';
         } else if (this.room_id == 'btg') {
             this.account = 'AZ9vxk6kxhCxkX5nGfmu85ayRCTsnAnHmR';
-        } else if (this.room_id == 'zec') {
-            this.account = '성투하세요';
         }
         
     },
@@ -126,30 +145,29 @@ export default {
             var type = result['type'];
             switch (type) {
                 case 'send_message' :
-                    var user_id = result['user_id'];
-                    var message = result['message'];
-                    var room_id = result['room_id'];
+                    var user_id   = result['user_id'];
+                    var user_name = result['user_name'];
+                    var message   = result['message'];
+                    var room_id   = result['room_id'];
 
                     if (this.room_id == room_id) {
                         
                         var receive_message = '';
+                        var is_my_message = (user_id == this.user_id_org) ? true : false;
                         
-                        if (this.last_message_id == '' || this.last_message_id != user_id) {
-                            this.last_message_id = user_id;
-                            if (user_id == this.user_id) {
-                                receive_message = "<li class='message_id'>[" + user_id + "]</li>";
+                        if (this.last_message_id == '' || this.last_message_id != user_name) {
+                            this.last_message_id = user_name;
+                            if (user_id == this.user_id_org) {
+                                receive_message = "<li class='message_id my_id'><strong>[" + user_name + "]</strong></li>";
                             } else {
-                                receive_message = "<li class='message_id'>[" + user_id + "]</li>";
+                                receive_message = "<li class='message_id other_id'><strong>[" + user_name + "]</strong></li>";
                             }
                         }
 
                         receive_message+= "<li class='message_text'>" + message + "</li>";
                         
                         // 메세지 로드
-                        this.addMessage(receive_message);
-                        
-                        // 스크롤 아래로
-                        $(".message_content").scrollTop($(".message_content")[0].scrollHeight);
+                        this.addMessage(receive_message, is_my_message);
                     }
                     
                     break;
@@ -165,9 +183,20 @@ export default {
         // 현재 시간
         this.setDateTime();
     },
+    watch : {
+        nick_name : function(value, old_value) {
+            if (value != '') {
+                this.user_id = this.user_id_org+'('+value+')';
+            } else {
+                this.user_id = this.user_id_org;
+            }
+        }
+    },
     data() {
         return {
             'user_id' : '',
+            'user_id_org' : '',
+            'nick_name' : '',
             'message_content' : '',
             'client_count' :'',
             'datetime' : '',
@@ -185,20 +214,33 @@ export default {
             if (message == "") {
                 return;
             }
+            message = message.substr(0, 100);
+            message = message.split('<img').join('');
+            message = message.split('<a').join('');
+            message = message.split('<button').join('');
+            
             asyncRequest({
                 url: '/homepage/ajax/send_message',
                 data: {
-                    room_id: this.room_id,
-                    message: message,
-                    user_id: this.user_id
+                    room_id    : this.room_id,
+                    message    : message,
+                    user_id    : this.user_id_org,
+                    user_name  : this.user_id,
                 },
                 success: (result) => {
                     $('.message').val('');
                 }
             });
         },
-        addMessage : function(message) {
+        addMessage : function(message, is_my_message) {
             this.message_content+= message;
+            
+            if (is_my_message === true) {
+                this.$nextTick(() => {
+                    $(".message_content").scrollTop($(".message_content")[0].scrollHeight);
+                });
+            }
+            
         },
         setDateTime : function() {
             
@@ -211,7 +253,6 @@ export default {
             var nowDate = date.getFullYear()+"/"+(date.getMonth()+1)+"/"+date.getDate()+" "+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds();
             return nowDate;
         }
-        
     }
 }
 

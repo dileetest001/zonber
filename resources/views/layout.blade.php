@@ -21,15 +21,10 @@
 
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-              <ul class="nav navbar-nav">         
-                <li><a href="/homepage/view/coin/btc">BTC</a></li>
-                <li><a href="/homepage/view/coin/bch">BCH</a></li>
-                <li><a href="/homepage/view/coin/eth">ETH</a></li>
-                <li><a href="/homepage/view/coin/etc">ETC</a></li>
-                <li><a href="/homepage/view/coin/xrp">XRP</a></li>
-                <li><a href="/homepage/view/coin/ltc">LTC</a></li>
-                <li><a href="/homepage/view/coin/btg">BTG</a></li>
-                <li><a href="/homepage/view/coin/zec">ZEC</a></li>
+              <ul class="nav navbar-nav">
+                @foreach (config('app.access_coin') as $coin)
+                    <li><a href="/homepage/view/coin/{{ $coin }}">{{ strtoupper($coin) }}</a></li>
+                @endforeach
               </ul>
             </div>
           </div>

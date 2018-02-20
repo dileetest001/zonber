@@ -18,18 +18,20 @@ class HomepageAjaxController extends HomepageController
      */
     public function sendMessage()
     {
-        $message = request('message');
-        $room_id = request('room_id');
-        $user_id = request('user_id');
+        $message   = request('message');
+        $room_id   = request('room_id');
+        $user_id   = request('user_id');
+        $user_name = request('user_name');
         
         $redis_client = Redis::connection('redis_socket');
         $channel_name = $room_id;
 
         $data = [
-            'user_id' => $user_id,
-            'message' => $message,
-            'room_id' => $room_id,
-            'type'    => 'send_message',
+            'user_id'   => $user_id,
+            'user_name' => $user_name,
+            'message'   => $message,
+            'room_id'   => $room_id,
+            'type'      => 'send_message',
         ];
 
         $response = $redis_client->publish($channel_name, json_encode($data));

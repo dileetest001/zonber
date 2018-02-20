@@ -16,21 +16,12 @@ class HomepageViewController extends HomepageController
     public function coin()
     {
         $room_id = request('room_id') ?? '';
-        $coin_arr = [
-            'btc', 
-            'bch', 
-            'eth', 
-            'etc', 
-            'xrp', 
-            'ltc', 
-            'btg', 
-            'zec',
-        ];
+        $coin_arr = config('app.access_coin');
 
         if (in_array(strtolower($room_id), $coin_arr)) {
             return view("/homepage/coin", ['room_id' => $room_id]);
         } else {
-            return abort(404);
+            return redirect('/homepage/view/coin/btc');
         }
         
     }

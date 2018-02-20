@@ -44,7 +44,7 @@ class CurlBtcInfo extends Command
     public function handle()
     {
         //
-        $currency_arr = ['btc', 'bch', 'eth', 'etc', 'xrp', 'ltc', 'btg', 'zec'];
+        $currency_arr = config('app.access_coin');
         
         foreach ($currency_arr as $currency) {
             sleep(2);

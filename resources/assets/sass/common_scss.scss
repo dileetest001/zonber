@@ -10,6 +10,12 @@ html {
     scrollbar-highlight-color:#fff;
     scrollbar-shadow-color:#fff;
     scrollbar-track-color:#fff;
+    height:100%;
+}
+
+body {
+    background-color : #f5f8fa;
+    height:100%;
 }
 
 ::-webkit-scrollbar {
