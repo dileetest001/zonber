@@ -47,7 +47,7 @@ class CurlBtcInfo extends Command
         $currency_arr = config('app.access_coin');
         
         foreach ($currency_arr as $currency) {
-            sleep(2);
+            sleep(1);
             $CurlExchange = new CurlExchange();
             
             // 비트파이넥스 DB 저장
@@ -65,9 +65,12 @@ class CurlBtcInfo extends Command
                     'usd'          => $bitfinex_info['price_usd'],
                 ]);
             } else {
-                $bitfinex_coin_info->krw = $bitfinex_info['price_krw'];
-                $bitfinex_coin_info->usd = $bitfinex_info['price_usd'];
-                $bitfinex_coin_info->save();
+                
+                if ($bitfinex_info['price_krw']) {
+                    $bitfinex_coin_info->krw = $bitfinex_info['price_krw'];
+                    $bitfinex_coin_info->usd = $bitfinex_info['price_usd'];
+                    $bitfinex_coin_info->save();
+                }
             }
             
             // 빗썸 DB 저장

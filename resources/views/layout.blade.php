@@ -23,7 +23,7 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
               <ul class="nav navbar-nav">
                 @foreach (config('app.access_coin') as $coin)
-                    <li><a href="/homepage/view/coin/{{ $coin }}">{{ strtoupper($coin) }}</a></li>
+                    <li><a href="/homepage/view/coin/{{ $coin }}" target="_blank">{{ strtoupper($coin) }}</a></li>
                 @endforeach
               </ul>
             </div>

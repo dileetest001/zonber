@@ -1,9 +1,5 @@
 <template>
     <div>
-        <div class="ad_info">
-            <p>{{ room_id }} 기부 </p>
-            <p onclick="copyToClipboard(this.innerText);" v-html='account'></p>
-        </div>
         <div class='message_body'>
             <div class="message_header">
                 <span>
@@ -27,10 +23,6 @@
 </template>
 
 <style>
-.ad_info {
-    border : 1px solid #bb504e;
-    text-align: center;
-}
 
 .message_body {
     border : ridge;
@@ -81,12 +73,15 @@ li {
 }
 
 .message_content {
+    z-index : -1;
+    position :relative;
     overflow:auto;
     height:600px;
     line-height:150%;
-    background-color:white;
     word-wrap:break-word;
     border : solid 1px #968c8c;
+    background-image : url("/image/chatting_bg.jpg");
+    background-size : 100% 100%;
 }
 
 @media (max-width: 720px) {
@@ -118,23 +113,6 @@ export default {
         // room join
         this.socket.emit('joinRoom', JSON.stringify(message));
         this.datetime = this.getDateTime();
-        
-        if (this.room_id == 'btc') {
-            this.account = '3GavawtgH2CFKthH2EoswfxaMiiQh68Sjx';
-        } else if (this.room_id == 'bch') {
-            this.account = '3KWo7RVc99PGryiQRguDg8vFBJNcAjvtjR';
-        } else if (this.room_id == 'eth') {
-            this.account = '0x345fae7b1e8ba8928574325e3c20e5f8a52b5da8';
-        } else if (this.room_id == 'etc') {
-            this.account = '0xb65a305af59396f65f1c615fb9df1e934dcab48b';
-        } else if (this.room_id == 'xrp') {
-            this.account = 'rN9qNpgnBaZwqCg8CvUZRPqCcPPY7wfWep <br> 1752738475';
-        } else if (this.room_id == 'ltc') {
-            this.account = '3J3vtAJ1AkvxU5EZQS11q8awzKxAozxpdo';
-        } else if (this.room_id == 'btg') {
-            this.account = 'AZ9vxk6kxhCxkX5nGfmu85ayRCTsnAnHmR';
-        }
-        
     },
     mounted: function() {
         
@@ -201,7 +179,6 @@ export default {
             'client_count' :'',
             'datetime' : '',
             'last_message_id' : '',
-            'account' : ''
         }
     },
     props: [

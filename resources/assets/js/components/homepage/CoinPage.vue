@@ -61,11 +61,35 @@
         
         <div class='iframe_div' v-html='iframe'>
         </div>
+        <div class="ad_info">
+            <div class='trade_market' id='trade_market'>
+                거래소 링크 : 
+                <a href='https://www.bithumb.com/' target='_blank'>빗썸</a>
+                <a href='https://coinone.co.kr/' target='_blank'>코인원</a>
+                <a href='https://upbit.com/' target='_blank'>업비트</a>
+                <a href='https://www.gopax.co.kr/' target='_blank'>고팍스</a>
+                <a href='https://www.bitfinex.com/' target='_blank'>비트파이넥스</a>
+                <a href='https://cryptowat.ch/' target='_blank'>크립토왓</a>
+            </div>
+            <br>
+            <div>
+                {{ room_id }} 기부 : <span onclick="copyToClipboard(this.innerText);" v-html='account'></span>
+            </div>
+        </div>
         
     </div>
 </template>
 
 <style>
+
+.trade_market > a {
+    text-decoration:none;
+}
+.ad_info {
+    border : 1px solid #bb504e;
+    text-align: center;
+}
+
 table {
     border : 1px solid #bb504e;
 }
@@ -123,6 +147,9 @@ th, td {
 export default {
     created : function() {
         
+        // 코인 주소
+        this.setAccount();
+        
         // 차트 iframe
         this.setChartIframe();
         
@@ -160,6 +187,7 @@ export default {
             coinone_premium_krw_percent : 'load..',
             iframe : '',
             dolor  : 1075.26882,
+            account : '',
         }
     },
     props: [
@@ -307,6 +335,24 @@ export default {
                 this.iframe = '<iframe style="width:100%; height:100%;" src="https://embed.cryptowat.ch/bitfinex/btgusd/15m"></iframe>';
             } else if (this.room_id == 'zec') {
                 this.iframe = '<iframe style="width:100%; height:100%;" src="https://embed.cryptowat.ch/bitfinex/zecusd/15m"></iframe>';
+            }
+        },
+        setAccount : function() {
+            
+            if (this.room_id == 'btc') {
+                this.account = '3GavawtgH2CFKthH2EoswfxaMiiQh68Sjx';
+            } else if (this.room_id == 'bch') {
+                this.account = '3KWo7RVc99PGryiQRguDg8vFBJNcAjvtjR';
+            } else if (this.room_id == 'eth') {
+                this.account = '0x345fae7b1e8ba8928574325e3c20e5f8a52b5da8';
+            } else if (this.room_id == 'etc') {
+                this.account = '0xb65a305af59396f65f1c615fb9df1e934dcab48b';
+            } else if (this.room_id == 'xrp') {
+                this.account = 'rN9qNpgnBaZwqCg8CvUZRPqCcPPY7wfWep <br> 1752738475';
+            } else if (this.room_id == 'ltc') {
+                this.account = '3J3vtAJ1AkvxU5EZQS11q8awzKxAozxpdo';
+            } else if (this.room_id == 'btg') {
+                this.account = 'AZ9vxk6kxhCxkX5nGfmu85ayRCTsnAnHmR';
             }
         }
     }
