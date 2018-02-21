@@ -2,7 +2,7 @@
     <div>
         <div class="ad_info">
             <p>{{ room_id }} 기부 </p>
-            <p v-html='account'></p>
+            <p onclick="copyToClipboard(this.innerText);" v-html='account'></p>
         </div>
         <div class='message_body'>
             <div class="message_header">

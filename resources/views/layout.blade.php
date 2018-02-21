@@ -42,6 +42,12 @@
                     @yield('chat')
                 </div>
             </div>
+            
+			<div id="copy_div" hidden>
+				<div id="copy">
+				</div>
+				<button class="copy_button" id="copy_button" data-id="@item.Type" data-clipboard-action="copy" data-clipboard-target="div#copy" hidden></button>
+			</div>
         </div>    
         
         

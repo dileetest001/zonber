@@ -17,20 +17,20 @@
                 <tbody>
                     <tr>
                         <td></td>
-                        <td class='bitfinex'>${{ bitfinex_usd }}</td>
-                        <td class='bitfinex'>￦{{ bitfinex_krw }}</td>
-                        <td class='bithumb'>${{ bithumb_usd }}</td>
-                        <td class='bithumb'>￦{{ bithumb_krw }}</td>
-                        <td class='coinone'>${{ coinone_usd }}</td>
-                        <td class='coinone'>￦{{ coinone_krw }}</td>
+                        <td><div class='bitfinex'>${{ bitfinex_usd }}</div></td>
+                        <td><div class='bitfinex'>￦{{ bitfinex_krw }}</div></td>
+                        <td><div class='bithumb'>${{ bithumb_usd }}</div></td>
+                        <td><div class='bithumb'>￦{{ bithumb_krw }}</div></td>
+                        <td><div class='coinone'>${{ coinone_usd }}</div></td>
+                        <td><div class='coinone'>￦{{ coinone_krw }}</div></td>
                     </tr>
                     <tr>
-                        <td class='premium' colspan=2></td>
-                        <td class='premium'>프리미엄</td>
-                        <td class='premium'>${{ bithumb_premium_usd }} (<span>{{ bithumb_premium_usd_percent }}%</span>)</td>
-                        <td class='premium'>￦{{ bithumb_premium_krw }} (<span>{{ bithumb_premium_krw_percent }}%</span>)</td>
-                        <td class='premium'>${{ coinone_premium_usd }} (<span>{{ coinone_premium_usd_percent }}%</span>)</td>
-                        <td class='premium'>￦{{ coinone_premium_krw }} (<span>{{ coinone_premium_krw_percent }}%</span>)</td>
+                        <td colspan=2></td>
+                        <td>프리미엄</td>
+                        <td><div class='premium'>${{ bithumb_premium_usd }} (<span class="percent">{{ bithumb_premium_usd_percent }}%</span>)</div></td>
+                        <td><div class='premium'>￦{{ bithumb_premium_krw }} (<span class="percent">{{ bithumb_premium_krw_percent }}%</span>)</div></td>
+                        <td><div class='premium'>${{ coinone_premium_usd }} (<span class="percent">{{ coinone_premium_usd_percent }}%</span>)</div></td>
+                        <td><div class='premium'>￦{{ coinone_premium_krw }} (<span class="percent">{{ coinone_premium_krw_percent }}%</span>)</div></td>
                     </tr>
                 </tbody>
             </table>
@@ -51,9 +51,9 @@
                         <td class='coinone'>￦{{ coinone_krw }}</td>
                     </tr>
                     <tr>
-                        <td class='premium'>프리미엄</td>
-                        <td class='premium'>￦{{ bithumb_premium_krw }} (<span class="percent">{{ bithumb_premium_krw_percent }}%</span>)</td>
-                        <td class='premium'>￦{{ coinone_premium_krw }} (<span class="percent">{{ coinone_premium_krw_percent }}%</span>)</td>
+                        <td>프리미엄</td>
+                        <td><div class='premium'>￦{{ bithumb_premium_krw }} (<span class="percent">{{ bithumb_premium_krw_percent }}%</span>)</div></td>
+                        <td><div class='premium'>￦{{ coinone_premium_krw }} (<span class="percent">{{ coinone_premium_krw_percent }}%</span>)</div></td>
                     </tr>
                 </tbody>
             </table>
@@ -70,24 +70,37 @@ table {
     border : 1px solid #bb504e;
 }
 th, td {
-    padding : 15px;
     text-align : right;
+    font-size : 12px;
+    font-weight : bold;
 }
 
 .bitfinex {
-    color:black;
+    color : black;
+    border : 1px solid #f5f8fa;
 }
 
 .bithumb {
-    color:#f57723;
+    color : #f57723;
+    border : 1px solid #f5f8fa;
 }
 
 .coinone {
     color:#337ab7;
+    border : 1px solid #f5f8fa;
 }
 .premium {
-    border : 1px solid #d8bdbd;
+    border : 1px solid #f5f8fa;
 }
+
+.bitfinex:hover, .bithumb:hover, .coinone:hover, .premium:hover {
+    background-color : #d3d3d3;
+}
+
+.percent {
+    color : #f31414;
+}
+
 
 @media (max-width: 720px) {
     .iframe_div {

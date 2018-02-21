@@ -63,3 +63,19 @@ number_format = function (num, decimals, dec_point, thousands_sep) {
  
     return n + d;
 }
+
+var clipboard = new Clipboard('.copy_button');
+clipboard.on('success', function(e) {
+    console.log(e);
+});
+clipboard.on('error', function(e) {
+    console.log(e);
+});
+
+copyToClipboard = function (str) {
+	$("#copy_div").show();
+	$("#copy").text(str);
+	$("#copy_button").click();
+	$("#copy_div").hide();
+	alert( '클립보드에 복사되었습니다.'); 
+}
