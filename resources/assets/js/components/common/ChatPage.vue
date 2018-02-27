@@ -76,7 +76,7 @@ li {
     z-index : -1;
     position :relative;
     overflow:auto;
-    height:600px;
+    height:660px;
     line-height:150%;
     word-wrap:break-word;
     border : solid 1px #968c8c;
@@ -87,6 +87,9 @@ li {
 @media (max-width: 720px) {
     .message_content {
         height:300px;
+    }
+    .send_message {
+        display :none;
     }
 }
 @media (min-width: 720px) and (max-width: 990px) {

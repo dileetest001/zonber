@@ -1,6 +1,8 @@
 <template>
     <div>
         <title>{{ room_id }} - {{ coinone_krw }}</title>
+        
+        <!-- pc -->
         <div class='hidden-xs'>
             <table class='table table-condensed'>
                 <thead>
@@ -19,10 +21,10 @@
                         <td><img class="coin_image" v-bind:src="coin_image"/></td>
                         <td><div class='bitfinex'>${{ bitfinex_usd }}</div></td>
                         <td><div class='bitfinex'>￦{{ bitfinex_krw }}</div></td>
-                        <td><div class='bithumb'>${{ bithumb_usd }}</div></td>
-                        <td><div class='bithumb'>￦{{ bithumb_krw }}</div></td>
-                        <td><div class='coinone'>${{ coinone_usd }}</div></td>
-                        <td><div class='coinone'>￦{{ coinone_krw }}</div></td>
+                        <td><div id="bithumb_usd" ref="bithumb_usd" class='bithumb'>${{ bithumb_usd }}</div></td>
+                        <td><div id="bithumb_krw" ref="bithumb_krw" class='bithumb'>￦{{ bithumb_krw }}</div></td>
+                        <td><div id="coinone_usd" ref="coinone_usd" class='coinone'>${{ coinone_usd }}</div></td>
+                        <td><div id="coinone_krw" ref="coinone_krw" class='coinone'>￦{{ coinone_krw }}</div></td>
                     </tr>
                     <tr>
                         <td colspan=2></td>
@@ -35,6 +37,8 @@
                 </tbody>
             </table>
         </div>
+        
+        <!-- mobile -->
         <div class='visible-xs-* hidden-md hidden-lg hidden-sm'>
             <table class='table table-condensed'>
                 <thead>
@@ -46,9 +50,9 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td class='bitfinex'>${{ bitfinex_usd }}</td>
-                        <td class='bithumb'>￦{{ bithumb_krw }}</td>
-                        <td class='coinone'>￦{{ coinone_krw }}</td>
+                        <td><div class='bitfinex'>${{ bitfinex_usd }}</div></td>
+                        <td><div id="bithumb_krw_mobile" ref="bithumb_krw_mobile" class='bithumb'>￦{{ bithumb_krw }}</div></td>
+                        <td><div id="coinone_krw_mobile" ref="coinone_krw_mobile" class='coinone'>￦{{ coinone_krw }}</div></td>
                     </tr>
                     <tr>
                         <td>프리미엄</td>
@@ -61,19 +65,32 @@
         
         <div class='iframe_div' v-html='iframe'>
         </div>
+        
         <div class="ad_info">
-            <div class='trade_market' id='trade_market'>
-                거래소 링크 : 
-                <a href='https://www.bithumb.com/' target='_blank'>빗썸</a>
-                <a href='https://coinone.co.kr/' target='_blank'>코인원</a>
-                <a href='https://upbit.com/' target='_blank'>업비트</a>
-                <a href='https://www.gopax.co.kr/' target='_blank'>고팍스</a>
-                <a href='https://www.bitfinex.com/' target='_blank'>비트파이넥스</a>
-                <a href='https://cryptowat.ch/' target='_blank'>크립토왓</a>
-            </div>
-            <br>
-            <div>
-                <img class="coin_image" v-bind:src="coin_image"/>{{ room_id }} 기부 : <span onclick="copyToClipboard(this.innerText);" v-html='account'></span>
+            <div class="row">
+                <div class="col-xs-12 col-sm-8">
+                    <div class='trade_market' id='trade_market'>
+                        <b>거래소 링크</b>
+                        <br>
+                        <a href='https://www.bithumb.com/' target='_blank'>빗썸</a>
+                        <a href='https://coinone.co.kr/' target='_blank'>코인원</a>
+                        <a href='https://upbit.com/' target='_blank'>업비트</a>
+                        <a href='https://www.gopax.co.kr/' target='_blank'>고팍스</a>
+                        <a href='https://www.bitfinex.com/' target='_blank'>비트파이넥스</a>
+                        <a href='https://cryptowat.ch/' target='_blank'>크립토왓</a>
+                    </div>
+                    <br>
+                    <div>
+                        <b><img class="coin_image" src="/image/xrp.png"/>리플 기부</b>
+                        <br>
+                        <span class="xrp_address" onclick="copyToClipboard(this.innerText);" v-html='account'></span>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="xrp_qrcode">
+                        <img src="/image/xrp_qrcode.JPG" style="width:150px;"/>
+                    </div>
+                </div>
             </div>
         </div>
         
@@ -88,6 +105,7 @@
 .ad_info {
     border : 1px solid #bb504e;
     text-align: center;
+    vertical-align : middle;
 }
 
 table {
@@ -130,9 +148,33 @@ th, td {
     height: 20px;
 }
 
+
+.change_border {
+    -webkit-animation-name: change_bordor; /* Safari 4.0 - 8.0 */
+    -webkit-animation-duration: 0.5s; /* Safari 4.0 - 8.0 */
+    animation-name: change_bordor;
+    animation-duration: 0.5s;
+}
+
+/* Safari 4.0 - 8.0 */
+@-webkit-keyframes change_bordor {
+    from {border-color: red;}
+    to {border-color: yellow;}
+}
+
+/* Standard syntax */
+@keyframes change_bordor {
+    from {border-color: red;}
+    to {border-color: blue;}
+}
+
+
 @media (max-width: 720px) {
     .iframe_div {
         height:410px;
+    }
+    .xrp_qrcode {
+        display : none;
     }
 }
 @media (min-width: 720px) and (max-width: 990px) {
@@ -148,6 +190,7 @@ th, td {
 </style>
 
 <script>
+
 export default {
     created : function() {
         
@@ -165,9 +208,36 @@ export default {
         this.getBitfinexInfo();
         this.getBithumbInfo();
         this.getCoinoneInfo();
-            
+
     },
     mounted: function() {
+        
+        // 애니메이션 이벤트
+        var coinone_usd_div = this.$refs.coinone_usd;
+        var coinone_krw_div = this.$refs.coinone_krw;
+        var bithumb_usd_div = this.$refs.bithumb_usd;
+        var bithumb_krw_div = this.$refs.bithumb_krw;
+        var coinone_krw_mobile_div = this.$refs.coinone_krw_mobile;
+        var bithumb_krw_mobile_div = this.$refs.bithumb_krw_mobile;
+        
+        coinone_usd_div.addEventListener('animationend', function() {
+                $('#coinone_usd').removeClass('change_border');
+            }, false);
+        coinone_krw_div.addEventListener('animationend', function() {
+                $('#coinone_krw').removeClass('change_border');
+            }, false);
+        bithumb_usd_div.addEventListener('animationend', function() {
+                $('#bithumb_usd').removeClass('change_border');
+            }, false);
+        bithumb_krw_div.addEventListener('animationend', function() {
+                $('#bithumb_krw').removeClass('change_border');
+            }, false);
+        bithumb_krw_mobile_div.addEventListener('animationend', function() {
+                $('#bithumb_krw_mobile').removeClass('change_border');
+            }, false);
+        coinone_krw_mobile_div.addEventListener('animationend', function() {
+                $('#coinone_krw_mobile').removeClass('change_border');
+            }, false);            
     },
     data() {
         return {
@@ -247,7 +317,7 @@ export default {
                 dataType : 'json',
                 success: (result) => {
                     this.coinone_usd = number_format(result.usd, 2);
-                    this.coinone_krw = number_format(result.krw);
+                    this.coinone_krw = number_format(result.krw);                    
                     this.coinone_usd_org = result.usd;
                     this.coinone_krw_org = result.krw;
                 }
@@ -274,6 +344,16 @@ export default {
                             
                             this.bithumb_usd = number_format(price/this.dolor, 2);
                             this.bithumb_krw = number_format(price);
+                            
+                            // border 깜박임
+                            if (this.bithumb_usd_org != price/this.dolor) {
+                                $('#bithumb_usd').addClass('change_border');
+                            }
+                            if (this.bithumb_krw_org != price) {
+                                $('#bithumb_krw').addClass('change_border');
+                                $('#bithumb_krw_mobile').addClass('change_border');
+                            }
+
                             this.bithumb_usd_org = price/this.dolor;
                             this.bithumb_krw_org = price;
                             
@@ -300,6 +380,16 @@ export default {
                             var price = result.ask[0].price;
                             this.coinone_usd = number_format(price/this.dolor, 2);
                             this.coinone_krw = number_format(price);
+                            
+                            // border 깜박임
+                            if (this.coinone_usd_org != price/this.dolor) {
+                                $('#coinone_usd').addClass('change_border');
+                            }
+                            if (this.coinone_krw_org != price) {
+                                $('#coinone_krw').addClass('change_border');
+                                $('#coinone_krw_mobile').addClass('change_border');
+                            }
+                    
                             this.coinone_usd_org = price/this.dolor;
                             this.coinone_krw_org = price;
                             
@@ -346,21 +436,23 @@ export default {
         },
         setAccount : function() {
             
-            if (this.room_id == 'btc') {
-                this.account = '3GavawtgH2CFKthH2EoswfxaMiiQh68Sjx';
-            } else if (this.room_id == 'bch') {
-                this.account = '3KWo7RVc99PGryiQRguDg8vFBJNcAjvtjR';
-            } else if (this.room_id == 'eth') {
-                this.account = '0x345fae7b1e8ba8928574325e3c20e5f8a52b5da8';
-            } else if (this.room_id == 'etc') {
-                this.account = '0xb65a305af59396f65f1c615fb9df1e934dcab48b';
-            } else if (this.room_id == 'xrp') {
-                this.account = 'rN9qNpgnBaZwqCg8CvUZRPqCcPPY7wfWep <br> 1752738475';
-            } else if (this.room_id == 'ltc') {
-                this.account = '3J3vtAJ1AkvxU5EZQS11q8awzKxAozxpdo';
-            } else if (this.room_id == 'btg') {
-                this.account = 'AZ9vxk6kxhCxkX5nGfmu85ayRCTsnAnHmR';
-            }
+            this.account = 'rN9qNpgnBaZwqCg8CvUZRPqCcPPY7wfWep <br> 1752738475';
+            
+            //if (this.room_id == 'btc') {
+            //    this.account = '3GavawtgH2CFKthH2EoswfxaMiiQh68Sjx';
+            //} else if (this.room_id == 'bch') {
+            //    this.account = '3KWo7RVc99PGryiQRguDg8vFBJNcAjvtjR';
+            //} else if (this.room_id == 'eth') {
+            //    this.account = '0x345fae7b1e8ba8928574325e3c20e5f8a52b5da8';
+            //} else if (this.room_id == 'etc') {
+            //    this.account = '0xb65a305af59396f65f1c615fb9df1e934dcab48b';
+            //} else if (this.room_id == 'xrp') {
+            //    this.account = 'rN9qNpgnBaZwqCg8CvUZRPqCcPPY7wfWep <br> 1752738475';
+            //} else if (this.room_id == 'ltc') {
+            //    this.account = '3J3vtAJ1AkvxU5EZQS11q8awzKxAozxpdo';
+            //} else if (this.room_id == 'btg') {
+            //    this.account = 'AZ9vxk6kxhCxkX5nGfmu85ayRCTsnAnHmR';
+            //}
         }
     }
 }
