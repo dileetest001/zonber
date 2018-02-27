@@ -88,7 +88,7 @@
                 </div>
                 <div class="col-sm-2">
                     <div class="xrp_qrcode">
-                        <img src="/image/xrp_qrcode.JPG" style="width:150px;"/>
+                        <img src="/image/xrp_qrcode.png" style="width:150px;"/>
                     </div>
                 </div>
             </div>
