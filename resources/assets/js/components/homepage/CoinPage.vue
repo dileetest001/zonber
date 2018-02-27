@@ -16,7 +16,7 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td></td>
+                        <td><img class="coin_image" v-bind:src="coin_image"/></td>
                         <td><div class='bitfinex'>${{ bitfinex_usd }}</div></td>
                         <td><div class='bitfinex'>￦{{ bitfinex_krw }}</div></td>
                         <td><div class='bithumb'>${{ bithumb_usd }}</div></td>
@@ -73,7 +73,7 @@
             </div>
             <br>
             <div>
-                {{ room_id }} 기부 : <span onclick="copyToClipboard(this.innerText);" v-html='account'></span>
+                <img class="coin_image" v-bind:src="coin_image"/>{{ room_id }} 기부 : <span onclick="copyToClipboard(this.innerText);" v-html='account'></span>
             </div>
         </div>
         
@@ -125,6 +125,10 @@ th, td {
     color : #f31414;
 }
 
+.coin_image {
+    width : 20px;
+    height: 20px;
+}
 
 @media (max-width: 720px) {
     .iframe_div {
@@ -152,6 +156,8 @@ export default {
         
         // 차트 iframe
         this.setChartIframe();
+        
+        this.coin_image = '/image/'+ this.room_id +'.png';
         
         this.getBithumbFromServer();
         this.getCoinoneFromServer();
@@ -188,6 +194,7 @@ export default {
             iframe : '',
             dolor  : 1075.26882,
             account : '',
+            coin_image : '',
         }
     },
     props: [
