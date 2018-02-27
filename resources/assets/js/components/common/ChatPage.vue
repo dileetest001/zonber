@@ -88,9 +88,6 @@ li {
     .message_content {
         height:300px;
     }
-    .send_message {
-        display :none;
-    }
 }
 @media (min-width: 720px) and (max-width: 990px) {
 
