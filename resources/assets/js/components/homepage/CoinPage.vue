@@ -1,13 +1,13 @@
 <template>
     <div>
-        <title>{{ room_id }} - {{ coinone_krw }}</title>
+        <title>{{ room_id_upper }} - {{ coinone_krw }}</title>
         
         <!-- pc -->
         <div class='hidden-xs'>
             <table class='table table-condensed'>
                 <thead>
                     <tr>
-                        <th>{{ room_id }}</th>
+                        <th>{{ room_id_upper }}</th>
                         <th>파이넥스 USD</th>
                         <th>파이넥스 KRW</th>
                         <th>빗썸 USD</th>
@@ -265,6 +265,7 @@ export default {
             dolor  : 1075.26882,
             account : '',
             coin_image : '',
+            room_id_upper : this.room_id.toUpperCase()
         }
     },
     props: [
