@@ -74,7 +74,7 @@ li {
 
 .message_content {
     overflow:auto;
-    height:665px;
+    height:680px;
     line-height:150%;
     word-wrap:break-word;
     border : solid 1px #968c8c;

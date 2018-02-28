@@ -8,10 +8,10 @@
                 <thead>
                     <tr>
                         <th>{{ room_id_upper }}</th>
-                        <th colspan="2" style="text-align:center;">파이넥스</th>
-                        <th colspan="2" style="text-align:center; color:#f57723;">빗썸</th>
-                        <th colspan="2" style="text-align:center; color:#337ab7;">코인원</th>
-                        <th colspan="2" style="text-align:center; color:#0062df;">업비트</th>
+                        <th colspan="2" class="bitfinex">파이넥스</th>
+                        <th colspan="2" class="bithumb">빗썸</th>
+                        <th colspan="2" class="coinone">코인원</th>
+                        <th colspan="2" class="upbit">업비트</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -45,10 +45,10 @@
             <table class='table table-condensed'>
                 <thead>
                     <tr>
-                        <th>파이넥스</th>
-                        <th>빗썸</th>
-                        <th>코인원</th>
-                        <th>업비트</th>
+                        <th class="bitfinex">파이넥스</th>
+                        <th class="bithumb">빗썸</th>
+                        <th class="coinone">코인원</th>
+                        <th class="upbit">업비트</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -56,7 +56,7 @@
                         <td><div class='bitfinex'>${{ bitfinex_usd }}</div></td>
                         <td><div id="bithumb_krw_mobile" ref="bithumb_krw_mobile" class='bithumb'>￦{{ bithumb_krw }}</div></td>
                         <td><div id="coinone_krw_mobile" ref="coinone_krw_mobile" class='coinone'>￦{{ coinone_krw }}</div></td>
-                        <td><div id="upbit_krw_mobile" ref="upbit_krw_mobile" class='coinone'>￦{{ upbit_krw }}</div></td>
+                        <td><div id="upbit_krw_mobile" ref="upbit_krw_mobile" class='upbit'>￦{{ upbit_krw }}</div></td>
                     </tr>
                     <tr>
                         <td>프리미엄</td>
@@ -114,9 +114,15 @@
 }
 
 table {
-    border : 1px solid #bb504e;
+    border : 2px solid #bb504e;
 }
-th, td {
+
+th {
+    text-align : center;
+    font-size : 12px;
+    font-weight: bold;
+}
+td {
     text-align : right;
     font-size : 12px;
     font-weight : bold;
@@ -376,7 +382,6 @@ export default {
                 },
                 dataType : 'json',
                 success: (result) => {
-                    console.log(result);
                     this.upbit_usd = number_format(result.usd, 2);
                     this.upbit_krw = number_format(result.krw);                    
                     this.upbit_usd_org = result.usd;
