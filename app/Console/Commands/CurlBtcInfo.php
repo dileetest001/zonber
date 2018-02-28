@@ -58,7 +58,7 @@ class CurlBtcInfo extends Command
                                             ])->first();
                                             
             if (!$bitfinex_coin_info) {
-                $bitfinex_coin_info = CoinInfo::create([
+                CoinInfo::create([
                     'trade_market' => 1,
                     'currency'     => $currency,
                     'krw'          => $bitfinex_info['price_krw'],
@@ -81,7 +81,7 @@ class CurlBtcInfo extends Command
                                             ])->first();
                                             
             if (!$bithumb_coin_info) {
-                $bithumb_coin_info = CoinInfo::create([
+                CoinInfo::create([
                     'trade_market' => 2,
                     'currency'     => $currency,
                     'krw'          => $bithumb_info['price_krw'],
@@ -102,7 +102,7 @@ class CurlBtcInfo extends Command
                                             ])->first();
                                             
             if (!$coinone_coin_info) {
-                $coinone_coin_info = CoinInfo::create([
+                CoinInfo::create([
                     'trade_market' => 3,
                     'currency'     => $currency,
                     'krw'          => $coinone_info['price_krw'],
@@ -114,6 +114,26 @@ class CurlBtcInfo extends Command
                 $coinone_coin_info->save();
             }
             
+            
+            // 업비트 DB 저장
+            $upbit_info = $CurlExchange->getUpbitInfo($currency);
+            $upbit_coin_info = CoinInfo::where([
+                                        ['currency', $currency],
+                                        ['trade_market', 4]
+                                    ])->first();
+                                    
+            if (!$upbit_coin_info) {
+                CoinInfo::create([
+                    'trade_market' => 4,
+                    'currency'     => $currency,
+                    'krw'          => $upbit_info['price_krw'],
+                    'usd'          => $upbit_info['price_usd'],
+                ]);
+            } else {
+                $upbit_coin_info->krw = $upbit_info['price_krw'];
+                $upbit_coin_info->usd = $upbit_info['price_usd'];
+                $upbit_coin_info->save();
+            }
         }
 
     }

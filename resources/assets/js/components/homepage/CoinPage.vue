@@ -8,12 +8,10 @@
                 <thead>
                     <tr>
                         <th>{{ room_id_upper }}</th>
-                        <th>파이넥스 USD</th>
-                        <th>파이넥스 KRW</th>
-                        <th>빗썸 USD</th>
-                        <th>빗썸 KRW</th>
-                        <th>코인원 USD</th>
-                        <th>코인원 KRW</th>
+                        <th colspan="2" style="text-align:center;">파이넥스</th>
+                        <th colspan="2" style="text-align:center; color:#f57723;">빗썸</th>
+                        <th colspan="2" style="text-align:center; color:#337ab7;">코인원</th>
+                        <th colspan="2" style="text-align:center; color:#0062df;">업비트</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -25,6 +23,8 @@
                         <td><div id="bithumb_krw" ref="bithumb_krw" class='bithumb'>￦{{ bithumb_krw }}</div></td>
                         <td><div id="coinone_usd" ref="coinone_usd" class='coinone'>${{ coinone_usd }}</div></td>
                         <td><div id="coinone_krw" ref="coinone_krw" class='coinone'>￦{{ coinone_krw }}</div></td>
+                        <td><div id="upbit_usd" ref="upbit_usd" class='upbit'>${{ upbit_usd }}</div></td>
+                        <td><div id="upbit_krw" ref="upbit_krw" class='upbit'>￦{{ upbit_krw }}</div></td>
                     </tr>
                     <tr>
                         <td colspan=2></td>
@@ -33,6 +33,8 @@
                         <td><div class='premium'>￦{{ bithumb_premium_krw }} (<span class="percent">{{ bithumb_premium_krw_percent }}%</span>)</div></td>
                         <td><div class='premium'>${{ coinone_premium_usd }} (<span class="percent">{{ coinone_premium_usd_percent }}%</span>)</div></td>
                         <td><div class='premium'>￦{{ coinone_premium_krw }} (<span class="percent">{{ coinone_premium_krw_percent }}%</span>)</div></td>
+                        <td><div class='premium'>${{ upbit_premium_usd }} (<span class="percent">{{ upbit_premium_usd_percent }}%</span>)</div></td>
+                        <td><div class='premium'>￦{{ upbit_premium_krw }} (<span class="percent">{{ upbit_premium_krw_percent }}%</span>)</div></td>
                     </tr>
                 </tbody>
             </table>
@@ -46,6 +48,7 @@
                         <th>파이넥스</th>
                         <th>빗썸</th>
                         <th>코인원</th>
+                        <th>업비트</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -53,11 +56,13 @@
                         <td><div class='bitfinex'>${{ bitfinex_usd }}</div></td>
                         <td><div id="bithumb_krw_mobile" ref="bithumb_krw_mobile" class='bithumb'>￦{{ bithumb_krw }}</div></td>
                         <td><div id="coinone_krw_mobile" ref="coinone_krw_mobile" class='coinone'>￦{{ coinone_krw }}</div></td>
+                        <td><div id="upbit_krw_mobile" ref="upbit_krw_mobile" class='coinone'>￦{{ upbit_krw }}</div></td>
                     </tr>
                     <tr>
                         <td>프리미엄</td>
                         <td><div class='premium'>￦{{ bithumb_premium_krw }} (<span class="percent">{{ bithumb_premium_krw_percent }}%</span>)</div></td>
                         <td><div class='premium'>￦{{ coinone_premium_krw }} (<span class="percent">{{ coinone_premium_krw_percent }}%</span>)</div></td>
+                        <td><div class='premium'>￦{{ upbit_premium_krw }} (<span class="percent">{{ upbit_premium_krw_percent }}%</span>)</div></td>
                     </tr>
                 </tbody>
             </table>
@@ -131,11 +136,17 @@ th, td {
     color:#337ab7;
     border : 1px solid #f5f8fa;
 }
+
+.upbit {
+    color:#0062df;
+    border : 1px solid #f5f8fa;
+}
+
 .premium {
     border : 1px solid #f5f8fa;
 }
 
-.bitfinex:hover, .bithumb:hover, .coinone:hover, .premium:hover {
+.bitfinex:hover, .bithumb:hover, .coinone:hover, .premium:hover, .upbit:hover {
     background-color : #d3d3d3;
 }
 
@@ -202,41 +213,61 @@ export default {
         
         this.coin_image = '/image/'+ this.room_id +'.png';
         
+        this.getBitfinexFromServer();
         this.getBithumbFromServer();
         this.getCoinoneFromServer();
-        this.getBitfinexFromServer();
+        this.getUpbitFromServer();
+        
         this.getBitfinexInfo();
         this.getBithumbInfo();
         this.getCoinoneInfo();
+        this.getUpbitInfo();
 
     },
     mounted: function() {
         
         // 애니메이션 이벤트
-        var coinone_usd_div = this.$refs.coinone_usd;
-        var coinone_krw_div = this.$refs.coinone_krw;
         var bithumb_usd_div = this.$refs.bithumb_usd;
         var bithumb_krw_div = this.$refs.bithumb_krw;
-        var coinone_krw_mobile_div = this.$refs.coinone_krw_mobile;
-        var bithumb_krw_mobile_div = this.$refs.bithumb_krw_mobile;
+        var coinone_usd_div = this.$refs.coinone_usd;
+        var coinone_krw_div = this.$refs.coinone_krw;
+        var upbit_usd_div   = this.$refs.upbit_usd;
+        var upbit_krw_div   = this.$refs.upbit_krw;
         
-        coinone_usd_div.addEventListener('animationend', function() {
-                $('#coinone_usd').removeClass('change_border');
-            }, false);
-        coinone_krw_div.addEventListener('animationend', function() {
-                $('#coinone_krw').removeClass('change_border');
-            }, false);
+        var bithumb_krw_mobile_div = this.$refs.bithumb_krw_mobile;
+        var coinone_krw_mobile_div = this.$refs.coinone_krw_mobile;
+        var upbit_krw_mobile_div = this.$refs.upbit_krw_mobile;
+        
         bithumb_usd_div.addEventListener('animationend', function() {
                 $('#bithumb_usd').removeClass('change_border');
             }, false);
         bithumb_krw_div.addEventListener('animationend', function() {
                 $('#bithumb_krw').removeClass('change_border');
             }, false);
+
+        coinone_usd_div.addEventListener('animationend', function() {
+                $('#coinone_usd').removeClass('change_border');
+            }, false);
+        coinone_krw_div.addEventListener('animationend', function() {
+                $('#coinone_krw').removeClass('change_border');
+            }, false);
+            
+        upbit_usd_div.addEventListener('animationend', function() {
+                $('#upbit_usd').removeClass('change_border');
+            }, false);
+        upbit_krw_div.addEventListener('animationend', function() {
+                $('#upbit_krw').removeClass('change_border');
+            }, false);
+
+            
         bithumb_krw_mobile_div.addEventListener('animationend', function() {
                 $('#bithumb_krw_mobile').removeClass('change_border');
             }, false);
         coinone_krw_mobile_div.addEventListener('animationend', function() {
                 $('#coinone_krw_mobile').removeClass('change_border');
+            }, false);            
+        upbit_krw_mobile_div.addEventListener('animationend', function() {
+                $('#upbit_krw_mobile').removeClass('change_border');
             }, false);            
     },
     data() {
@@ -245,6 +276,7 @@ export default {
             bitfinex_usd_org            : 0,
             bitfinex_krw                : 'load..',
             bitfinex_krw_org            : 0,
+
             bithumb_usd                 : 'load..',
             bithumb_usd_org             : 0,
             bithumb_premium_usd         : 'load..',
@@ -253,6 +285,7 @@ export default {
             bithumb_krw_org             : 0,
             bithumb_premium_krw         : 'load..',
             bithumb_premium_krw_percent : 'load..',
+
             coinone_usd                 : 'load..',
             coinone_usd_org             : 0,
             coinone_premium_usd         : 'load..',
@@ -261,6 +294,16 @@ export default {
             coinone_krw_org             : 0,
             coinone_premium_krw         : 'load..',
             coinone_premium_krw_percent : 'load..',
+            
+            upbit_usd                 : 'load..',
+            upbit_usd_org             : 0,
+            upbit_premium_usd         : 'load..',
+            upbit_premium_usd_percent : 'load..',
+            upbit_krw                 : 'load..',    
+            upbit_krw_org             : 0,
+            upbit_premium_krw         : 'load..',
+            upbit_premium_krw_percent : 'load..',
+            
             iframe : '',
             dolor  : 1075.26882,
             account : '',
@@ -321,6 +364,23 @@ export default {
                     this.coinone_krw = number_format(result.krw);                    
                     this.coinone_usd_org = result.usd;
                     this.coinone_krw_org = result.krw;
+                }
+            });
+        },
+        getUpbitFromServer : function() {
+            asyncRequest({
+                url : '/homepage/ajax/get_coin_info',
+                data: {
+                    currency : this.room_id,
+                    trade_market : 4,
+                },
+                dataType : 'json',
+                success: (result) => {
+                    console.log(result);
+                    this.upbit_usd = number_format(result.usd, 2);
+                    this.upbit_krw = number_format(result.krw);                    
+                    this.upbit_usd_org = result.usd;
+                    this.upbit_krw_org = result.krw;
                 }
             });
         },
@@ -400,6 +460,40 @@ export default {
                 });
             }, 1800);
         },
+        getUpbitInfo : function() {
+            var currency = this.room_id.toUpperCase();
+            if (currency == 'BCH') {
+                currency = 'BCC';
+            }                                 
+            
+            setInterval(() => {
+                $.ajax({
+                    type : 'GET',
+                    url: 'https://crix-api-endpoint.upbit.com/v1/crix/candles/minutes/1?code=CRIX.UPBIT.KRW-'+currency+'&count=1',
+                    dataType : 'json',
+                    success: (result) => {
+                        var price = result[0].tradePrice;
+
+                        this.upbit_usd = number_format(price/this.dolor, 2);
+                        this.upbit_krw = number_format(price);
+                        
+                        // border 깜박임
+                        if (this.upbit_usd_org != price/this.dolor) {
+                            $('#upbit_usd').addClass('change_border');
+                        }
+                        if (this.upbit_krw_org != price) {
+                            $('#upbit_krw').addClass('change_border');
+                            $('#upbit_krw_mobile').addClass('change_border');
+                        }
+                
+                        this.upbit_usd_org = price/this.dolor;
+                        this.upbit_krw_org = price;
+                        
+                        this.setUpbitPremium();
+                    }
+                });
+            }, 1800);
+        },
         setBithumbPremium : function() {
             if (this.bitfinex_usd !== 'load..' && this.bithumb_usd !== 'load..') {
                 this.bithumb_premium_usd = number_format(this.bithumb_usd_org - this.bitfinex_usd_org, 2);
@@ -414,6 +508,14 @@ export default {
                 this.coinone_premium_krw  = number_format(this.coinone_krw_org - this.bitfinex_krw_org);
                 this.coinone_premium_usd_percent = number_format((this.coinone_usd_org - this.bitfinex_usd_org) / this.bitfinex_usd_org * 100, 2);
                 this.coinone_premium_krw_percent = number_format((this.coinone_krw_org - this.bitfinex_krw_org) / this.bitfinex_krw_org * 100, 2);
+            }
+        },
+        setUpbitPremium : function() {
+            if (this.bitfinex_usd !== 'load..'  && this.upbit_usd !== 'load..') {
+                this.upbit_premium_usd = number_format(this.upbit_usd_org - this.bitfinex_usd_org, 2);
+                this.upbit_premium_krw  = number_format(this.upbit_krw_org - this.bitfinex_krw_org);
+                this.upbit_premium_usd_percent = number_format((this.upbit_usd_org - this.bitfinex_usd_org) / this.bitfinex_usd_org * 100, 2);
+                this.upbit_premium_krw_percent = number_format((this.upbit_krw_org - this.bitfinex_krw_org) / this.bitfinex_krw_org * 100, 2);
             }
         },
         setChartIframe : function() {

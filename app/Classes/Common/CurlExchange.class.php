@@ -86,6 +86,39 @@ class CurlExchange
 	
     /*
      *
+     * BTC, ETH, DASH, LTC, ETC, XRP, BCC, XMR, ZEC, QTUM, BTG, EOS 
+     *
+     */
+	public function getUpbitInfo($currency)
+	{
+	    if ($currency == 'bch') {
+	        Log::info('zz');
+	        $currency = 'bcc';
+	    }
+	    
+	    // 소문자 변형
+        $currency = strtoupper($currency);
+
+        // 요청
+        $response = Curl::to('https://crix-api-endpoint.upbit.com/v1/crix/candles/minutes/1?code=CRIX.UPBIT.KRW-'.$currency.'&count=1')
+                        ->withContentType('application/json')
+                        ->withTimeout(3)
+                        ->get();
+        $json_data = json_decode($response, true);
+
+        $price = $json_data[0]['tradePrice'] ?? false;
+        
+        $return_arr = [
+            'status'     => 0,
+            'price_usd'  => $price ? $price/$this->doller : false,
+            'price_krw'  => $price ? $price : false,
+        ];
+        
+        return $return_arr;
+	}
+	
+    /*
+     *
      * btc, bch, eth, etc, xrp, qtum, iota, ltc, btg
      *
      */
