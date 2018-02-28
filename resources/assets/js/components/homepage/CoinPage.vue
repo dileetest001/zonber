@@ -1,6 +1,6 @@
 <template>
     <div>
-        <title>{{ coinone_krw }} {{ room_id_upper }}/KRW</title>
+        <title>{{ bithumb_krw }} {{ room_id_upper }}/KRW</title>
         
         <!-- pc -->
         <div class='hidden-xs'>

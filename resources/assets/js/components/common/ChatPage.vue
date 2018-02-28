@@ -73,10 +73,8 @@ li {
 }
 
 .message_content {
-    z-index : -1;
-    position :relative;
     overflow:auto;
-    height:660px;
+    height:665px;
     line-height:150%;
     word-wrap:break-word;
     border : solid 1px #968c8c;
