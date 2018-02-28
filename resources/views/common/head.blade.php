@@ -27,3 +27,5 @@
 <meta name="msapplication-TileColor" content="#ffffff">
 <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
 <meta name="theme-color" content="#ffffff">
+
+<meta name="naver-site-verification" content="609e62e5ae005b138562865341aaae4d6bb4931c"/>
