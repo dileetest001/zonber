@@ -428,7 +428,7 @@ export default {
                     }
                 });
 
-            }, 1800);
+            }, 2400);
         },
         getCoinoneInfo : function() {
             var currency = this.room_id.toLowerCase();
@@ -463,7 +463,7 @@ export default {
                         }
                     }
                 });
-            }, 1800);
+            }, 2400);
         },
         getUpbitInfo : function() {
             var currency = this.room_id.toUpperCase();
@@ -497,7 +497,7 @@ export default {
                         this.setUpbitPremium();
                     }
                 });
-            }, 1800);
+            }, 2400);
         },
         setBithumbPremium : function() {
             if (this.bitfinex_usd !== 'load..' && this.bithumb_usd !== 'load..') {
