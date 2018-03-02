@@ -28,4 +28,5 @@
 <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
 <meta name="theme-color" content="#ffffff">
 
+<meta name="google-site-verification" content="fLPvxq2pnRYb36Y6NoC5fsX9f1kv9ohDl7HkbPQnnO4" />
 <meta name="naver-site-verification" content="609e62e5ae005b138562865341aaae4d6bb4931c"/>
