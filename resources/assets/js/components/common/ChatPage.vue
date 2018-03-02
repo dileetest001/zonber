@@ -238,7 +238,7 @@ export default {
                 data: {
                 },
                 success: (result) => {
-                    result.forEach( (value, index) => {
+                    result.reverse().forEach( (value, index) => {
                         this.makeMessageLine(value);
                         this.moveScrollBottom();
                     });

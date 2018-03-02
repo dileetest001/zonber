@@ -71,7 +71,7 @@ class HomepageAjaxController extends HomepageController
     public function getMessageInfo()
     {
         $chattings = Chatting::orderBy('id', 'desc')->limit(100)->get();
-        
+
         return $chattings;
     }
 }
