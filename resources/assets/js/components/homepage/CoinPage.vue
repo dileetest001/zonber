@@ -26,7 +26,7 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td><img class="coin_image" v-bind:src="coin_image"/></td>
+                        <td><img class="coin_image" v-bind:src="coin_image" alt="코인 이미지"/></td>
                         <td><div class='bitfinex'>${{ bitfinex_usd }}</div></td>
                         <td><div class='bitfinex'>￦{{ bitfinex_krw }}</div></td>
                         <td><div id="bithumb_usd" ref="bithumb_usd" class='bithumb'>${{ bithumb_usd }}</div></td>
@@ -96,14 +96,14 @@
                     </div>
                     <br>
                     <div>
-                        <b><img class="coin_image" src="/image/xrp.png"/>리플 기부</b>
+                        <b><img class="coin_image" src="/image/xrp.png" alt="코인 이미지"/>리플 기부</b>
                         <br>
                         <span class="xrp_address" onclick="copyToClipboard(this.innerText);" v-html='account'></span>
                     </div>
                 </div>
                 <div class="col-sm-2">
                     <div class="xrp_qrcode">
-                        <img src="/image/xrp_qrcode.png" style="width:150px;"/>
+                        <img src="/image/xrp_qrcode.png" style="width:150px;" alt="리플 QRCODE"/>
                     </div>
                 </div>
             </div>
