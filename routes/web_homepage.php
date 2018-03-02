@@ -11,9 +11,9 @@
 |
 */
 
-// ¸ŞÀÎ Á¢¼Ó
+// ë©”ì¸ ì ‘ì†
 Route::get('/', function () {
-    return Redirect::to('/homepage/view/coin/btc');
+    return Redirect::to('/homepage/view/coin/coin_info');
 });
 
 
