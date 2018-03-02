@@ -42,3 +42,23 @@
 
 <meta name="google-site-verification" content="fLPvxq2pnRYb36Y6NoC5fsX9f1kv9ohDl7HkbPQnnO4" />
 <meta name="naver-site-verification" content="609e62e5ae005b138562865341aaae4d6bb4931c"/>
+
+
+<script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "@type": "WebSite",
+    "url"  : "http://www.trenditplatform.co.kr",
+    "name": "김치프리미엄",
+    "author": {
+        "@type": "Person",
+        "name": "Kim Zonber"
+    },
+    "description" : "가상화폐 비트코인 존버들의 채팅방, 김치프리미엄 계산",
+    "sameAs" : [
+        "http://trenditplatform.co.kr",
+        "http://www.trenditplatform.co.kr/homepage/view/btc",
+        "http://trenditplatform.co.kr/homepage/view/btc"
+    ]
+}
+</script>
