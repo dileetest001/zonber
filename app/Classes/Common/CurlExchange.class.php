@@ -41,13 +41,22 @@ class CurlExchange
                         ->post();
         $json_data = json_decode($response, true);
         
-        $price = $json_data['data']['asks'][0]['price'] ?? false;
+        if ($json_data['status'] != 5500) {
+            $price = $json_data['data']['asks'][0]['price'] ?? 0;
 
-        $return_arr = [
-            'status'     => $json_data['status'],
-            'price_usd'  => $price ? $price/$this->doller : false,
-            'price_krw'  => $price ? $price : false,
-        ];
+            $return_arr = [
+                'status'     => $json_data['status'],
+                'price_usd'  => $price ? $price/$this->doller : 0,
+                'price_krw'  => $price ? $price : 0,
+            ];
+        } else {
+            $return_arr = [
+                'status'     => $json_data['status'],
+                'price_usd'  => 0,
+                'price_krw'  => 0,
+            ];
+        }
+        
         
         return $return_arr;
     }
@@ -72,14 +81,22 @@ class CurlExchange
                         ->withTimeout(3)
                         ->get();
         $json_data = json_decode($response, true);
-
-        $price = $json_data['ask'][0]['price'] ?? false;
         
-        $return_arr = [
-            'status'     => $json_data['errorCode'],
-            'price_usd'  => $price ? $price/$this->doller : false,
-            'price_krw'  => $price ? $price : false,
-        ];
+        if (isset($json_data['currency']) && $currency == $json_data['currency']) {
+            $price = $json_data['ask'][0]['price'] ?? 0;
+        
+            $return_arr = [
+                'status'     => $json_data['errorCode'],
+                'price_usd'  => $price ? $price/$this->doller : 0,
+                'price_krw'  => $price ? $price : 0,
+            ];
+        } else {
+            $return_arr = [
+                'status'     => 5500,
+                'price_usd'  => 0,
+                'price_krw'  => 0,
+            ];
+        }
         
         return $return_arr;
 	}
@@ -104,14 +121,23 @@ class CurlExchange
                         ->withTimeout(3)
                         ->get();
         $json_data = json_decode($response, true);
-
-        $price = $json_data[0]['tradePrice'] ?? false;
         
-        $return_arr = [
-            'status'     => 0,
-            'price_usd'  => $price ? $price/$this->doller : false,
-            'price_krw'  => $price ? $price : false,
-        ];
+        if ($json_data) {
+            $price = $json_data[0]['tradePrice'] ?? false;
+        
+            $return_arr = [
+                'status'     => 0,
+                'price_usd'  => $price ? $price/$this->doller : 0,
+                'price_krw'  => $price ? $price : 0,
+            ];
+        } else {
+            $return_arr = [
+                'status'     => 5500,
+                'price_usd'  => 0,
+                'price_krw'  => 0,
+            ];
+        }
+        
         
         return $return_arr;
 	}
@@ -131,13 +157,21 @@ class CurlExchange
                         ->get();
         $json_data = json_decode($response, true);
 
-        $price = $json_data['asks'][0]['price'] ?? false;
+        if (!isset($json_data['message']) || $json_data['message'] != 'Unknown symbol') {
+            $price = $json_data['asks'][0]['price'] ?? 0;
 
-        $return_arr = [
-            'status' => 0,
-            'price_usd'  => $price ? $price : false,
-            'price_krw'  => $price ? $price*$this->doller : false,
-        ];
+            $return_arr = [
+                'status' => 0,
+                'price_usd'  => $price ? $price : 0,
+                'price_krw'  => $price ? $price*$this->doller : 0,
+            ];
+        } else {
+            $return_arr = [
+                'status' => 5500,
+                'price_usd'  => 0,
+                'price_krw'  => 0,
+            ];
+        }
 
 	    return $return_arr;
 	}

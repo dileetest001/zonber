@@ -52,89 +52,49 @@ class CurlBtcInfo extends Command
             
             // 비트파이넥스 DB 저장
             $bitfinex_info = $CurlExchange->getBitfinextInfo($currency);
-            $bitfinex_coin_info = CoinInfo::where([
-                                                ['currency', $currency],
-                                                ['trade_market', 1]
-                                            ])->first();
-                                            
-            if (!$bitfinex_coin_info) {
-                CoinInfo::create([
-                    'trade_market' => 1,
-                    'currency'     => $currency,
-                    'krw'          => $bitfinex_info['price_krw'],
-                    'usd'          => $bitfinex_info['price_usd'],
-                ]);
-            } else {
-                
-                if ($bitfinex_info['price_krw']) {
-                    $bitfinex_coin_info->krw = $bitfinex_info['price_krw'];
-                    $bitfinex_coin_info->usd = $bitfinex_info['price_usd'];
-                    $bitfinex_coin_info->save();
-                }
+            if ($bitfinex_info['status'] != 5500) {
+                $this->setDatabaseCoin(1, $currency, $bitfinex_info);
             }
             
             // 빗썸 DB 저장
             $bithumb_info  = $CurlExchange->getBithumbInfo($currency);
-            $bithumb_coin_info = CoinInfo::where([
-                                                ['currency', $currency],
-                                                ['trade_market', 2]
-                                            ])->first();
-                                            
-            if (!$bithumb_coin_info) {
-                CoinInfo::create([
-                    'trade_market' => 2,
-                    'currency'     => $currency,
-                    'krw'          => $bithumb_info['price_krw'],
-                    'usd'          => $bithumb_info['price_usd'],
-                ]);
-            } else {
-                $bithumb_coin_info->krw = $bithumb_info['price_krw'];
-                $bithumb_coin_info->usd = $bithumb_info['price_usd'];
-                $bithumb_coin_info->save();
+            if ($bithumb_info['status'] != 5500) {
+                $this->setDatabaseCoin(2, $currency, $bithumb_info);
             }
-            
             
             // 코인원 DB 저장
             $coinone_info  = $CurlExchange->getCoinoneInfo($currency);
-            $coinone_coin_info = CoinInfo::where([
-                                                ['currency', $currency],
-                                                ['trade_market', 3]
-                                            ])->first();
-                                            
-            if (!$coinone_coin_info) {
-                CoinInfo::create([
-                    'trade_market' => 3,
-                    'currency'     => $currency,
-                    'krw'          => $coinone_info['price_krw'],
-                    'usd'          => $coinone_info['price_usd'],
-                ]);
-            } else {
-                $coinone_coin_info->krw = $coinone_info['price_krw'];
-                $coinone_coin_info->usd = $coinone_info['price_usd'];
-                $coinone_coin_info->save();
+            if ($coinone_info['status'] != 5500) {
+                $this->setDatabaseCoin(3, $currency, $coinone_info);
             }
-            
             
             // 업비트 DB 저장
             $upbit_info = $CurlExchange->getUpbitInfo($currency);
-            $upbit_coin_info = CoinInfo::where([
-                                        ['currency', $currency],
-                                        ['trade_market', 4]
-                                    ])->first();
-                                    
-            if (!$upbit_coin_info) {
-                CoinInfo::create([
-                    'trade_market' => 4,
-                    'currency'     => $currency,
-                    'krw'          => $upbit_info['price_krw'],
-                    'usd'          => $upbit_info['price_usd'],
-                ]);
-            } else {
-                $upbit_coin_info->krw = $upbit_info['price_krw'];
-                $upbit_coin_info->usd = $upbit_info['price_usd'];
-                $upbit_coin_info->save();
+            if ($upbit_info['status'] != 5500) {
+                $this->setDatabaseCoin(4, $currency, $upbit_info);
             }
+            
         }
 
+    }
+    
+    private function setDatabaseCoin($trade_market, $currency, $info)
+    {
+        $coin_info = CoinInfo::where([
+                                    ['currency', $currency],
+                                    ['trade_market', $trade_market]
+                                ])->first();
+        if (!$coin_info) {
+            CoinInfo::create([
+                'trade_market' => 4,
+                'currency'     => $currency,
+                'krw'          => $info['price_krw'],
+                'usd'          => $info['price_usd'],
+            ]);
+        } else {
+            $coin_info->krw = $info['price_krw'];
+            $coin_info->usd = $info['price_usd'];
+            $coin_info->save();
+        }
     }
 }

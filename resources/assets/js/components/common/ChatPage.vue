@@ -74,7 +74,7 @@ li {
 
 .message_content {
     overflow:auto;
-    height:680px;
+    height:730px;
     line-height:150%;
     word-wrap:break-word;
     border : solid 1px #968c8c;
@@ -100,10 +100,10 @@ li {
 
 export default {
     created : function() {
-        // 유저 아이디 설정
-        this.user_id = this.room_id+"_"+Math.floor(Math.random()*10000)+1;
-        this.user_id_org = this.user_id;
         
+        // 유저 아이디 설정
+        this.user_id = "zonber_"+Math.floor(Math.random()*10000)+1;
+        this.user_id_org = this.user_id;
         
         // room join        
         var message = {
@@ -194,9 +194,7 @@ export default {
             this.message_content+= message;
             
             if (is_my_message === true) {
-                this.$nextTick(() => {
-                    $(".message_content").scrollTop($(".message_content")[0].scrollHeight);
-                });
+                this.moveScrollBottom();
             }
             
         },
@@ -242,11 +240,16 @@ export default {
                 success: (result) => {
                     result.forEach( (value, index) => {
                         this.makeMessageLine(value);
+                        this.moveScrollBottom();
                     });
                 }
+            });
+        },
+        moveScrollBottom : function() {
+            this.$nextTick(() => {
+                $(".message_content").scrollTop($(".message_content")[0].scrollHeight);
             });
         }
     }
 }
-
 </script>

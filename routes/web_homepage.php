@@ -18,7 +18,7 @@ Route::get('/', function () {
 
 
 // view
-Route::get('/homepage/view/{action}/{room_id}', 'HomepageViewController@controllerAction');
+Route::get('/homepage/view/{action}/coin_info', 'HomepageViewController@controllerAction');
 
 // ajax
 Route::post('/homepage/ajax/{action}', 'HomepageAjaxController@controllerAction');
