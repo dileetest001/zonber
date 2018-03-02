@@ -13,7 +13,7 @@
 
 // 메인 접속
 Route::get('/', function () {
-    return Redirect::to('/homepage/view/coin/coin_info');
+    return view("/homepage/coin", ['room_id' => 'btc']);
 });
 
 
