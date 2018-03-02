@@ -1,7 +1,5 @@
 <template>
     <div>
-        <title>{{ bithumb_krw }} {{ coin_name_upper }}/KRW</title>
-        
         <div>
             <select id="select_coin" class="select_coin form-control input-sm" @change="changeCoinInfo">
                 <option value='btc'>BTC / 비트코인</option>
@@ -380,6 +378,8 @@ export default {
                     this.bithumb_krw = number_format(result.krw);
                     this.bithumb_usd_org = result.usd;
                     this.bithumb_krw_org = result.krw;
+                    
+                    document.title = this.bithumb_krw+ " " +this.coin_name_upper+"/KRW";
                 }
             });
         },
@@ -448,6 +448,8 @@ export default {
 
                             this.bithumb_usd_org = price/this.dolor;
                             this.bithumb_krw_org = price;
+                            
+                            document.title = this.bithumb_krw+ " " +this.coin_name_upper+"/KRW";
                             
                             this.setBithumbPremium();
                         }
