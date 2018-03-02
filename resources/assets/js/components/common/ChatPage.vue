@@ -100,52 +100,35 @@ li {
 
 export default {
     created : function() {
+        // 유저 아이디 설정
         this.user_id = this.room_id+"_"+Math.floor(Math.random()*10000)+1;
         this.user_id_org = this.user_id;
         
+        
+        // room join        
         var message = {
-            'room_id' : this.room_id,
             'user_id' : this.user_id_org
         };
         
-        // room join
         this.socket.emit('joinRoom', JSON.stringify(message));
+        
+        // 현재 시간 조회
         this.datetime = this.getDateTime();
+        
+        // 첫메세지 100개 가져오기
+        this.getMessageInfo();
     },
     mounted: function() {
         
         // 소켓 receive
-        this.socket.on(this.room_id, (data) => {
+        this.socket.on('chatting', (data) => {
 
             var result = JSON.parse(data);
             var type = result['type'];
+            
             switch (type) {
                 case 'send_message' :
-                    var user_id   = result['user_id'];
-                    var user_name = result['user_name'];
-                    var message   = result['message'];
-                    var room_id   = result['room_id'];
-
-                    if (this.room_id == room_id) {
-                        
-                        var receive_message = '';
-                        var is_my_message = (user_id == this.user_id_org) ? true : false;
-                        
-                        if (this.last_message_id == '' || this.last_message_id != user_name) {
-                            this.last_message_id = user_name;
-                            if (user_id == this.user_id_org) {
-                                receive_message = "<li class='message_id my_id'><strong>[" + user_name + "]</strong></li>";
-                            } else {
-                                receive_message = "<li class='message_id other_id'><strong>[" + user_name + "]</strong></li>";
-                            }
-                        }
-
-                        receive_message+= "<li class='message_text'>" + message + "</li>";
-                        
-                        // 메세지 로드
-                        this.addMessage(receive_message, is_my_message);
-                    }
-                    
+                    this.makeMessageLine(result);
                     break;
                 case 'client_count' :
                     this.client_count  = result['client_count'];
@@ -197,10 +180,10 @@ export default {
             asyncRequest({
                 url: '/homepage/ajax/send_message',
                 data: {
-                    room_id    : this.room_id,
                     message    : message,
                     user_id    : this.user_id_org,
                     user_name  : this.user_id,
+                    room_id    : this.room_id,
                 },
                 success: (result) => {
                     $('.message').val('');
@@ -227,6 +210,41 @@ export default {
             var date = new Date();
             var nowDate = date.getFullYear()+"/"+(date.getMonth()+1)+"/"+date.getDate()+" "+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds();
             return nowDate;
+        },        
+        makeMessageLine : function(info) {
+            
+            var user_id   = info['user_id'];
+            var user_name = info['user_name'];
+            var message   = info['message'];
+            
+            var receive_message = '';
+            var is_my_message = (user_id == this.user_id_org) ? true : false;
+            
+            if (this.last_message_id == '' || this.last_message_id != user_name) {
+                this.last_message_id = user_name;
+                if (user_id == this.user_id_org) {
+                    receive_message = "<li class='message_id my_id'><strong>[" + user_name + "]</strong></li>";
+                } else {
+                    receive_message = "<li class='message_id other_id'><strong>[" + user_name + "]</strong></li>";
+                }
+            }
+            
+            receive_message+= "<li class='message_text'>" + message + "</li>";
+            
+            // 메세지 로드
+            this.addMessage(receive_message, is_my_message);
+        },
+        getMessageInfo : function() {
+            asyncRequest({
+                url: '/homepage/ajax/get_message_info',
+                data: {
+                },
+                success: (result) => {
+                    result.forEach( (value, index) => {
+                        this.makeMessageLine(value);
+                    });
+                }
+            });
         }
     }
 }

@@ -92,7 +92,6 @@ class CurlExchange
 	public function getUpbitInfo($currency)
 	{
 	    if ($currency == 'bch') {
-	        Log::info('zz');
 	        $currency = 'bcc';
 	    }
 	    
