@@ -20,7 +20,7 @@ class CurlExchange
     public function __construct()
     {
         $response = $this->getExchangeRate();
-        $this->doller = $response['USD'];
+        $this->doller = $response['usd'];
     }
     
     /*
