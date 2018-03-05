@@ -37,7 +37,7 @@
                         <td><div id="upbit_krw" ref="upbit_krw" class='upbit'>￦{{ upbit_krw }}</div></td>
                     </tr>
                     <tr>
-                        <td colspan=2></td>
+                        <td colspan=2> 1$ = {{ this.show_dollar }} </td>
                         <td>프리미엄</td>
                         <td><div class='premium'>${{ bithumb_premium_usd }} (<span class="percent">{{ bithumb_premium_usd_percent }}%</span>)</div></td>
                         <td><div class='premium'>￦{{ bithumb_premium_krw }} (<span class="percent">{{ bithumb_premium_krw_percent }}%</span>)</div></td>
@@ -264,7 +264,8 @@ export default {
             upbit_premium_krw_percent : 'load..',
             
             iframe : '',
-            dolor  : 1075.26882,
+            dollar  : 0,
+            show_dollar : 0,
             account : '',
             coin_image : '',
             coin_name : this.room_id,
@@ -282,6 +283,9 @@ export default {
     ],
     methods: {
         createdFunction : function() {
+            // 환율 정보
+            this.setRate();
+            
             // 코인 주소
             this.setAccount();
             
@@ -434,11 +438,11 @@ export default {
                         if (result.status === '0000') {
                             var price = result.data.asks[0].price;
                             
-                            this.bithumb_usd = number_format(price/this.dolor, 2);
+                            this.bithumb_usd = number_format(price/this.dollar, 2);
                             this.bithumb_krw = number_format(price);
                             
                             // border 깜박임
-                            if (this.bithumb_usd_org != price/this.dolor) {
+                            if (this.bithumb_usd_org != price/this.dollar) {
                                 $('#bithumb_usd').addClass('change_border');
                             }
                             if (this.bithumb_krw_org != price) {
@@ -446,7 +450,7 @@ export default {
                                 $('#bithumb_krw_mobile').addClass('change_border');
                             }
 
-                            this.bithumb_usd_org = price/this.dolor;
+                            this.bithumb_usd_org = price/this.dollar;
                             this.bithumb_krw_org = price;
                             
                             document.title = this.bithumb_krw+ " " +this.coin_name_upper+"/KRW";
@@ -473,11 +477,11 @@ export default {
                         
                         if (result.errorCode === '0') {
                             var price = result.ask[0].price;
-                            this.coinone_usd = number_format(price/this.dolor, 2);
+                            this.coinone_usd = number_format(price/this.dollar, 2);
                             this.coinone_krw = number_format(price);
                             
                             // border 깜박임
-                            if (this.coinone_usd_org != price/this.dolor) {
+                            if (this.coinone_usd_org != price/this.dollar) {
                                 $('#coinone_usd').addClass('change_border');
                             }
                             if (this.coinone_krw_org != price) {
@@ -485,7 +489,7 @@ export default {
                                 $('#coinone_krw_mobile').addClass('change_border');
                             }
                     
-                            this.coinone_usd_org = price/this.dolor;
+                            this.coinone_usd_org = price/this.dollar;
                             this.coinone_krw_org = price;
                             
                             this.setCoinonePremium();
@@ -508,11 +512,11 @@ export default {
                     success: (result) => {
                         var price = result[0].tradePrice;
 
-                        this.upbit_usd = number_format(price/this.dolor, 2);
+                        this.upbit_usd = number_format(price/this.dollar, 2);
                         this.upbit_krw = number_format(price);
                         
                         // border 깜박임
-                        if (this.upbit_usd_org != price/this.dolor) {
+                        if (this.upbit_usd_org != price/this.dollar) {
                             $('#upbit_usd').addClass('change_border');
                         }
                         if (this.upbit_krw_org != price) {
@@ -520,7 +524,7 @@ export default {
                             $('#upbit_krw_mobile').addClass('change_border');
                         }
                 
-                        this.upbit_usd_org = price/this.dolor;
+                        this.upbit_usd_org = price/this.dollar;
                         this.upbit_krw_org = price;
                         
                         this.setUpbitPremium();
@@ -635,6 +639,17 @@ export default {
             this.upbit_krw_org             = 0;
             this.upbit_premium_krw         = 'load..';
             this.upbit_premium_krw_percent = 'load..';
+        },
+        setRate : function() {
+            asyncRequest({
+                url : '/homepage/ajax/get_rate_info',
+                data: {
+                },
+                success: (result) => {
+                    this.dollar = result.usd;
+                    this.show_dollar = number_format(this.dollar, 2);
+                }
+            });
         }
     }
 }

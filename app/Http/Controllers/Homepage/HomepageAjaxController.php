@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Homepage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
 
+use App\Traits\Common;
 use App\Classes\Common\CurlExchange;
 use App\Models\Zonber\CoinInfo;
 use App\Models\Zonber\Chatting;
@@ -13,6 +14,8 @@ use Log;
 
 class HomepageAjaxController extends HomepageController
 {
+    use Common;
+    
     /*
      * SendMessage
      *
@@ -73,5 +76,12 @@ class HomepageAjaxController extends HomepageController
         $chattings = Chatting::orderBy('id', 'desc')->limit(100)->get();
 
         return $chattings;
+    }
+    
+    
+    public function getRateInfo()
+    {
+        $response = $this->getExchangeRate();
+        return $response;
     }
 }

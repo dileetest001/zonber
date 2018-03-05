@@ -2,17 +2,26 @@
 
 namespace App\Classes\Common;
 
+use App\Traits\Common;
 use Curl;
 use Log;
 
 class CurlExchange
 {
+    use Common;
+    
     private $bithumb_key = '3abb99ff4f9f02190634b3934c6b3cde';
     private $bithumb_secret_key = '-';
     private $coinone_key = '9b9ea2d4-9afc-4f5d-8d1c-e32bf71bb084';
     private $coinone_secret_key = '18b52d65-4bc2-42fa-b4b6-83887e473c02';
     
-    private $doller = '1075.26882';
+    private $doller;
+    
+    public function __construct()
+    {
+        $response = $this->getExchangeRate();
+        $this->doller = $response['USD'];
+    }
     
     /*
      *
