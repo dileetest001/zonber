@@ -9,10 +9,14 @@
                 <option value='etc'>ETC / 이더리움 클래식</option>
                 <option value='xrp'>XRP / 리플</option>
                 <option value='ltc'>LTC / 라이트 코인</option>
+                <option value='qtum'>QTUM / 퀀텀</option>
                 <option value='xmr'>XMR / 모네로</option>
                 <option value='zec'>ZEC / 지캐시</option>
-                <option value='qtum'>QTUM / 퀀텀</option>
                 <option value='eos'>EOS / 이오스</option>
+                <option value='snt'>SNT / 스테이터스네트워크토큰</option>
+                <option value='dash'>DASH / 대시</option>
+                <option value='omg'>OMG / 오미세고</option>
+                <option value='rep'>REP / 어거</option>
             </select>
             <br>
         </div>
@@ -476,6 +480,7 @@ export default {
                             
                             this.setBithumbPremium();
                         } else {
+                            clearInterval(this.bithumb_interval_id);
                             this.bithumb_usd                 = 0;
                             this.bithumb_usd_org             = 0;
                             this.bithumb_premium_usd         = 0;
@@ -485,6 +490,17 @@ export default {
                             this.bithumb_premium_krw         = 0;
                             this.bithumb_premium_krw_percent = 0;
                         }
+                    },
+                    error: (result) => {
+                        clearInterval(this.bithumb_interval_id);
+                        this.bithumb_usd                 = 0;
+                        this.bithumb_usd_org             = 0;
+                        this.bithumb_premium_usd         = 0;
+                        this.bithumb_premium_usd_percent = 0;
+                        this.bithumb_krw                 = 0;
+                        this.bithumb_krw_org             = 0;
+                        this.bithumb_premium_krw         = 0;
+                        this.bithumb_premium_krw_percent = 0;
                     }
                 });
 
@@ -526,6 +542,7 @@ export default {
                             this.coinone_krw_org = price;
                             this.setCoinonePremium();
                         } else {
+                            clearInterval(this.coinone_interval_id);
                             this.coinone_usd                 = 0;
                             this.coinone_usd_org             = 0;
                             this.coinone_premium_usd         = 0;
@@ -581,6 +598,7 @@ export default {
                             
                             this.setUpbitPremium();
                         } else {
+                            clearInterval(this.upbit_interval_id);
                             this.upbit_usd                 = 0;
                             this.upbit_usd_org             = 0;
                             this.upbit_premium_usd         = 0;
@@ -595,7 +613,7 @@ export default {
             }, 2400);
         },
         setBithumbPremium : function() {
-            if (this.bitfinex_usd !== 'load..' && this.bithumb_usd !== 'load..' && this.bitumb_usd !== 0) {
+            if (this.bitfinex_usd !== 'load..' && this.bithumb_usd !== 'load..' && this.bithumb_usd !== 0) {
                 this.bithumb_premium_usd = number_format(this.bithumb_usd_org - this.bitfinex_usd_org, 2);
                 this.bithumb_premium_krw  = number_format(this.bithumb_krw_org - this.bitfinex_krw_org);
                 this.bithumb_premium_usd_percent = number_format((this.bithumb_usd_org - this.bitfinex_usd_org) / this.bitfinex_usd_org * 100, 2);

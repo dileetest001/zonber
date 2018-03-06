@@ -161,6 +161,10 @@ class CurlExchange
 	    if ($currency == 'qtum') {
 	        $currency = 'qtm';
 	    }
+	    if ($currency == 'dash') {
+	        $currency = 'dsh';
+	    }
+	    
 	    $currency = strtoupper($currency)."USD";
         
         $response = Curl::to('https://api.bitfinex.com/v1/book/'.$currency)
