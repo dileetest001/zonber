@@ -23,9 +23,9 @@
                     <tr>
                         <th>{{ coin_name_upper }}</th>
                         <th colspan="2" class="bitfinex">파이넥스</th>
+                        <th colspan="2" class="upbit">업비트</th>
                         <th colspan="2" class="bithumb">빗썸</th>
                         <th colspan="2" class="coinone">코인원</th>
-                        <th colspan="2" class="upbit">업비트</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -33,22 +33,22 @@
                         <td><img class="coin_image" v-bind:src="coin_image" alt="코인 이미지"/></td>
                         <td><div class='bitfinex'>${{ bitfinex_usd }}</div></td>
                         <td><div class='bitfinex'>￦{{ bitfinex_krw }}</div></td>
+                        <td><div id="upbit_usd" ref="upbit_usd" class='upbit'>${{ upbit_usd }}</div></td>
+                        <td><div id="upbit_krw" ref="upbit_krw" class='upbit'>￦{{ upbit_krw }}</div></td>
                         <td><div id="bithumb_usd" ref="bithumb_usd" class='bithumb'>${{ bithumb_usd }}</div></td>
                         <td><div id="bithumb_krw" ref="bithumb_krw" class='bithumb'>￦{{ bithumb_krw }}</div></td>
                         <td><div id="coinone_usd" ref="coinone_usd" class='coinone'>${{ coinone_usd }}</div></td>
                         <td><div id="coinone_krw" ref="coinone_krw" class='coinone'>￦{{ coinone_krw }}</div></td>
-                        <td><div id="upbit_usd" ref="upbit_usd" class='upbit'>${{ upbit_usd }}</div></td>
-                        <td><div id="upbit_krw" ref="upbit_krw" class='upbit'>￦{{ upbit_krw }}</div></td>
                     </tr>
                     <tr>
                         <td colspan=2> 1$ = {{ this.show_dollar }} </td>
                         <td>프리미엄</td>
+                        <td><div class='premium'>${{ upbit_premium_usd }} (<span class="percent">{{ upbit_premium_usd_percent }}%</span>)</div></td>
+                        <td><div class='premium'>￦{{ upbit_premium_krw }} (<span class="percent">{{ upbit_premium_krw_percent }}%</span>)</div></td>
                         <td><div class='premium'>${{ bithumb_premium_usd }} (<span class="percent">{{ bithumb_premium_usd_percent }}%</span>)</div></td>
                         <td><div class='premium'>￦{{ bithumb_premium_krw }} (<span class="percent">{{ bithumb_premium_krw_percent }}%</span>)</div></td>
                         <td><div class='premium'>${{ coinone_premium_usd }} (<span class="percent">{{ coinone_premium_usd_percent }}%</span>)</div></td>
                         <td><div class='premium'>￦{{ coinone_premium_krw }} (<span class="percent">{{ coinone_premium_krw_percent }}%</span>)</div></td>
-                        <td><div class='premium'>${{ upbit_premium_usd }} (<span class="percent">{{ upbit_premium_usd_percent }}%</span>)</div></td>
-                        <td><div class='premium'>￦{{ upbit_premium_krw }} (<span class="percent">{{ upbit_premium_krw_percent }}%</span>)</div></td>
                     </tr>
                 </tbody>
             </table>
@@ -60,23 +60,24 @@
                 <thead>
                     <tr>
                         <th class="bitfinex">파이넥스</th>
+                        <th class="upbit">업비트</th>
                         <th class="bithumb">빗썸</th>
                         <th class="coinone">코인원</th>
-                        <th class="upbit">업비트</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td><div class='bitfinex'>${{ bitfinex_usd }}</div></td>
+                        <td><div id="upbit_krw_mobile" ref="upbit_krw_mobile" class='upbit'>￦{{ upbit_krw }}</div></td>
                         <td><div id="bithumb_krw_mobile" ref="bithumb_krw_mobile" class='bithumb'>￦{{ bithumb_krw }}</div></td>
                         <td><div id="coinone_krw_mobile" ref="coinone_krw_mobile" class='coinone'>￦{{ coinone_krw }}</div></td>
-                        <td><div id="upbit_krw_mobile" ref="upbit_krw_mobile" class='upbit'>￦{{ upbit_krw }}</div></td>
+                        
                     </tr>
                     <tr>
                         <td>프리미엄</td>
+                        <td><div class='premium'>￦{{ upbit_premium_krw }} (<span class="percent">{{ upbit_premium_krw_percent }}%</span>)</div></td>
                         <td><div class='premium'>￦{{ bithumb_premium_krw }} (<span class="percent">{{ bithumb_premium_krw_percent }}%</span>)</div></td>
                         <td><div class='premium'>￦{{ coinone_premium_krw }} (<span class="percent">{{ coinone_premium_krw_percent }}%</span>)</div></td>
-                        <td><div class='premium'>￦{{ upbit_premium_krw }} (<span class="percent">{{ upbit_premium_krw_percent }}%</span>)</div></td>
                     </tr>
                 </tbody>
             </table>
