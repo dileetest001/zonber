@@ -519,7 +519,7 @@ export default {
                     dataType : 'json',
                     success: (result) => {
                         
-                        if (result[0].code == 'CRIX.UPBIT.KRW-'+currency) {
+                        if (typeof result[0] != 'undefined' && result[0].code == 'CRIX.UPBIT.KRW-'+currency) {
                             
                             var price = result[0].tradePrice;
 
