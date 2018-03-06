@@ -618,23 +618,7 @@ export default {
             }
         },
         setChartIframe : function() {
-            if (this.coin_name == 'btc') {
-                this.iframe = '<iframe style="width:100%; height:100%;" src="https://embed.cryptowat.ch/bitfinex/btcusd/15m"></iframe>';
-            } else if (this.coin_name == 'bch') {
-                this.iframe = '<iframe style="width:100%; height:100%;" src="https://embed.cryptowat.ch/bitfinex/bchusd/15m"></iframe>';
-            } else if (this.coin_name == 'eth') {
-                this.iframe = '<iframe style="width:100%; height:100%;" src="https://embed.cryptowat.ch/bitfinex/ethusd/15m"></iframe>';
-            } else if (this.coin_name == 'etc') {
-                this.iframe = '<iframe style="width:100%; height:100%;" src="https://embed.cryptowat.ch/bitfinex/etcusd/15m"></iframe>';
-            } else if (this.coin_name == 'xrp') {
-                this.iframe = '<iframe style="width:100%; height:100%;" src="https://embed.cryptowat.ch/bitfinex/xrpusd/15m"></iframe>';
-            } else if (this.coin_name == 'ltc') {
-                this.iframe = '<iframe style="width:100%; height:100%;" src="https://embed.cryptowat.ch/bitfinex/ltcusd/15m"></iframe>';
-            } else if (this.coin_name == 'btg') {
-                this.iframe = '<iframe style="width:100%; height:100%;" src="https://embed.cryptowat.ch/bitfinex/btgusd/15m"></iframe>';
-            } else if (this.coin_name == 'zec') {
-                this.iframe = '<iframe style="width:100%; height:100%;" src="https://embed.cryptowat.ch/bitfinex/zecusd/15m"></iframe>';
-            }
+            this.iframe = '<iframe style="width:100%; height:100%;" src="https://embed.cryptowat.ch/bitfinex/'+this.coin_name+'usd/15m"></iframe>';
         },
         setAccount : function() {
             
