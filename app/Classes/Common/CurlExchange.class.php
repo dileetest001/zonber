@@ -131,7 +131,7 @@ class CurlExchange
                         ->get();
         $json_data = json_decode($response, true);
         
-        if ($json_data) {
+        if ($json_data && $json_data[0]['code'] == 'CRIX.UPBIT.KRW-'.$currency) {
             $price = $json_data[0]['tradePrice'] ?? false;
         
             $return_arr = [

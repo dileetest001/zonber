@@ -359,13 +359,15 @@ export default {
                 },
                 dataType : 'json',
                 success: (result) => {
-                    this.bitfinex_usd = number_format(result.usd, 2);
-                    this.bitfinex_krw = number_format(result.krw);
-                    this.bitfinex_usd_org = result.usd;
-                    this.bitfinex_krw_org = result.krw;
-                    
-                    this.setBithumbPremium();
-                    this.setCoinonePremium();
+                    if (result !== false) {
+                        this.bitfinex_usd = number_format(result.usd, 2);
+                        this.bitfinex_krw = number_format(result.krw);
+                        this.bitfinex_usd_org = result.usd;
+                        this.bitfinex_krw_org = result.krw;
+                        
+                        this.setBithumbPremium();
+                        this.setCoinonePremium();
+                    }
                 }
             });
         },
@@ -378,12 +380,14 @@ export default {
                 },
                 dataType : 'json',
                 success: (result) => {
-                    this.bithumb_usd = number_format(result.usd, 2);
-                    this.bithumb_krw = number_format(result.krw);
-                    this.bithumb_usd_org = result.usd;
-                    this.bithumb_krw_org = result.krw;
-                    
-                    document.title = this.bithumb_krw+ " " +this.coin_name_upper+"/KRW";
+                    if (result !== false) {
+                        this.bithumb_usd = number_format(result.usd, 2);
+                        this.bithumb_krw = number_format(result.krw);
+                        this.bithumb_usd_org = result.usd;
+                        this.bithumb_krw_org = result.krw;
+                        
+                        document.title = this.bithumb_krw+ " " +this.coin_name_upper+"/KRW";
+                    }
                 }
             });
         },
@@ -396,10 +400,12 @@ export default {
                 },
                 dataType : 'json',
                 success: (result) => {
-                    this.coinone_usd = number_format(result.usd, 2);
-                    this.coinone_krw = number_format(result.krw);                    
-                    this.coinone_usd_org = result.usd;
-                    this.coinone_krw_org = result.krw;
+                    if (result !== false) {
+                        this.coinone_usd = number_format(result.usd, 2);
+                        this.coinone_krw = number_format(result.krw);                    
+                        this.coinone_usd_org = result.usd;
+                        this.coinone_krw_org = result.krw;
+                    }
                 }
             });
         },
@@ -412,10 +418,12 @@ export default {
                 },
                 dataType : 'json',
                 success: (result) => {
-                    this.upbit_usd = number_format(result.usd, 2);
-                    this.upbit_krw = number_format(result.krw);                    
-                    this.upbit_usd_org = result.usd;
-                    this.upbit_krw_org = result.krw;
+                    if (result !== false) {
+                        this.upbit_usd = number_format(result.usd, 2);
+                        this.upbit_krw = number_format(result.krw);                    
+                        this.upbit_usd_org = result.usd;
+                        this.upbit_krw_org = result.krw;
+                    }
                 }
             });
         },
@@ -435,7 +443,7 @@ export default {
                     data : {},
                     dataType : 'json',
                     success: (result) => {
-                        if (result.status === '0000') {
+                        if (result.status != '5500') {
                             var price = result.data.asks[0].price;
                             
                             this.bithumb_usd = number_format(price/this.dollar, 2);
@@ -475,7 +483,7 @@ export default {
                     dataType : 'json',
                     success: (result) => {
                         
-                        if (result.errorCode === '0') {
+                        if (result.errorCode === '0' && result.currency == currency) {
                             var price = result.ask[0].price;
                             this.coinone_usd = number_format(price/this.dollar, 2);
                             this.coinone_krw = number_format(price);
@@ -510,24 +518,28 @@ export default {
                     url: 'https://crix-api-endpoint.upbit.com/v1/crix/candles/minutes/1?code=CRIX.UPBIT.KRW-'+currency+'&count=1',
                     dataType : 'json',
                     success: (result) => {
-                        var price = result[0].tradePrice;
+                        
+                        if (result[0].code == 'CRIX.UPBIT.KRW-'+currency) {
+                            
+                            var price = result[0].tradePrice;
 
-                        this.upbit_usd = number_format(price/this.dollar, 2);
-                        this.upbit_krw = number_format(price);
-                        
-                        // border 깜박임
-                        if (this.upbit_usd_org != price/this.dollar) {
-                            $('#upbit_usd').addClass('change_border');
+                            this.upbit_usd = number_format(price/this.dollar, 2);
+                            this.upbit_krw = number_format(price);
+                            
+                            // border 깜박임
+                            if (this.upbit_usd_org != price/this.dollar) {
+                                $('#upbit_usd').addClass('change_border');
+                            }
+                            if (this.upbit_krw_org != price) {
+                                $('#upbit_krw').addClass('change_border');
+                                $('#upbit_krw_mobile').addClass('change_border');
+                            }
+                    
+                            this.upbit_usd_org = price/this.dollar;
+                            this.upbit_krw_org = price;
+                            
+                            this.setUpbitPremium();
                         }
-                        if (this.upbit_krw_org != price) {
-                            $('#upbit_krw').addClass('change_border');
-                            $('#upbit_krw_mobile').addClass('change_border');
-                        }
-                
-                        this.upbit_usd_org = price/this.dollar;
-                        this.upbit_krw_org = price;
-                        
-                        this.setUpbitPremium();
                     }
                 });
             }, 2400);

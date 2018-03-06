@@ -63,8 +63,12 @@ class HomepageAjaxController extends HomepageController
             ['currency', $currency],
             ['trade_market', $trade_market]
         ])->first();
-
-        return $coin_info;
+        
+        if ($coin_info) {
+            return $coin_info;
+        } else {
+            return false;
+        }
     }
 
     /*
