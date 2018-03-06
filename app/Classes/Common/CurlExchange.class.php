@@ -158,6 +158,9 @@ class CurlExchange
      */
 	public function getBitfinextInfo($currency)
 	{
+	    if ($currency == 'qtum') {
+	        $currency = 'qtm';
+	    }
 	    $currency = strtoupper($currency)."USD";
         
         $response = Curl::to('https://api.bitfinex.com/v1/book/'.$currency)

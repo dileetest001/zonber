@@ -86,7 +86,7 @@ class CurlBtcInfo extends Command
                                 ])->first();
         if (!$coin_info) {
             CoinInfo::create([
-                'trade_market' => 4,
+                'trade_market' => $trade_market,
                 'currency'     => $currency,
                 'krw'          => $info['price_krw'],
                 'usd'          => $info['price_usd'],

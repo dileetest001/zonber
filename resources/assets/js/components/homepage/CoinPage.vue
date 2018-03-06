@@ -9,6 +9,10 @@
                 <option value='etc'>ETC / 이더리움 클래식</option>
                 <option value='xrp'>XRP / 리플</option>
                 <option value='ltc'>LTC / 라이트 코인</option>
+                <option value='xmr'>XMR / 모네로</option>
+                <option value='zec'>ZEC / 지캐시</option>
+                <option value='qtum'>QTUM / 퀀텀</option>
+                <option value='eos'>EOS / 이오스</option>
             </select>
             <br>
         </div>
@@ -359,7 +363,7 @@ export default {
                 },
                 dataType : 'json',
                 success: (result) => {
-                    if (result !== false) {
+                    if (typeof result.usd !== 'undefined') {
                         this.bitfinex_usd = number_format(result.usd, 2);
                         this.bitfinex_krw = number_format(result.krw);
                         this.bitfinex_usd_org = result.usd;
@@ -380,7 +384,7 @@ export default {
                 },
                 dataType : 'json',
                 success: (result) => {
-                    if (result !== false) {
+                    if (typeof result.usd !== 'undefined') {
                         this.bithumb_usd = number_format(result.usd, 2);
                         this.bithumb_krw = number_format(result.krw);
                         this.bithumb_usd_org = result.usd;
@@ -400,7 +404,7 @@ export default {
                 },
                 dataType : 'json',
                 success: (result) => {
-                    if (result !== false) {
+                    if (typeof result.usd !== 'undefined') {
                         this.coinone_usd = number_format(result.usd, 2);
                         this.coinone_krw = number_format(result.krw);                    
                         this.coinone_usd_org = result.usd;
@@ -418,7 +422,7 @@ export default {
                 },
                 dataType : 'json',
                 success: (result) => {
-                    if (result !== false) {
+                    if (typeof result.usd !== 'undefined') {
                         this.upbit_usd = number_format(result.usd, 2);
                         this.upbit_krw = number_format(result.krw);                    
                         this.upbit_usd_org = result.usd;
@@ -443,6 +447,12 @@ export default {
                     data : {},
                     dataType : 'json',
                     success: (result) => {
+                        
+                        var this_coin_name = this.coin_name.toUpperCase();
+                        if (currency != this_coin_name) {
+                            return;
+                        }
+                        
                         if (result.status != '5500') {
                             var price = result.data.asks[0].price;
                             
@@ -464,6 +474,15 @@ export default {
                             document.title = this.bithumb_krw+ " " +this.coin_name_upper+"/KRW";
                             
                             this.setBithumbPremium();
+                        } else {
+                            this.bithumb_usd                 = 0;
+                            this.bithumb_usd_org             = 0;
+                            this.bithumb_premium_usd         = 0;
+                            this.bithumb_premium_usd_percent = 0;
+                            this.bithumb_krw                 = 0;
+                            this.bithumb_krw_org             = 0;
+                            this.bithumb_premium_krw         = 0;
+                            this.bithumb_premium_krw_percent = 0;
                         }
                     }
                 });
@@ -482,6 +501,11 @@ export default {
                     },
                     dataType : 'json',
                     success: (result) => {
+
+                        var this_coin_name = this.coin_name.toLowerCase();
+                        if (currency != this_coin_name) {
+                            return;
+                        }
                         
                         if (result.errorCode === '0' && result.currency == currency) {
                             var price = result.ask[0].price;
@@ -499,8 +523,16 @@ export default {
                     
                             this.coinone_usd_org = price/this.dollar;
                             this.coinone_krw_org = price;
-                            
                             this.setCoinonePremium();
+                        } else {
+                            this.coinone_usd                 = 0;
+                            this.coinone_usd_org             = 0;
+                            this.coinone_premium_usd         = 0;
+                            this.coinone_premium_usd_percent = 0;
+                            this.coinone_krw                 = 0;
+                            this.coinone_krw_org             = 0;
+                            this.coinone_premium_krw         = 0;
+                            this.coinone_premium_krw_percent = 0;
                         }
                     }
                 });
@@ -518,6 +550,14 @@ export default {
                     url: 'https://crix-api-endpoint.upbit.com/v1/crix/candles/minutes/1?code=CRIX.UPBIT.KRW-'+currency+'&count=1',
                     dataType : 'json',
                     success: (result) => {
+                        
+                        var this_coin_name = this.coin_name.toUpperCase();
+                        if (this_coin_name == 'BCH') {
+                            this_coin_name = 'BCC';
+                        }
+                        if (currency != this_coin_name) {
+                            return;
+                        }
                         
                         if (typeof result[0] != 'undefined' && result[0].code == 'CRIX.UPBIT.KRW-'+currency) {
                             
@@ -539,13 +579,22 @@ export default {
                             this.upbit_krw_org = price;
                             
                             this.setUpbitPremium();
+                        } else {
+                            this.upbit_usd                 = 0;
+                            this.upbit_usd_org             = 0;
+                            this.upbit_premium_usd         = 0;
+                            this.upbit_premium_usd_percent = 0;
+                            this.upbit_krw                 = 0;
+                            this.upbit_krw_org             = 0;
+                            this.upbit_premium_krw         = 0;
+                            this.upbit_premium_krw_percent = 0;
                         }
                     }
                 });
             }, 2400);
         },
         setBithumbPremium : function() {
-            if (this.bitfinex_usd !== 'load..' && this.bithumb_usd !== 'load..') {
+            if (this.bitfinex_usd !== 'load..' && this.bithumb_usd !== 'load..' && this.bitumb_usd !== 0) {
                 this.bithumb_premium_usd = number_format(this.bithumb_usd_org - this.bitfinex_usd_org, 2);
                 this.bithumb_premium_krw  = number_format(this.bithumb_krw_org - this.bitfinex_krw_org);
                 this.bithumb_premium_usd_percent = number_format((this.bithumb_usd_org - this.bitfinex_usd_org) / this.bitfinex_usd_org * 100, 2);
@@ -553,7 +602,7 @@ export default {
             }
         },
         setCoinonePremium : function() {
-            if (this.bitfinex_usd !== 'load..'  && this.coinone_usd !== 'load..') {
+            if (this.bitfinex_usd !== 'load..'  && this.coinone_usd !== 'load..' && this.coinone_usd !== 0) {
                 this.coinone_premium_usd = number_format(this.coinone_usd_org - this.bitfinex_usd_org, 2);
                 this.coinone_premium_krw  = number_format(this.coinone_krw_org - this.bitfinex_krw_org);
                 this.coinone_premium_usd_percent = number_format((this.coinone_usd_org - this.bitfinex_usd_org) / this.bitfinex_usd_org * 100, 2);
@@ -561,7 +610,7 @@ export default {
             }
         },
         setUpbitPremium : function() {
-            if (this.bitfinex_usd !== 'load..'  && this.upbit_usd !== 'load..') {
+            if (this.bitfinex_usd !== 'load..'  && this.upbit_usd !== 'load..' && this.upbit_usd !== 0) {
                 this.upbit_premium_usd = number_format(this.upbit_usd_org - this.bitfinex_usd_org, 2);
                 this.upbit_premium_krw  = number_format(this.upbit_krw_org - this.bitfinex_krw_org);
                 this.upbit_premium_usd_percent = number_format((this.upbit_usd_org - this.bitfinex_usd_org) / this.bitfinex_usd_org * 100, 2);
