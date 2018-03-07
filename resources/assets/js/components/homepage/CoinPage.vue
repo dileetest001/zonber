@@ -1,7 +1,7 @@
 <template>
     <div>
 
-        <div class="col-lg-5 col-sm-12">
+        <div class="col-sm-5 col-xs-12">
             <table class='table table-condensed'>
                 <thead>
                     <tr>
@@ -161,46 +161,40 @@
             </table>
         </div>
         
-        <div class="col-lg-7 col-xs-12">
-            <div class="ad_info">
-                <div class="row">
-                    <div class="col-xs-12 col-sm-8">
-                        <div class='trade_market' id='trade_market'>
-                            <b>거래소 링크</b>
-                            <br>
-                            <a href='https://www.bithumb.com/' target='_blank'>빗썸</a>
-                            <a href='https://coinone.co.kr/' target='_blank'>코인원</a>
-                            <a href='https://upbit.com/' target='_blank'>업비트</a>
-                            <a href='https://www.gopax.co.kr/' target='_blank'>고팍스</a>
-                            <a href='https://www.bitfinex.com/' target='_blank'>비트파이넥스</a>
-                            <a href='https://cryptowat.ch/' target='_blank'>크립토왓</a>
-                        </div>
-                        <br>
-                        <div>
-                            <b><img class="coin_image" src="/image/xrp.png" alt="코인 이미지"/>리플 기부</b><br>
-                            <span onclick="copyToClipboard(this.innerText);">rN9qNpgnBaZwqCg8CvUZRPqCcPPY7wfWep</span><br>
-                            <span onclick="copyToClipboard(this.innerText);">1752738475</span>
-                        </div>
-                    </div>
-                    <div class="col-sm-2">
-                        <div class="xrp_qrcode">
-                            <img src="/image/xrp_qrcode.png" style="width:120px;" alt="리플 QRCODE"/>
-                        </div>
-                    </div>
-                    
-                    <div class="col-xs-12 col-sm-12">
-                        <hr>
-                        <span>각 코인 정보를 클릭하면 차트가 갱신됩니다.</span><br>
-                        <span>1USD = <span style="color:black;">{{ USD }}</span> / 1JPY = <span style="color:black;">{{ JPY }}</span></span><br>
-                        <span>*API에 따라 반영이 느릴수 있습니다.</span>
-                    </div>
+        <div class="ad_info col-sm-7 col-xs-12">
+        
+            <div style="float:right;">
+                <div class="xrp_qrcode">
+                    <img src="/image/xrp_qrcode.png" style="width:120px;" alt="리플 QRCODE"/>
                 </div>
+            </div>    
+            <div class='trade_market' id='trade_market'>
+                <b>거래소 링크</b>
+                <br>
+                <a href='https://www.bithumb.com/' target='_blank'>빗썸</a>
+                <a href='https://coinone.co.kr/' target='_blank'>코인원</a>
+                <a href='https://upbit.com/' target='_blank'>업비트</a>
+                <a href='https://www.gopax.co.kr/' target='_blank'>고팍스</a>
+                <a href='https://www.bitfinex.com/' target='_blank'>비트파이넥스</a>
+                <a href='https://cryptowat.ch/' target='_blank'>크립토왓</a>
             </div>
             <br>
+            
+            <div>
+                <b><img class="coin_image" src="/image/xrp.png" alt="코인 이미지"/>리플 기부</b><br>
+                <span onclick="copyToClipboard(this.innerText);">rN9qNpgnBaZwqCg8CvUZRPqCcPPY7wfWep</span> (<span onclick="copyToClipboard(this.innerText);">1752738475</span>)
+            </div>
+            <hr>
+            <div>
+                <span>각 코인 정보를 클릭하면 차트가 갱신됩니다.</span><br>
+                <span>1USD = <span style="color:black;">{{ USD }}</span> / 1JPY = <span style="color:black;">{{ JPY }}</span></span><br>
+                <span>*API에 따라 반영이 느릴수 있습니다.</span>
+            </div>
+            <br>
+                
             <div class='iframe_div' v-html='iframe'>
             </div>
         </div>
-        
     </div>
 </template>
 
@@ -296,12 +290,12 @@ td {
 }
 @media (min-width: 720px) and (max-width: 990px) {
     .iframe_div {
-        height:500px;
+        height:530px;
     }
 }
 @media (min-width: 990px) {
     .iframe_div {
-        height:500px;
+        height:530px;
     }
 }
 </style>
