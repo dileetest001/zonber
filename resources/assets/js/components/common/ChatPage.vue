@@ -74,7 +74,7 @@ li {
 
 .message_content {
     overflow:auto;
-    height:730px;
+    height:650px;
     line-height:150%;
     word-wrap:break-word;
     border : solid 1px #968c8c;
@@ -164,7 +164,6 @@ export default {
     },
     props: [
         'socket',
-        'room_id'
     ],
     methods: {
         sendMessage : function() {
@@ -183,7 +182,6 @@ export default {
                     message    : message,
                     user_id    : this.user_id_org,
                     user_name  : this.user_id,
-                    room_id    : this.room_id,
                 },
                 success: (result) => {
                     $('.message').val('');

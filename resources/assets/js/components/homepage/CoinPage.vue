@@ -1,120 +1,203 @@
 <template>
     <div>
-        <div>
-            <select id="select_coin" class="select_coin form-control input-sm" @change="changeCoinInfo">
-                <option value='btc'>BTC / 비트코인</option>
-                <option value='bch'>BCH / 비트코인 캐시</option>
-                <option value='btg'>BTG / 비트코인 골드</option>
-                <option value='eth'>ETH / 이더리움</option>
-                <option value='etc'>ETC / 이더리움 클래식</option>
-                <option value='xrp'>XRP / 리플</option>
-                <option value='ltc'>LTC / 라이트 코인</option>
-                <option value='qtum'>QTUM / 퀀텀</option>
-                <option value='xmr'>XMR / 모네로</option>
-                <option value='zec'>ZEC / 지캐시</option>
-                <option value='eos'>EOS / 이오스</option>
-                <option value='snt'>SNT / 스테이터스네트워크토큰</option>
-                <option value='dash'>DASH / 대시</option>
-                <option value='omg'>OMG / 오미세고</option>
-                <option value='rep'>REP / 어거</option>
-            </select>
+
+        <div class="col-lg-5 col-sm-12">
+            <table class='table table-condensed'>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th colspan="2" class="bitfinex">Finex($)</th>
+                        <th colspan="2" class="upbit">Upbit(￦)</th>
+                        <th colspan="2" class="bithumb">Bithumb(￦)</th>
+                        <th colspan="2" class="coinone">Coinone(￦)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- BTC -->
+                    <tr class="coin_tr" v-on:click="setChartIframe('btc')">
+                        <td style="text-align:center;">BTC <img class="coin_image" src="/image/btc.png" alt="BTC"/></td>
+                        <td colspan="2"><div id="bitfinex_btc" ref="bitfinex_btc">{{ btc.bitfinex_usd }}</div></td>
+                        <td colspan="2"><div id="upbit_btc" ref="upbit_btc">{{ btc.upbit_krw }} <br><span class="percent">({{ btc.upbit_premium_krw_percent }}%)</span></div></td>
+                        <td colspan="2"><div id="bithumb_btc" ref="bithumb_btc">{{ btc.bithumb_krw }} <br><span class="percent">({{ btc.bithumb_premium_krw_percent }}%)</span></div></td>
+                        <td colspan="2"><div id="coinone_btc" ref="coinone_btc">{{ btc.coinone_krw }} <br><span class="percent">({{ btc.coinone_premium_krw_percent }}%)</span></div></td>
+                    </tr>
+                    
+                    <!-- BCH -->
+                    <tr class="coin_tr" v-on:click="setChartIframe('bch')">
+                        <td style="text-align:center;">BCH <img class="coin_image" src="/image/bch.png" alt="BCH"/></td>
+                        <td colspan="2"><div id="bitfinex_bch" ref="bitfinex_bch">{{ bch.bitfinex_usd }}</div></td>
+                        <td colspan="2"><div id="upbit_bch" ref="upbit_bch">{{ bch.upbit_krw }} <br><span class="percent">({{ bch.upbit_premium_krw_percent }}%)</span></div></td>
+                        <td colspan="2"><div id="bithumb_bch" ref="bithumb_bch">{{ bch.bithumb_krw }} <br><span class="percent">({{ bch.bithumb_premium_krw_percent }}%)</span></div></td>
+                        <td colspan="2"><div id="coinone_bch" ref="coinone_bch">{{ bch.coinone_krw }} <br><span class="percent">({{ bch.coinone_premium_krw_percent }}%)</span></div></td>
+                    </tr>
+                    
+                    <!-- BTG -->
+                    <tr class="coin_tr" v-on:click="setChartIframe('btg')">
+                        <td style="text-align:center;">BTG <img class="coin_image" src="/image/btg.png" alt="BTG"/></td>
+                        <td colspan="2"><div id="bitfinex_btg" ref="bitfinex_btg">{{ btg.bitfinex_usd }}</div></td>
+                        <td colspan="2"><div id="upbit_btg" ref="upbit_btg">{{ btg.upbit_krw }} <br><span class="percent">({{ btg.upbit_premium_krw_percent }}%)</span></div></td>
+                        <td colspan="2"><div id="bithumb_btg" ref="bithumb_btg">{{ btg.bithumb_krw }} <br><span class="percent">({{ btg.bithumb_premium_krw_percent }}%)</span></div></td>
+                        <td colspan="2"><div id="coinone_btg" ref="coinone_btg">{{ btg.coinone_krw }} <br><span class="percent">({{ btg.coinone_premium_krw_percent }}%)</span></div></td>
+                    </tr>
+                    
+                    <!-- ETH -->
+                    <tr class="coin_tr" v-on:click="setChartIframe('eth')">
+                        <td style="text-align:center;">ETH <img class="coin_image" src="/image/eth.png" alt="ETH"/></td>
+                        <td colspan="2"><div id="bitfinex_eth" ref="bitfinex_eth">{{ eth.bitfinex_usd }}</div></td>
+                        <td colspan="2"><div id="upbit_eth" ref="upbit_eth">{{ eth.upbit_krw }} <br><span class="percent">({{ eth.upbit_premium_krw_percent }}%)</span></div></td>
+                        <td colspan="2"><div id="bithumb_eth" ref="bithumb_eth">{{ eth.bithumb_krw }} <br><span class="percent">({{ eth.bithumb_premium_krw_percent }}%)</span></div></td>
+                        <td colspan="2"><div id="coinone_eth" ref="coinone_eth">{{ eth.coinone_krw }} <br><span class="percent">({{ eth.coinone_premium_krw_percent }}%)</span></div></td>
+                    </tr>
+                    
+                    <!-- ETC -->
+                    <tr class="coin_tr" v-on:click="setChartIframe('etc')">
+                        <td style="text-align:center;">ETC <img class="coin_image" src="/image/etc.png" alt="ETC"/></td>
+                        <td colspan="2"><div id="bitfinex_etc" ref="bitfinex_etc">{{ etc.bitfinex_usd }}</div></td>
+                        <td colspan="2"><div id="upbit_etc" ref="upbit_etc">{{ etc.upbit_krw }} <br><span class="percent">({{ etc.upbit_premium_krw_percent }}%)</span></div></td>
+                        <td colspan="2"><div id="bithumb_etc" ref="bithumb_etc">{{ etc.bithumb_krw }} <br><span class="percent">({{ etc.bithumb_premium_krw_percent }}%)</span></div></td>
+                        <td colspan="2"><div id="coinone_etc" ref="coinone_etc">{{ etc.coinone_krw }} <br><span class="percent">({{ etc.coinone_premium_krw_percent }}%)</span></div></td>
+                    </tr>
+                    
+                    <!-- XRP -->
+                    <tr class="coin_tr" v-on:click="setChartIframe('xrp')">
+                        <td style="text-align:center;">XRP <img class="coin_image" src="/image/xrp.png" alt="XRP"/></td>
+                        <td colspan="2"><div id="bitfinex_xrp" ref="bitfinex_xrp">{{ xrp.bitfinex_usd }}</div></td>
+                        <td colspan="2"><div id="upbit_xrp" ref="upbit_xrp">{{ xrp.upbit_krw }} <br><span class="percent">({{ xrp.upbit_premium_krw_percent }}%)</span></div></td>
+                        <td colspan="2"><div id="bithumb_xrp" ref="bithumb_xrp">{{ xrp.bithumb_krw }} <br><span class="percent">({{ xrp.bithumb_premium_krw_percent }}%)</span></div></td>
+                        <td colspan="2"><div id="coinone_xrp" ref="coinone_xrp">{{ xrp.coinone_krw }} <br><span class="percent">({{ xrp.coinone_premium_krw_percent }}%)</span></div></td>
+                    </tr>
+                    
+                    <!-- LTC -->
+                    <tr class="coin_tr" v-on:click="setChartIframe('ltc')">
+                        <td style="text-align:center;">LTC <img class="coin_image" src="/image/ltc.png" alt="LTC"/></td>
+                        <td colspan="2"><div id="bitfinex_ltc" ref="bitfinex_ltc">{{ ltc.bitfinex_usd }}</div></td>
+                        <td colspan="2"><div id="upbit_ltc" ref="upbit_ltc">{{ ltc.upbit_krw }} <br><span class="percent">({{ ltc.upbit_premium_krw_percent }}%)</span></div></td>
+                        <td colspan="2"><div id="bithumb_ltc" ref="bithumb_ltc">{{ ltc.bithumb_krw }} <br><span class="percent">({{ ltc.bithumb_premium_krw_percent }}%)</span></div></td>
+                        <td colspan="2"><div id="coinone_ltc" ref="coinone_ltc">{{ ltc.coinone_krw }} <br><span class="percent">({{ ltc.coinone_premium_krw_percent }}%)</span></div></td>
+                    </tr>
+                    
+                    <!-- QTUM -->
+                    <tr class="coin_tr" v-on:click="setChartIframe('qtum')">
+                        <td style="text-align:center;">QTUM <img class="coin_image" src="/image/qtum.png" alt="QTUM"/></td>
+                        <td colspan="2"><div id="bitfinex_qtum" ref="bitfinex_qtum">{{ qtum.bitfinex_usd }}</div></td>
+                        <td colspan="2"><div id="upbit_qtum" ref="upbit_qtum">{{ qtum.upbit_krw }} <br><span class="percent">({{ qtum.upbit_premium_krw_percent }}%)</span></div></td>
+                        <td colspan="2"><div id="bithumb_qtum" ref="bithumb_qtum">{{ qtum.bithumb_krw }} <br><span class="percent">({{ qtum.bithumb_premium_krw_percent }}%)</span></div></td>
+                        <td colspan="2"><div id="coinone_qtum" ref="coinone_qtum">{{ qtum.coinone_krw }} <br><span class="percent">({{ qtum.coinone_premium_krw_percent }}%)</span></div></td>
+                    </tr>
+                    
+                    <!-- NEO -->
+                    <tr class="coin_tr" v-on:click="setChartIframe('neo')">
+                        <td style="text-align:center;">NEO <img class="coin_image" src="/image/neo.png" alt="NEO"/></td>
+                        <td colspan="2"><div id="bitfinex_neo" ref="bitfinex_neo">{{ neo.bitfinex_usd }}</div></td>
+                        <td colspan="2"><div id="upbit_neo" ref="upbit_neo">{{ neo.upbit_krw }} <br><span class="percent">({{ neo.upbit_premium_krw_percent }}%)</span></div></td>
+                        <td colspan="2"><div id="bithumb_neo" ref="bithumb_neo">{{ neo.bithumb_krw }} <br><span class="percent">({{ neo.bithumb_premium_krw_percent }}%)</span></div></td>
+                        <td colspan="2"><div id="coinone_neo" ref="coinone_neo">{{ neo.coinone_krw }} <br><span class="percent">({{ neo.coinone_premium_krw_percent }}%)</span></div></td>
+                    </tr>
+                    
+                    <!-- XMR -->
+                    <tr class="coin_tr" v-on:click="setChartIframe('xmr')">
+                        <td style="text-align:center;">XMR <img class="coin_image" src="/image/xmr.png" alt="XMR"/></td>
+                        <td colspan="2"><div id="bitfinex_xmr" ref="bitfinex_xmr">{{ xmr.bitfinex_usd }}</div></td>
+                        <td colspan="2"><div id="upbit_xmr" ref="upbit_xmr">{{ xmr.upbit_krw }} <br><span class="percent">({{ xmr.upbit_premium_krw_percent }}%)</span></div></td>
+                        <td colspan="2"><div id="bithumb_xmr" ref="bithumb_xmr">{{ xmr.bithumb_krw }} <br><span class="percent">({{ xmr.bithumb_premium_krw_percent }}%)</span></div></td>
+                        <td colspan="2"><div id="coinone_xmr" ref="coinone_xmr">{{ xmr.coinone_krw }} <br><span class="percent">({{ xmr.coinone_premium_krw_percent }}%)</span></div></td>
+                    </tr>
+                    
+                    <!-- ZEC -->
+                    <tr class="coin_tr" v-on:click="setChartIframe('zec')">
+                        <td style="text-align:center;">ZEC <img class="coin_image" src="/image/zec.png" alt="ZEC"/></td>
+                        <td colspan="2"><div id="bitfinex_zec" ref="bitfinex_zec">{{ zec.bitfinex_usd }}</div></td>
+                        <td colspan="2"><div id="upbit_zec" ref="upbit_zec">{{ zec.upbit_krw }} <br><span class="percent">({{ zec.upbit_premium_krw_percent }}%)</span></div></td>
+                        <td colspan="2"><div id="bithumb_zec" ref="bithumb_zec">{{ zec.bithumb_krw }} <br><span class="percent">({{ zec.bithumb_premium_krw_percent }}%)</span></div></td>
+                        <td colspan="2"><div id="coinone_zec" ref="coinone_zec">{{ zec.coinone_krw }} <br><span class="percent">({{ zec.coinone_premium_krw_percent }}%)</span></div></td>
+                    </tr>
+                    
+                    <!-- EOS -->
+                    <tr class="coin_tr" v-on:click="setChartIframe('eos')">
+                        <td style="text-align:center;">EOS <img class="coin_image" src="/image/eos.png" alt="EOS"/></td>
+                        <td colspan="2"><div id="bitfinex_eos" ref="bitfinex_eos">{{ eos.bitfinex_usd }}</div></td>
+                        <td colspan="2"><div id="upbit_eos" ref="upbit_eos">{{ eos.upbit_krw }} <br><span class="percent">({{ eos.upbit_premium_krw_percent }}%)</span></div></td>
+                        <td colspan="2"><div id="bithumb_eos" ref="bithumb_eos">{{ eos.bithumb_krw }} <br><span class="percent">({{ eos.bithumb_premium_krw_percent }}%)</span></div></td>
+                        <td colspan="2"><div id="coinone_eos" ref="coinone_eos">{{ eos.coinone_krw }} <br><span class="percent">({{ eos.coinone_premium_krw_percent }}%)</span></div></td>
+                    </tr>
+                    
+                    <!-- SNT -->
+                    <tr class="coin_tr" v-on:click="setChartIframe('snt')">
+                        <td style="text-align:center;">SNT <img class="coin_image" src="/image/snt.png" alt="SNT"/></td>
+                        <td colspan="2"><div id="bitfinex_snt" ref="bitfinex_snt">{{ snt.bitfinex_usd }}</div></td>
+                        <td colspan="2"><div id="upbit_snt" ref="upbit_snt">{{ snt.upbit_krw }} <br><span class="percent">({{ snt.upbit_premium_krw_percent }}%)</span></div></td>
+                        <td colspan="2"><div id="bithumb_snt" ref="bithumb_snt">{{ snt.bithumb_krw }} <br><span class="percent">({{ snt.bithumb_premium_krw_percent }}%)</span></div></td>
+                        <td colspan="2"><div id="coinone_snt" ref="coinone_snt">{{ snt.coinone_krw }} <br><span class="percent">({{ snt.coinone_premium_krw_percent }}%)</span></div></td>
+                    </tr>
+                    
+                    <!-- DASH -->
+                    <tr class="coin_tr" v-on:click="setChartIframe('dash')">
+                        <td style="text-align:center;">DASH <img class="coin_image" src="/image/dash.png" alt="DASH"/></td>
+                        <td colspan="2"><div id="bitfinex_dash" ref="bitfinex_dash">{{ dash.bitfinex_usd }}</div></td>
+                        <td colspan="2"><div id="upbit_dash" ref="upbit_dash">{{ dash.upbit_krw }} <br><span class="percent">({{ dash.upbit_premium_krw_percent }}%)</span></div></td>
+                        <td colspan="2"><div id="bithumb_dash" ref="bithumb_dash">{{ dash.bithumb_krw }} <br><span class="percent">({{ dash.bithumb_premium_krw_percent }}%)</span></div></td>
+                        <td colspan="2"><div id="coinone_dash" ref="coinone_dash">{{ dash.coinone_krw }} <br><span class="percent">({{ dash.coinone_premium_krw_percent }}%)</span></div></td>
+                    </tr>
+                    
+                    <!-- OMG -->
+                    <tr class="coin_tr" v-on:click="setChartIframe('omg')">
+                        <td style="text-align:center;">OMG <img class="coin_image" src="/image/omg.png" alt="OMG"/></td>
+                        <td colspan="2"><div id="bitfinex_omg" ref="bitfinex_omg">{{ omg.bitfinex_usd }}</div></td>
+                        <td colspan="2"><div id="upbit_omg" ref="upbit_omg">{{ omg.upbit_krw }} <br><span class="percent">({{ omg.upbit_premium_krw_percent }}%)</span></div></td>
+                        <td colspan="2"><div id="bithumb_omg" ref="bithumb_omg">{{ omg.bithumb_krw }} <br><span class="percent">({{ omg.bithumb_premium_krw_percent }}%)</span></div></td>
+                        <td colspan="2"><div id="coinone_omg" ref="coinone_omg">{{ omg.coinone_krw }} <br><span class="percent">({{ omg.coinone_premium_krw_percent }}%)</span></div></td>
+                    </tr>
+                    
+                    <!-- REP -->
+                    <tr class="coin_tr" v-on:click="setChartIframe('rep')">
+                        <td style="text-align:center;">REP <img class="coin_image" src="/image/rep.png" alt="REP"/></td>
+                        <td colspan="2"><div id="bitfinex_rep" ref="bitfinex_rep">{{ rep.bitfinex_usd }}</div></td>
+                        <td colspan="2"><div id="upbit_rep" ref="upbit_rep">{{ rep.upbit_krw }} <br><span class="percent">({{ rep.upbit_premium_krw_percent }}%)</span></div></td>
+                        <td colspan="2"><div id="bithumb_rep" ref="bithumb_rep">{{ rep.bithumb_krw }} <br><span class="percent">({{ rep.bithumb_premium_krw_percent }}%)</span></div></td>
+                        <td colspan="2"><div id="coinone_rep" ref="coinone_rep">{{ rep.coinone_krw }} <br><span class="percent">({{ rep.coinone_premium_krw_percent }}%)</span></div></td>
+                    </tr>
+                    
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="col-lg-7 col-xs-12">
+            <div class="ad_info">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-8">
+                        <div class='trade_market' id='trade_market'>
+                            <b>거래소 링크</b>
+                            <br>
+                            <a href='https://www.bithumb.com/' target='_blank'>빗썸</a>
+                            <a href='https://coinone.co.kr/' target='_blank'>코인원</a>
+                            <a href='https://upbit.com/' target='_blank'>업비트</a>
+                            <a href='https://www.gopax.co.kr/' target='_blank'>고팍스</a>
+                            <a href='https://www.bitfinex.com/' target='_blank'>비트파이넥스</a>
+                            <a href='https://cryptowat.ch/' target='_blank'>크립토왓</a>
+                        </div>
+                        <br>
+                        <div>
+                            <b><img class="coin_image" src="/image/xrp.png" alt="코인 이미지"/>리플 기부</b><br>
+                            <span onclick="copyToClipboard(this.innerText);">rN9qNpgnBaZwqCg8CvUZRPqCcPPY7wfWep</span><br>
+                            <span onclick="copyToClipboard(this.innerText);">1752738475</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="xrp_qrcode">
+                            <img src="/image/xrp_qrcode.png" style="width:120px;" alt="리플 QRCODE"/>
+                        </div>
+                    </div>
+                    
+                    <div class="col-xs-12 col-sm-12">
+                        <hr>
+                        <span>각 코인 정보를 클릭하면 차트가 갱신됩니다.</span><br>
+                        <span>1USD = <span style="color:black;">{{ USD }}</span> / 1JPY = <span style="color:black;">{{ JPY }}</span></span><br>
+                        <span>*API에 따라 반영이 느릴수 있습니다.</span>
+                    </div>
+                </div>
+            </div>
             <br>
-        </div>
-        <!-- pc -->
-        <div class='hidden-xs'>
-            <table class='table table-condensed'>
-                <thead>
-                    <tr>
-                        <th>{{ coin_name_upper }}</th>
-                        <th colspan="2" class="bitfinex">파이넥스</th>
-                        <th colspan="2" class="upbit">업비트</th>
-                        <th colspan="2" class="bithumb">빗썸</th>
-                        <th colspan="2" class="coinone">코인원</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><img class="coin_image" v-bind:src="coin_image" alt="코인 이미지"/></td>
-                        <td><div class='bitfinex'>${{ bitfinex_usd }}</div></td>
-                        <td><div class='bitfinex'>￦{{ bitfinex_krw }}</div></td>
-                        <td><div id="upbit_usd" ref="upbit_usd" class='upbit'>${{ upbit_usd }}</div></td>
-                        <td><div id="upbit_krw" ref="upbit_krw" class='upbit'>￦{{ upbit_krw }}</div></td>
-                        <td><div id="bithumb_usd" ref="bithumb_usd" class='bithumb'>${{ bithumb_usd }}</div></td>
-                        <td><div id="bithumb_krw" ref="bithumb_krw" class='bithumb'>￦{{ bithumb_krw }}</div></td>
-                        <td><div id="coinone_usd" ref="coinone_usd" class='coinone'>${{ coinone_usd }}</div></td>
-                        <td><div id="coinone_krw" ref="coinone_krw" class='coinone'>￦{{ coinone_krw }}</div></td>
-                    </tr>
-                    <tr>
-                        <td colspan=2> 1$ = {{ this.show_dollar }} </td>
-                        <td>프리미엄</td>
-                        <td><div class='premium'>${{ upbit_premium_usd }} (<span class="percent">{{ upbit_premium_usd_percent }}%</span>)</div></td>
-                        <td><div class='premium'>￦{{ upbit_premium_krw }} (<span class="percent">{{ upbit_premium_krw_percent }}%</span>)</div></td>
-                        <td><div class='premium'>${{ bithumb_premium_usd }} (<span class="percent">{{ bithumb_premium_usd_percent }}%</span>)</div></td>
-                        <td><div class='premium'>￦{{ bithumb_premium_krw }} (<span class="percent">{{ bithumb_premium_krw_percent }}%</span>)</div></td>
-                        <td><div class='premium'>${{ coinone_premium_usd }} (<span class="percent">{{ coinone_premium_usd_percent }}%</span>)</div></td>
-                        <td><div class='premium'>￦{{ coinone_premium_krw }} (<span class="percent">{{ coinone_premium_krw_percent }}%</span>)</div></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        
-        <!-- mobile -->
-        <div class='visible-xs-* hidden-md hidden-lg hidden-sm'>
-            <table class='table table-condensed'>
-                <thead>
-                    <tr>
-                        <th class="bitfinex">파이넥스</th>
-                        <th class="upbit">업비트</th>
-                        <th class="bithumb">빗썸</th>
-                        <th class="coinone">코인원</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><div class='bitfinex'>${{ bitfinex_usd }}</div></td>
-                        <td><div id="upbit_krw_mobile" ref="upbit_krw_mobile" class='upbit'>￦{{ upbit_krw }}</div></td>
-                        <td><div id="bithumb_krw_mobile" ref="bithumb_krw_mobile" class='bithumb'>￦{{ bithumb_krw }}</div></td>
-                        <td><div id="coinone_krw_mobile" ref="coinone_krw_mobile" class='coinone'>￦{{ coinone_krw }}</div></td>
-                        
-                    </tr>
-                    <tr>
-                        <td>프리미엄</td>
-                        <td><div class='premium'>￦{{ upbit_premium_krw }} (<span class="percent">{{ upbit_premium_krw_percent }}%</span>)</div></td>
-                        <td><div class='premium'>￦{{ bithumb_premium_krw }} (<span class="percent">{{ bithumb_premium_krw_percent }}%</span>)</div></td>
-                        <td><div class='premium'>￦{{ coinone_premium_krw }} (<span class="percent">{{ coinone_premium_krw_percent }}%</span>)</div></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        
-        <div class='iframe_div' v-html='iframe'>
-        </div>
-        
-        <div class="ad_info">
-            <div class="row">
-                <div class="col-xs-12 col-sm-8">
-                    <div class='trade_market' id='trade_market'>
-                        <b>거래소 링크</b>
-                        <br>
-                        <a href='https://www.bithumb.com/' target='_blank'>빗썸</a>
-                        <a href='https://coinone.co.kr/' target='_blank'>코인원</a>
-                        <a href='https://upbit.com/' target='_blank'>업비트</a>
-                        <a href='https://www.gopax.co.kr/' target='_blank'>고팍스</a>
-                        <a href='https://www.bitfinex.com/' target='_blank'>비트파이넥스</a>
-                        <a href='https://cryptowat.ch/' target='_blank'>크립토왓</a>
-                    </div>
-                    <br>
-                    <div>
-                        <b><img class="coin_image" src="/image/xrp.png" alt="코인 이미지"/>리플 기부</b>
-                        <br>
-                        <span class="xrp_address" onclick="copyToClipboard(this.innerText);" v-html='account'></span>
-                    </div>
-                </div>
-                <div class="col-sm-2">
-                    <div class="xrp_qrcode">
-                        <img src="/image/xrp_qrcode.png" style="width:150px;" alt="리플 QRCODE"/>
-                    </div>
-                </div>
+            <div class='iframe_div' v-html='iframe'>
             </div>
         </div>
         
@@ -123,14 +206,6 @@
 
 <style>
 
-.trade_market > a {
-    text-decoration:none;
-}
-.ad_info {
-    border : 1px solid #bb504e;
-    text-align: center;
-    vertical-align : middle;
-}
 
 table {
     border : 2px solid #bb504e;
@@ -147,35 +222,28 @@ td {
     font-weight : bold;
 }
 
-.select_coin {
-    border-color : blue;
-}
 
 .bitfinex {
     color : black;
-    border : 1px solid #f5f8fa;
 }
 
 .bithumb {
     color : #f57723;
-    border : 1px solid #f5f8fa;
 }
 
 .coinone {
     color:#337ab7;
-    border : 1px solid #f5f8fa;
 }
 
 .upbit {
     color:#0062df;
-    border : 1px solid #f5f8fa;
 }
 
 .premium {
     border : 1px solid #f5f8fa;
 }
 
-.bitfinex:hover, .bithumb:hover, .coinone:hover, .premium:hover, .upbit:hover {
+.coin_tr:hover {
     background-color : #d3d3d3;
 }
 
@@ -188,6 +256,15 @@ td {
     height: 20px;
 }
 
+.trade_market > a {
+    text-decoration:none;
+}
+.ad_info {
+    border : 1px solid #bb504e;
+    text-align: center;
+    vertical-align : middle;
+}
+
 
 .change_border {
     -webkit-animation-name: change_bordor; /* Safari 4.0 - 8.0 */
@@ -198,14 +275,14 @@ td {
 
 /* Safari 4.0 - 8.0 */
 @-webkit-keyframes change_bordor {
-    from {border-color: red;}
-    to {border-color: yellow;}
+    from {border: 0.2px solid blue;}
+    to {border: 0px solid  red;}
 }
 
 /* Standard syntax */
 @keyframes change_bordor {
-    from {border-color: red;}
-    to {border-color: blue;}
+    from {border: 0.2px solid blue;}
+    to {border: 0px solid  red;}
 }
 
 
@@ -238,483 +315,973 @@ export default {
     mounted: function() {
         this.mountedFunction();
     },
+    methods: {
+        createdFunction : function() {
+            // 코인 정보
+            this.getCoinInfo();
+            // 환율 정보
+            this.getRateInfo();
+        },
+        mountedFunction : function() {
+            // 애니메이션 이벤트
+            this.setAnimationEndEvent();
+        },
+        getRateInfo : function() {
+            setInterval(() => {
+                asyncRequest({
+                    url : '/homepage/ajax/get_rate_info',
+                    data: {
+                    },
+                    success: (result) => {
+                        this.USD = number_format(result.usd, 2);
+                        this.JPY = number_format(result.jpy, 2);
+                    }
+                });
+            }, 6000);
+        },
+        setChartIframe : function(coin_name) {
+            this.iframe = '<iframe style="width:100%; height:100%;" src="https://embed.cryptowat.ch/bitfinex/'+coin_name+'usd/15m"></iframe>';
+        },
+        getCoinInfo : function() {
+            setInterval(() => {
+                asyncRequest({
+                    url : '/homepage/ajax/get_coin_info',
+                    data: {
+                    },
+                    dataType : 'json',
+                    success: (result) => {
+                        $.each(result, (coin_name, value) => {
+                            $.each(value, (trade_market, price) => {
+
+                                switch (trade_market) {
+                                    case '1' :
+                                        if (price.usd > 0) {
+                                            // border 깜박임
+                                            if (this[coin_name].bitfinex_usd_org != price.usd) {
+                                                $('#bitfinex_'+coin_name).addClass('change_border');
+                                            }
+
+                                            this[coin_name].bitfinex_usd = number_format(price.usd, 2);
+                                            this[coin_name].bitfinex_krw = number_format(price.krw);
+                                            this[coin_name].bitfinex_usd_org = price.usd;
+                                            this[coin_name].bitfinex_krw_org = price.krw;
+                                        } 
+                                        
+                                        break;
+                                    case '2' :
+                                        if (price.usd > 0) {
+                                            // border 깜박임
+                                            if (this[coin_name].bithumb_krw_org != price.krw) {
+                                                $('#bithumb_'+coin_name).addClass('change_border');
+                                            }
+
+                                            this[coin_name].bithumb_usd = number_format(price.usd, 2);
+                                            this[coin_name].bithumb_krw = number_format(price.krw);                                            
+                                            this[coin_name].bithumb_usd_org = price.usd;
+                                            this[coin_name].bithumb_krw_org = price.krw;
+                                            this.setBithumbPremium(coin_name);
+                                        } else {
+                                            $('#bithumb_'+coin_name).remove();
+                                        }
+                                        
+                                        break;
+                                    case '3' :
+                                        if (price.usd > 0) {
+                                            // border 깜박임
+                                            if (this[coin_name].coinone_krw_org != price.krw) {
+                                                $('#coinone_'+coin_name).addClass('change_border');
+                                            }
+                                            
+                                            this[coin_name].coinone_usd = number_format(price.usd, 2);
+                                            this[coin_name].coinone_krw = number_format(price.krw);
+                                            this[coin_name].coinone_usd_org = price.usd;
+                                            this[coin_name].coinone_krw_org = price.krw;
+                                            this.setCoinonePremium(coin_name);
+                                        } else {
+                                            $('#coinone_'+coin_name).remove();
+                                        }
+                                        
+                                        break;
+                                    case '4' :
+                                        if (price.usd > 0) {
+                                            
+                                            // border 깜박임
+                                            if (this[coin_name].upbit_krw_org != price.krw) {
+                                                $('#upbit_'+coin_name).addClass('change_border');
+                                            }
+                                            
+                                            this[coin_name].upbit_usd = number_format(price.usd, 2);
+                                            this[coin_name].upbit_krw = number_format(price.krw);
+                                            this[coin_name].upbit_usd_org = price.usd;
+                                            this[coin_name].upbit_krw_org = price.krw;
+                                            this.setUpbitPremium(coin_name);
+                                        } else {
+                                            $('#upbit_'+coin_name).remove();
+                                        }
+                                        
+                                        break;
+                                    default :
+                                        break;
+                                }
+                            });
+                            
+                        });
+                    }
+                });
+            }, 3600);
+        },
+        setBithumbPremium : function(coin_name) {
+            if (this[coin_name].bitfinex_usd !== 0 && this[coin_name].bithumb_usd !== 0 && this[coin_name].bithumb_usd !== 0) {
+                this[coin_name].bithumb_premium_usd = number_format(this[coin_name].bithumb_usd_org - this[coin_name].bitfinex_usd_org, 2);
+                this[coin_name].bithumb_premium_krw  = number_format(this[coin_name].bithumb_krw_org - this[coin_name].bitfinex_krw_org);
+                this[coin_name].bithumb_premium_usd_percent = number_format((this[coin_name].bithumb_usd_org - this[coin_name].bitfinex_usd_org) / this[coin_name].bitfinex_usd_org * 100, 2);
+                this[coin_name].bithumb_premium_krw_percent = number_format((this[coin_name].bithumb_krw_org - this[coin_name].bitfinex_krw_org) / this[coin_name].bitfinex_krw_org * 100, 2);
+            }
+        },
+        setCoinonePremium : function(coin_name) {
+            if (this[coin_name].bitfinex_usd !== 0  && this[coin_name].coinone_usd !== 0 && this[coin_name].coinone_usd !== 0) {
+                this[coin_name].coinone_premium_usd = number_format(this[coin_name].coinone_usd_org - this[coin_name].bitfinex_usd_org, 2);
+                this[coin_name].coinone_premium_krw  = number_format(this[coin_name].coinone_krw_org - this[coin_name].bitfinex_krw_org);
+                this[coin_name].coinone_premium_usd_percent = number_format((this[coin_name].coinone_usd_org - this[coin_name].bitfinex_usd_org) / this[coin_name].bitfinex_usd_org * 100, 2);
+                this[coin_name].coinone_premium_krw_percent = number_format((this[coin_name].coinone_krw_org - this[coin_name].bitfinex_krw_org) / this[coin_name].bitfinex_krw_org * 100, 2);
+            }
+        },
+        setUpbitPremium : function(coin_name) {
+            if (this[coin_name].bitfinex_usd !== 0  && this[coin_name].upbit_usd !== 0 && this[coin_name].upbit_usd !== 0) {
+                this[coin_name].upbit_premium_usd = number_format(this[coin_name].upbit_usd_org - this[coin_name].bitfinex_usd_org, 2);
+                this[coin_name].upbit_premium_krw  = number_format(this[coin_name].upbit_krw_org - this[coin_name].bitfinex_krw_org);
+                this[coin_name].upbit_premium_usd_percent = number_format((this[coin_name].upbit_usd_org - this[coin_name].bitfinex_usd_org) / this[coin_name].bitfinex_usd_org * 100, 2);
+                this[coin_name].upbit_premium_krw_percent = number_format((this[coin_name].upbit_krw_org - this[coin_name].bitfinex_krw_org) / this[coin_name].bitfinex_krw_org * 100, 2);
+            }
+        },
+        setAnimationEndEvent : function() {
+            
+            // btc
+            var bitfinex_btc_div = this.$refs.bitfinex_btc;
+            bitfinex_btc_div.addEventListener('animationend', function() {
+                    $('#bitfinex_btc').removeClass('change_border');
+                }, false);
+            var upbit_btc_div = this.$refs.upbit_btc;
+            upbit_btc_div.addEventListener('animationend', function() {
+                    $('#upbit_btc').removeClass('change_border');
+                }, false);
+            var bithumb_btc_div = this.$refs.bithumb_btc;
+            bithumb_btc_div.addEventListener('animationend', function() {
+                    $('#bithumb_btc').removeClass('change_border');
+                }, false);
+            var coinone_btc_div = this.$refs.coinone_btc;
+            coinone_btc_div.addEventListener('animationend', function() {
+                    $('#coinone_btc').removeClass('change_border');
+                }, false);
+            
+            // bch
+            var bitfinex_bch_div = this.$refs.bitfinex_bch;
+            bitfinex_bch_div.addEventListener('animationend', function() {
+                    $('#bitfinex_bch').removeClass('change_border');
+                }, false);
+            var upbit_bch_div = this.$refs.upbit_bch;
+            upbit_bch_div.addEventListener('animationend', function() {
+                    $('#upbit_bch').removeClass('change_border');
+                }, false);
+            var bithumb_bch_div = this.$refs.bithumb_bch;
+            bithumb_bch_div.addEventListener('animationend', function() {
+                    $('#bithumb_bch').removeClass('change_border');
+                }, false);
+            var coinone_bch_div = this.$refs.coinone_bch;
+            coinone_bch_div.addEventListener('animationend', function() {
+                    $('#coinone_bch').removeClass('change_border');
+                }, false);
+            
+            // btg
+            var bitfinex_btg_div = this.$refs.bitfinex_btg;
+            bitfinex_btg_div.addEventListener('animationend', function() {
+                    $('#bitfinex_btg').removeClass('change_border');
+                }, false);
+            var upbit_btg_div = this.$refs.upbit_btg;
+            upbit_btg_div.addEventListener('animationend', function() {
+                    $('#upbit_btg').removeClass('change_border');
+                }, false);
+            var bithumb_btg_div = this.$refs.bithumb_btg;
+            bithumb_btg_div.addEventListener('animationend', function() {
+                    $('#bithumb_btg').removeClass('change_border');
+                }, false);
+            var coinone_btg_div = this.$refs.coinone_btg;
+            coinone_btg_div.addEventListener('animationend', function() {
+                    $('#coinone_btg').removeClass('change_border');
+                }, false);
+
+            // eth
+            var bitfinex_eth_div = this.$refs.bitfinex_eth;
+            bitfinex_eth_div.addEventListener('animationend', function() {
+                    $('#bitfinex_eth').removeClass('change_border');
+                }, false);
+            var upbit_eth_div = this.$refs.upbit_eth;
+            upbit_eth_div.addEventListener('animationend', function() {
+                    $('#upbit_eth').removeClass('change_border');
+                }, false);
+            var bithumb_eth_div = this.$refs.bithumb_eth;
+            bithumb_eth_div.addEventListener('animationend', function() {
+                    $('#bithumb_eth').removeClass('change_border');
+                }, false);
+            var coinone_eth_div = this.$refs.coinone_eth;
+            coinone_eth_div.addEventListener('animationend', function() {
+                    $('#coinone_eth').removeClass('change_border');
+                }, false);
+
+            // etc
+            var bitfinex_etc_div = this.$refs.bitfinex_etc;
+            bitfinex_etc_div.addEventListener('animationend', function() {
+                    $('#bitfinex_etc').removeClass('change_border');
+                }, false);
+            var upbit_etc_div = this.$refs.upbit_etc;
+            upbit_etc_div.addEventListener('animationend', function() {
+                    $('#upbit_etc').removeClass('change_border');
+                }, false);
+            var bithumb_etc_div = this.$refs.bithumb_etc;
+            bithumb_etc_div.addEventListener('animationend', function() {
+                    $('#bithumb_etc').removeClass('change_border');
+                }, false);
+            var coinone_etc_div = this.$refs.coinone_etc;
+            coinone_etc_div.addEventListener('animationend', function() {
+                    $('#coinone_etc').removeClass('change_border');
+                }, false);
+                
+            // xrp
+            var bitfinex_xrp_div = this.$refs.bitfinex_xrp;
+            bitfinex_xrp_div.addEventListener('animationend', function() {
+                    $('#bitfinex_xrp').removeClass('change_border');
+                }, false);
+            var upbit_xrp_div = this.$refs.upbit_xrp;
+            upbit_xrp_div.addEventListener('animationend', function() {
+                    $('#upbit_xrp').removeClass('change_border');
+                }, false);
+            var bithumb_xrp_div = this.$refs.bithumb_xrp;
+            bithumb_xrp_div.addEventListener('animationend', function() {
+                    $('#bithumb_xrp').removeClass('change_border');
+                }, false);
+            var coinone_xrp_div = this.$refs.coinone_xrp;
+            coinone_xrp_div.addEventListener('animationend', function() {
+                    $('#coinone_xrp').removeClass('change_border');
+                }, false);
+
+            // ltc
+            var bitfinex_ltc_div = this.$refs.bitfinex_ltc;
+            bitfinex_ltc_div.addEventListener('animationend', function() {
+                    $('#bitfinex_ltc').removeClass('change_border');
+                }, false);
+            var upbit_ltc_div = this.$refs.upbit_ltc;
+            upbit_ltc_div.addEventListener('animationend', function() {
+                    $('#upbit_ltc').removeClass('change_border');
+                }, false);
+            var bithumb_ltc_div = this.$refs.bithumb_ltc;
+            bithumb_ltc_div.addEventListener('animationend', function() {
+                    $('#bithumb_ltc').removeClass('change_border');
+                }, false);
+            var coinone_ltc_div = this.$refs.coinone_ltc;
+            coinone_ltc_div.addEventListener('animationend', function() {
+                    $('#coinone_ltc').removeClass('change_border');
+                }, false);
+
+            // qtum
+            var bitfinex_qtum_div = this.$refs.bitfinex_qtum;
+            bitfinex_qtum_div.addEventListener('animationend', function() {
+                    $('#bitfinex_qtum').removeClass('change_border');
+                }, false);
+            var upbit_qtum_div = this.$refs.upbit_qtum;
+            upbit_qtum_div.addEventListener('animationend', function() {
+                    $('#upbit_qtum').removeClass('change_border');
+                }, false);
+            var bithumb_qtum_div = this.$refs.bithumb_qtum;
+            bithumb_qtum_div.addEventListener('animationend', function() {
+                    $('#bithumb_qtum').removeClass('change_border');
+                }, false);
+            var coinone_qtum_div = this.$refs.coinone_qtum;
+            coinone_qtum_div.addEventListener('animationend', function() {
+                    $('#coinone_qtum').removeClass('change_border');
+                }, false);
+                
+            // neo
+            var bitfinex_neo_div = this.$refs.bitfinex_neo;
+            bitfinex_neo_div.addEventListener('animationend', function() {
+                    $('#bitfinex_neo').removeClass('change_border');
+                }, false);
+            var upbit_neo_div = this.$refs.upbit_neo;
+            upbit_neo_div.addEventListener('animationend', function() {
+                    $('#upbit_neo').removeClass('change_border');
+                }, false);
+            var bithumb_neo_div = this.$refs.bithumb_neo;
+            bithumb_neo_div.addEventListener('animationend', function() {
+                    $('#bithumb_neo').removeClass('change_border');
+                }, false);
+            var coinone_neo_div = this.$refs.coinone_neo;
+            coinone_neo_div.addEventListener('animationend', function() {
+                    $('#coinone_neo').removeClass('change_border');
+                }, false);
+
+            // xmr
+            var bitfinex_xmr_div = this.$refs.bitfinex_xmr;
+            bitfinex_xmr_div.addEventListener('animationend', function() {
+                    $('#bitfinex_xmr').removeClass('change_border');
+                }, false);
+            var upbit_xmr_div = this.$refs.upbit_xmr;
+            upbit_xmr_div.addEventListener('animationend', function() {
+                    $('#upbit_xmr').removeClass('change_border');
+                }, false);
+            var bithumb_xmr_div = this.$refs.bithumb_xmr;
+            bithumb_xmr_div.addEventListener('animationend', function() {
+                    $('#bithumb_xmr').removeClass('change_border');
+                }, false);
+            var coinone_xmr_div = this.$refs.coinone_xmr;
+            coinone_xmr_div.addEventListener('animationend', function() {
+                    $('#coinone_xmr').removeClass('change_border');
+                }, false);
+
+            // zec
+            var bitfinex_zec_div = this.$refs.bitfinex_zec;
+            bitfinex_zec_div.addEventListener('animationend', function() {
+                    $('#bitfinex_zec').removeClass('change_border');
+                }, false);
+            var upbit_zec_div = this.$refs.upbit_zec;
+            upbit_zec_div.addEventListener('animationend', function() {
+                    $('#upbit_zec').removeClass('change_border');
+                }, false);
+            var bithumb_zec_div = this.$refs.bithumb_zec;
+            bithumb_zec_div.addEventListener('animationend', function() {
+                    $('#bithumb_zec').removeClass('change_border');
+                }, false);
+            var coinone_zec_div = this.$refs.coinone_zec;
+            coinone_zec_div.addEventListener('animationend', function() {
+                    $('#coinone_zec').removeClass('change_border');
+                }, false);
+
+            // eos
+            var bitfinex_eos_div = this.$refs.bitfinex_eos;
+            bitfinex_eos_div.addEventListener('animationend', function() {
+                    $('#bitfinex_eos').removeClass('change_border');
+                }, false);
+            var upbit_eos_div = this.$refs.upbit_eos;
+            upbit_eos_div.addEventListener('animationend', function() {
+                    $('#upbit_eos').removeClass('change_border');
+                }, false);
+            var bithumb_eos_div = this.$refs.bithumb_eos;
+            bithumb_eos_div.addEventListener('animationend', function() {
+                    $('#bithumb_eos').removeClass('change_border');
+                }, false);
+            var coinone_eos_div = this.$refs.coinone_eos;
+            coinone_eos_div.addEventListener('animationend', function() {
+                    $('#coinone_eos').removeClass('change_border');
+                }, false);
+
+            // snt
+            var bitfinex_snt_div = this.$refs.bitfinex_snt;
+            bitfinex_snt_div.addEventListener('animationend', function() {
+                    $('#bitfinex_snt').removeClass('change_border');
+                }, false);
+            var upbit_snt_div = this.$refs.upbit_snt;
+            upbit_snt_div.addEventListener('animationend', function() {
+                    $('#upbit_snt').removeClass('change_border');
+                }, false);
+            var bithumb_snt_div = this.$refs.bithumb_snt;
+            bithumb_snt_div.addEventListener('animationend', function() {
+                    $('#bithumb_snt').removeClass('change_border');
+                }, false);
+            var coinone_snt_div = this.$refs.coinone_snt;
+            coinone_snt_div.addEventListener('animationend', function() {
+                    $('#coinone_snt').removeClass('change_border');
+                }, false);
+
+            // dash
+            var bitfinex_dash_div = this.$refs.bitfinex_dash;
+            bitfinex_dash_div.addEventListener('animationend', function() {
+                    $('#bitfinex_dash').removeClass('change_border');
+                }, false);
+            var upbit_dash_div = this.$refs.upbit_dash;
+            upbit_dash_div.addEventListener('animationend', function() {
+                    $('#upbit_dash').removeClass('change_border');
+                }, false);
+            var bithumb_dash_div = this.$refs.bithumb_dash;
+            bithumb_dash_div.addEventListener('animationend', function() {
+                    $('#bithumb_dash').removeClass('change_border');
+                }, false);
+            var coinone_dash_div = this.$refs.coinone_dash;
+            coinone_dash_div.addEventListener('animationend', function() {
+                    $('#coinone_dash').removeClass('change_border');
+                }, false);
+                
+            // omg
+            var bitfinex_omg_div = this.$refs.bitfinex_omg;
+            bitfinex_omg_div.addEventListener('animationend', function() {
+                    $('#bitfinex_omg').removeClass('change_border');
+                }, false);
+            var upbit_omg_div = this.$refs.upbit_omg;
+            upbit_omg_div.addEventListener('animationend', function() {
+                    $('#upbit_omg').removeClass('change_border');
+                }, false);
+            var bithumb_omg_div = this.$refs.bithumb_omg;
+            bithumb_omg_div.addEventListener('animationend', function() {
+                    $('#bithumb_omg').removeClass('change_border');
+                }, false);
+            var coinone_omg_div = this.$refs.coinone_omg;
+            coinone_omg_div.addEventListener('animationend', function() {
+                    $('#coinone_omg').removeClass('change_border');
+                }, false);
+
+            // rep
+            var bitfinex_rep_div = this.$refs.bitfinex_rep;
+            bitfinex_rep_div.addEventListener('animationend', function() {
+                    $('#bitfinex_rep').removeClass('change_border');
+                }, false);
+            var upbit_rep_div = this.$refs.upbit_rep;
+            upbit_rep_div.addEventListener('animationend', function() {
+                    $('#upbit_rep').removeClass('change_border');
+                }, false);
+            var bithumb_rep_div = this.$refs.bithumb_rep;
+            bithumb_rep_div.addEventListener('animationend', function() {
+                    $('#bithumb_rep').removeClass('change_border');
+                }, false);
+            var coinone_rep_div = this.$refs.coinone_rep;
+            coinone_rep_div.addEventListener('animationend', function() {
+                    $('#coinone_rep').removeClass('change_border');
+                }, false);
+        }
+    },
     data() {
         return {
-            bitfinex_usd                : 'load..',
-            bitfinex_usd_org            : 0,
-            bitfinex_krw                : 'load..',
-            bitfinex_krw_org            : 0,
+            USD : 0,
+            JPY : 0,
+            iframe : '<iframe style="width:100%; height:100%;" src="https://embed.cryptowat.ch/bitfinex/btcusd/15m"></iframe>',
+            btc : {
+                bitfinex_usd                : 0,
+                bitfinex_usd_org            : 0,
+                bitfinex_krw                : 0,
+                bitfinex_krw_org            : 0,
 
-            bithumb_usd                 : 'load..',
-            bithumb_usd_org             : 0,
-            bithumb_premium_usd         : 'load..',
-            bithumb_premium_usd_percent : 'load..',
-            bithumb_krw                 : 'load..',
-            bithumb_krw_org             : 0,
-            bithumb_premium_krw         : 'load..',
-            bithumb_premium_krw_percent : 'load..',
+                bithumb_usd                 : 0,
+                bithumb_usd_org             : 0,
+                bithumb_premium_usd         : 0,
+                bithumb_premium_usd_percent : 0,
+                bithumb_krw                 : 0,
+                bithumb_krw_org             : 0,
+                bithumb_premium_krw         : 0,
+                bithumb_premium_krw_percent : 0,
 
-            coinone_usd                 : 'load..',
-            coinone_usd_org             : 0,
-            coinone_premium_usd         : 'load..',
-            coinone_premium_usd_percent : 'load..',
-            coinone_krw                 : 'load..',    
-            coinone_krw_org             : 0,
-            coinone_premium_krw         : 'load..',
-            coinone_premium_krw_percent : 'load..',
-            
-            upbit_usd                 : 'load..',
-            upbit_usd_org             : 0,
-            upbit_premium_usd         : 'load..',
-            upbit_premium_usd_percent : 'load..',
-            upbit_krw                 : 'load..',    
-            upbit_krw_org             : 0,
-            upbit_premium_krw         : 'load..',
-            upbit_premium_krw_percent : 'load..',
-            
-            iframe : '',
-            dollar  : 0,
-            show_dollar : 0,
-            account : '',
-            coin_image : '',
-            coin_name : this.room_id,
-            coin_name_upper : this.room_id.toUpperCase(),
+                coinone_usd                 : 0,
+                coinone_usd_org             : 0,
+                coinone_premium_usd         : 0,
+                coinone_premium_usd_percent : 0,
+                coinone_krw                 : 0,    
+                coinone_krw_org             : 0,
+                coinone_premium_krw         : 0,
+                coinone_premium_krw_percent : 0,
+                
+                upbit_usd                 : 0,
+                upbit_usd_org             : 0,
+                upbit_premium_usd         : 0,
+                upbit_premium_usd_percent : 0,
+                upbit_krw                 : 0,    
+                upbit_krw_org             : 0,
+                upbit_premium_krw         : 0,
+                upbit_premium_krw_percent : 0
+            },
+            bch : {
+                bitfinex_usd                : 0,
+                bitfinex_usd_org            : 0,
+                bitfinex_krw                : 0,
+                bitfinex_krw_org            : 0,
 
-            biffiex_interval_id : 0,
-            bithumb_interval_id : 0,
-            coinone_interval_id : 0,
-            upbit_interval_id : 0,
+                bithumb_usd                 : 0,
+                bithumb_usd_org             : 0,
+                bithumb_premium_usd         : 0,
+                bithumb_premium_usd_percent : 0,
+                bithumb_krw                 : 0,
+                bithumb_krw_org             : 0,
+                bithumb_premium_krw         : 0,
+                bithumb_premium_krw_percent : 0,
+
+                coinone_usd                 : 0,
+                coinone_usd_org             : 0,
+                coinone_premium_usd         : 0,
+                coinone_premium_usd_percent : 0,
+                coinone_krw                 : 0,    
+                coinone_krw_org             : 0,
+                coinone_premium_krw         : 0,
+                coinone_premium_krw_percent : 0,
+                
+                upbit_usd                 : 0,
+                upbit_usd_org             : 0,
+                upbit_premium_usd         : 0,
+                upbit_premium_usd_percent : 0,
+                upbit_krw                 : 0,    
+                upbit_krw_org             : 0,
+                upbit_premium_krw         : 0,
+                upbit_premium_krw_percent : 0
+            },
+            btg : {
+                bitfinex_usd                : 0,
+                bitfinex_usd_org            : 0,
+                bitfinex_krw                : 0,
+                bitfinex_krw_org            : 0,
+
+                bithumb_usd                 : 0,
+                bithumb_usd_org             : 0,
+                bithumb_premium_usd         : 0,
+                bithumb_premium_usd_percent : 0,
+                bithumb_krw                 : 0,
+                bithumb_krw_org             : 0,
+                bithumb_premium_krw         : 0,
+                bithumb_premium_krw_percent : 0,
+
+                coinone_usd                 : 0,
+                coinone_usd_org             : 0,
+                coinone_premium_usd         : 0,
+                coinone_premium_usd_percent : 0,
+                coinone_krw                 : 0,    
+                coinone_krw_org             : 0,
+                coinone_premium_krw         : 0,
+                coinone_premium_krw_percent : 0,
+                
+                upbit_usd                 : 0,
+                upbit_usd_org             : 0,
+                upbit_premium_usd         : 0,
+                upbit_premium_usd_percent : 0,
+                upbit_krw                 : 0,    
+                upbit_krw_org             : 0,
+                upbit_premium_krw         : 0,
+                upbit_premium_krw_percent : 0
+            },
+            eth : {
+                bitfinex_usd                : 0,
+                bitfinex_usd_org            : 0,
+                bitfinex_krw                : 0,
+                bitfinex_krw_org            : 0,
+
+                bithumb_usd                 : 0,
+                bithumb_usd_org             : 0,
+                bithumb_premium_usd         : 0,
+                bithumb_premium_usd_percent : 0,
+                bithumb_krw                 : 0,
+                bithumb_krw_org             : 0,
+                bithumb_premium_krw         : 0,
+                bithumb_premium_krw_percent : 0,
+
+                coinone_usd                 : 0,
+                coinone_usd_org             : 0,
+                coinone_premium_usd         : 0,
+                coinone_premium_usd_percent : 0,
+                coinone_krw                 : 0,    
+                coinone_krw_org             : 0,
+                coinone_premium_krw         : 0,
+                coinone_premium_krw_percent : 0,
+                
+                upbit_usd                 : 0,
+                upbit_usd_org             : 0,
+                upbit_premium_usd         : 0,
+                upbit_premium_usd_percent : 0,
+                upbit_krw                 : 0,    
+                upbit_krw_org             : 0,
+                upbit_premium_krw         : 0,
+                upbit_premium_krw_percent : 0
+            },
+            etc : {
+                bitfinex_usd                : 0,
+                bitfinex_usd_org            : 0,
+                bitfinex_krw                : 0,
+                bitfinex_krw_org            : 0,
+
+                bithumb_usd                 : 0,
+                bithumb_usd_org             : 0,
+                bithumb_premium_usd         : 0,
+                bithumb_premium_usd_percent : 0,
+                bithumb_krw                 : 0,
+                bithumb_krw_org             : 0,
+                bithumb_premium_krw         : 0,
+                bithumb_premium_krw_percent : 0,
+
+                coinone_usd                 : 0,
+                coinone_usd_org             : 0,
+                coinone_premium_usd         : 0,
+                coinone_premium_usd_percent : 0,
+                coinone_krw                 : 0,    
+                coinone_krw_org             : 0,
+                coinone_premium_krw         : 0,
+                coinone_premium_krw_percent : 0,
+                
+                upbit_usd                 : 0,
+                upbit_usd_org             : 0,
+                upbit_premium_usd         : 0,
+                upbit_premium_usd_percent : 0,
+                upbit_krw                 : 0,    
+                upbit_krw_org             : 0,
+                upbit_premium_krw         : 0,
+                upbit_premium_krw_percent : 0
+            },
+            xrp : {
+                bitfinex_usd                : 0,
+                bitfinex_usd_org            : 0,
+                bitfinex_krw                : 0,
+                bitfinex_krw_org            : 0,
+
+                bithumb_usd                 : 0,
+                bithumb_usd_org             : 0,
+                bithumb_premium_usd         : 0,
+                bithumb_premium_usd_percent : 0,
+                bithumb_krw                 : 0,
+                bithumb_krw_org             : 0,
+                bithumb_premium_krw         : 0,
+                bithumb_premium_krw_percent : 0,
+
+                coinone_usd                 : 0,
+                coinone_usd_org             : 0,
+                coinone_premium_usd         : 0,
+                coinone_premium_usd_percent : 0,
+                coinone_krw                 : 0,    
+                coinone_krw_org             : 0,
+                coinone_premium_krw         : 0,
+                coinone_premium_krw_percent : 0,
+                
+                upbit_usd                 : 0,
+                upbit_usd_org             : 0,
+                upbit_premium_usd         : 0,
+                upbit_premium_usd_percent : 0,
+                upbit_krw                 : 0,    
+                upbit_krw_org             : 0,
+                upbit_premium_krw         : 0,
+                upbit_premium_krw_percent : 0
+            },
+            ltc : {
+                bitfinex_usd                : 0,
+                bitfinex_usd_org            : 0,
+                bitfinex_krw                : 0,
+                bitfinex_krw_org            : 0,
+
+                bithumb_usd                 : 0,
+                bithumb_usd_org             : 0,
+                bithumb_premium_usd         : 0,
+                bithumb_premium_usd_percent : 0,
+                bithumb_krw                 : 0,
+                bithumb_krw_org             : 0,
+                bithumb_premium_krw         : 0,
+                bithumb_premium_krw_percent : 0,
+
+                coinone_usd                 : 0,
+                coinone_usd_org             : 0,
+                coinone_premium_usd         : 0,
+                coinone_premium_usd_percent : 0,
+                coinone_krw                 : 0,    
+                coinone_krw_org             : 0,
+                coinone_premium_krw         : 0,
+                coinone_premium_krw_percent : 0,
+                
+                upbit_usd                 : 0,
+                upbit_usd_org             : 0,
+                upbit_premium_usd         : 0,
+                upbit_premium_usd_percent : 0,
+                upbit_krw                 : 0,    
+                upbit_krw_org             : 0,
+                upbit_premium_krw         : 0,
+                upbit_premium_krw_percent : 0
+            },
+            qtum : {
+                bitfinex_usd                : 0,
+                bitfinex_usd_org            : 0,
+                bitfinex_krw                : 0,
+                bitfinex_krw_org            : 0,
+
+                bithumb_usd                 : 0,
+                bithumb_usd_org             : 0,
+                bithumb_premium_usd         : 0,
+                bithumb_premium_usd_percent : 0,
+                bithumb_krw                 : 0,
+                bithumb_krw_org             : 0,
+                bithumb_premium_krw         : 0,
+                bithumb_premium_krw_percent : 0,
+
+                coinone_usd                 : 0,
+                coinone_usd_org             : 0,
+                coinone_premium_usd         : 0,
+                coinone_premium_usd_percent : 0,
+                coinone_krw                 : 0,    
+                coinone_krw_org             : 0,
+                coinone_premium_krw         : 0,
+                coinone_premium_krw_percent : 0,
+                
+                upbit_usd                 : 0,
+                upbit_usd_org             : 0,
+                upbit_premium_usd         : 0,
+                upbit_premium_usd_percent : 0,
+                upbit_krw                 : 0,    
+                upbit_krw_org             : 0,
+                upbit_premium_krw         : 0,
+                upbit_premium_krw_percent : 0
+            },
+            neo : {
+                bitfinex_usd                : 0,
+                bitfinex_usd_org            : 0,
+                bitfinex_krw                : 0,
+                bitfinex_krw_org            : 0,
+
+                bithumb_usd                 : 0,
+                bithumb_usd_org             : 0,
+                bithumb_premium_usd         : 0,
+                bithumb_premium_usd_percent : 0,
+                bithumb_krw                 : 0,
+                bithumb_krw_org             : 0,
+                bithumb_premium_krw         : 0,
+                bithumb_premium_krw_percent : 0,
+
+                coinone_usd                 : 0,
+                coinone_usd_org             : 0,
+                coinone_premium_usd         : 0,
+                coinone_premium_usd_percent : 0,
+                coinone_krw                 : 0,    
+                coinone_krw_org             : 0,
+                coinone_premium_krw         : 0,
+                coinone_premium_krw_percent : 0,
+                
+                upbit_usd                 : 0,
+                upbit_usd_org             : 0,
+                upbit_premium_usd         : 0,
+                upbit_premium_usd_percent : 0,
+                upbit_krw                 : 0,    
+                upbit_krw_org             : 0,
+                upbit_premium_krw         : 0,
+                upbit_premium_krw_percent : 0
+            },
+            xmr : {
+                bitfinex_usd                : 0,
+                bitfinex_usd_org            : 0,
+                bitfinex_krw                : 0,
+                bitfinex_krw_org            : 0,
+
+                bithumb_usd                 : 0,
+                bithumb_usd_org             : 0,
+                bithumb_premium_usd         : 0,
+                bithumb_premium_usd_percent : 0,
+                bithumb_krw                 : 0,
+                bithumb_krw_org             : 0,
+                bithumb_premium_krw         : 0,
+                bithumb_premium_krw_percent : 0,
+
+                coinone_usd                 : 0,
+                coinone_usd_org             : 0,
+                coinone_premium_usd         : 0,
+                coinone_premium_usd_percent : 0,
+                coinone_krw                 : 0,    
+                coinone_krw_org             : 0,
+                coinone_premium_krw         : 0,
+                coinone_premium_krw_percent : 0,
+                
+                upbit_usd                 : 0,
+                upbit_usd_org             : 0,
+                upbit_premium_usd         : 0,
+                upbit_premium_usd_percent : 0,
+                upbit_krw                 : 0,    
+                upbit_krw_org             : 0,
+                upbit_premium_krw         : 0,
+                upbit_premium_krw_percent : 0
+            },
+            zec : {
+                bitfinex_usd                : 0,
+                bitfinex_usd_org            : 0,
+                bitfinex_krw                : 0,
+                bitfinex_krw_org            : 0,
+
+                bithumb_usd                 : 0,
+                bithumb_usd_org             : 0,
+                bithumb_premium_usd         : 0,
+                bithumb_premium_usd_percent : 0,
+                bithumb_krw                 : 0,
+                bithumb_krw_org             : 0,
+                bithumb_premium_krw         : 0,
+                bithumb_premium_krw_percent : 0,
+
+                coinone_usd                 : 0,
+                coinone_usd_org             : 0,
+                coinone_premium_usd         : 0,
+                coinone_premium_usd_percent : 0,
+                coinone_krw                 : 0,    
+                coinone_krw_org             : 0,
+                coinone_premium_krw         : 0,
+                coinone_premium_krw_percent : 0,
+                
+                upbit_usd                 : 0,
+                upbit_usd_org             : 0,
+                upbit_premium_usd         : 0,
+                upbit_premium_usd_percent : 0,
+                upbit_krw                 : 0,    
+                upbit_krw_org             : 0,
+                upbit_premium_krw         : 0,
+                upbit_premium_krw_percent : 0
+            },
+            eos : {
+                bitfinex_usd                : 0,
+                bitfinex_usd_org            : 0,
+                bitfinex_krw                : 0,
+                bitfinex_krw_org            : 0,
+
+                bithumb_usd                 : 0,
+                bithumb_usd_org             : 0,
+                bithumb_premium_usd         : 0,
+                bithumb_premium_usd_percent : 0,
+                bithumb_krw                 : 0,
+                bithumb_krw_org             : 0,
+                bithumb_premium_krw         : 0,
+                bithumb_premium_krw_percent : 0,
+
+                coinone_usd                 : 0,
+                coinone_usd_org             : 0,
+                coinone_premium_usd         : 0,
+                coinone_premium_usd_percent : 0,
+                coinone_krw                 : 0,    
+                coinone_krw_org             : 0,
+                coinone_premium_krw         : 0,
+                coinone_premium_krw_percent : 0,
+                
+                upbit_usd                 : 0,
+                upbit_usd_org             : 0,
+                upbit_premium_usd         : 0,
+                upbit_premium_usd_percent : 0,
+                upbit_krw                 : 0,    
+                upbit_krw_org             : 0,
+                upbit_premium_krw         : 0,
+                upbit_premium_krw_percent : 0
+            },
+            snt : {
+                bitfinex_usd                : 0,
+                bitfinex_usd_org            : 0,
+                bitfinex_krw                : 0,
+                bitfinex_krw_org            : 0,
+
+                bithumb_usd                 : 0,
+                bithumb_usd_org             : 0,
+                bithumb_premium_usd         : 0,
+                bithumb_premium_usd_percent : 0,
+                bithumb_krw                 : 0,
+                bithumb_krw_org             : 0,
+                bithumb_premium_krw         : 0,
+                bithumb_premium_krw_percent : 0,
+
+                coinone_usd                 : 0,
+                coinone_usd_org             : 0,
+                coinone_premium_usd         : 0,
+                coinone_premium_usd_percent : 0,
+                coinone_krw                 : 0,    
+                coinone_krw_org             : 0,
+                coinone_premium_krw         : 0,
+                coinone_premium_krw_percent : 0,
+                
+                upbit_usd                 : 0,
+                upbit_usd_org             : 0,
+                upbit_premium_usd         : 0,
+                upbit_premium_usd_percent : 0,
+                upbit_krw                 : 0,    
+                upbit_krw_org             : 0,
+                upbit_premium_krw         : 0,
+                upbit_premium_krw_percent : 0
+            },
+            dash : {
+                bitfinex_usd                : 0,
+                bitfinex_usd_org            : 0,
+                bitfinex_krw                : 0,
+                bitfinex_krw_org            : 0,
+
+                bithumb_usd                 : 0,
+                bithumb_usd_org             : 0,
+                bithumb_premium_usd         : 0,
+                bithumb_premium_usd_percent : 0,
+                bithumb_krw                 : 0,
+                bithumb_krw_org             : 0,
+                bithumb_premium_krw         : 0,
+                bithumb_premium_krw_percent : 0,
+
+                coinone_usd                 : 0,
+                coinone_usd_org             : 0,
+                coinone_premium_usd         : 0,
+                coinone_premium_usd_percent : 0,
+                coinone_krw                 : 0,    
+                coinone_krw_org             : 0,
+                coinone_premium_krw         : 0,
+                coinone_premium_krw_percent : 0,
+                
+                upbit_usd                 : 0,
+                upbit_usd_org             : 0,
+                upbit_premium_usd         : 0,
+                upbit_premium_usd_percent : 0,
+                upbit_krw                 : 0,    
+                upbit_krw_org             : 0,
+                upbit_premium_krw         : 0,
+                upbit_premium_krw_percent : 0
+            },
+            omg : {
+                bitfinex_usd                : 0,
+                bitfinex_usd_org            : 0,
+                bitfinex_krw                : 0,
+                bitfinex_krw_org            : 0,
+
+                bithumb_usd                 : 0,
+                bithumb_usd_org             : 0,
+                bithumb_premium_usd         : 0,
+                bithumb_premium_usd_percent : 0,
+                bithumb_krw                 : 0,
+                bithumb_krw_org             : 0,
+                bithumb_premium_krw         : 0,
+                bithumb_premium_krw_percent : 0,
+
+                coinone_usd                 : 0,
+                coinone_usd_org             : 0,
+                coinone_premium_usd         : 0,
+                coinone_premium_usd_percent : 0,
+                coinone_krw                 : 0,    
+                coinone_krw_org             : 0,
+                coinone_premium_krw         : 0,
+                coinone_premium_krw_percent : 0,
+                
+                upbit_usd                 : 0,
+                upbit_usd_org             : 0,
+                upbit_premium_usd         : 0,
+                upbit_premium_usd_percent : 0,
+                upbit_krw                 : 0,    
+                upbit_krw_org             : 0,
+                upbit_premium_krw         : 0,
+                upbit_premium_krw_percent : 0
+            },
+            rep : {
+                bitfinex_usd                : 0,
+                bitfinex_usd_org            : 0,
+                bitfinex_krw                : 0,
+                bitfinex_krw_org            : 0,
+
+                bithumb_usd                 : 0,
+                bithumb_usd_org             : 0,
+                bithumb_premium_usd         : 0,
+                bithumb_premium_usd_percent : 0,
+                bithumb_krw                 : 0,
+                bithumb_krw_org             : 0,
+                bithumb_premium_krw         : 0,
+                bithumb_premium_krw_percent : 0,
+
+                coinone_usd                 : 0,
+                coinone_usd_org             : 0,
+                coinone_premium_usd         : 0,
+                coinone_premium_usd_percent : 0,
+                coinone_krw                 : 0,    
+                coinone_krw_org             : 0,
+                coinone_premium_krw         : 0,
+                coinone_premium_krw_percent : 0,
+                
+                upbit_usd                 : 0,
+                upbit_usd_org             : 0,
+                upbit_premium_usd         : 0,
+                upbit_premium_usd_percent : 0,
+                upbit_krw                 : 0,    
+                upbit_krw_org             : 0,
+                upbit_premium_krw         : 0,
+                upbit_premium_krw_percent : 0
+            },
         }
     },
     props: [
         'socket',
-        'room_id'
-    ],
-    methods: {
-        createdFunction : function() {
-            // 환율 정보
-            this.setRate();
-            
-            // 코인 주소
-            this.setAccount();
-            
-            // 차트 iframe
-            this.setChartIframe();
-            
-            this.coin_image = '/image/'+ this.coin_name +'.png';
-            
-            this.getBitfinexFromServer();
-            this.getBithumbFromServer();
-            this.getCoinoneFromServer();
-            this.getUpbitFromServer();
-            
-            this.getBitfinexInfo();
-            this.getBithumbInfo();
-            this.getCoinoneInfo();
-            this.getUpbitInfo();
-        },
-        mountedFunction : function() {
-            
-            // 애니메이션 이벤트
-            var bithumb_usd_div = this.$refs.bithumb_usd;
-            var bithumb_krw_div = this.$refs.bithumb_krw;
-            var coinone_usd_div = this.$refs.coinone_usd;
-            var coinone_krw_div = this.$refs.coinone_krw;
-            var upbit_usd_div   = this.$refs.upbit_usd;
-            var upbit_krw_div   = this.$refs.upbit_krw;
-            
-            var bithumb_krw_mobile_div = this.$refs.bithumb_krw_mobile;
-            var coinone_krw_mobile_div = this.$refs.coinone_krw_mobile;
-            var upbit_krw_mobile_div = this.$refs.upbit_krw_mobile;
-            
-            bithumb_usd_div.addEventListener('animationend', function() {
-                    $('#bithumb_usd').removeClass('change_border');
-                }, false);
-            bithumb_krw_div.addEventListener('animationend', function() {
-                    $('#bithumb_krw').removeClass('change_border');
-                }, false);
-
-            coinone_usd_div.addEventListener('animationend', function() {
-                    $('#coinone_usd').removeClass('change_border');
-                }, false);
-            coinone_krw_div.addEventListener('animationend', function() {
-                    $('#coinone_krw').removeClass('change_border');
-                }, false);
-                
-            upbit_usd_div.addEventListener('animationend', function() {
-                    $('#upbit_usd').removeClass('change_border');
-                }, false);
-            upbit_krw_div.addEventListener('animationend', function() {
-                    $('#upbit_krw').removeClass('change_border');
-                }, false);
-
-                
-            bithumb_krw_mobile_div.addEventListener('animationend', function() {
-                    $('#bithumb_krw_mobile').removeClass('change_border');
-                }, false);
-            coinone_krw_mobile_div.addEventListener('animationend', function() {
-                    $('#coinone_krw_mobile').removeClass('change_border');
-                }, false);            
-            upbit_krw_mobile_div.addEventListener('animationend', function() {
-                    $('#upbit_krw_mobile').removeClass('change_border');
-                }, false);            
-        },
-        getBitfinexFromServer : function() {
-            asyncRequest({
-                url : '/homepage/ajax/get_coin_info',
-                data: {
-                    currency : this.coin_name,
-                    trade_market : 1,
-                },
-                dataType : 'json',
-                success: (result) => {
-                    if (typeof result.usd !== 'undefined') {
-                        this.bitfinex_usd = number_format(result.usd, 2);
-                        this.bitfinex_krw = number_format(result.krw);
-                        this.bitfinex_usd_org = result.usd;
-                        this.bitfinex_krw_org = result.krw;
-                        
-                        this.setBithumbPremium();
-                        this.setCoinonePremium();
-                    }
-                }
-            });
-        },
-        getBithumbFromServer : function() {
-            asyncRequest({
-                url : '/homepage/ajax/get_coin_info',
-                data: {
-                    currency : this.coin_name,
-                    trade_market : 2,
-                },
-                dataType : 'json',
-                success: (result) => {
-                    if (typeof result.usd !== 'undefined') {
-                        this.bithumb_usd = number_format(result.usd, 2);
-                        this.bithumb_krw = number_format(result.krw);
-                        this.bithumb_usd_org = result.usd;
-                        this.bithumb_krw_org = result.krw;
-                        
-                        document.title = this.bithumb_krw+ " " +this.coin_name_upper+"/KRW";
-                    }
-                }
-            });
-        },
-        getCoinoneFromServer : function() {
-            asyncRequest({
-                url : '/homepage/ajax/get_coin_info',
-                data: {
-                    currency : this.coin_name,
-                    trade_market : 3,
-                },
-                dataType : 'json',
-                success: (result) => {
-                    if (typeof result.usd !== 'undefined') {
-                        this.coinone_usd = number_format(result.usd, 2);
-                        this.coinone_krw = number_format(result.krw);                    
-                        this.coinone_usd_org = result.usd;
-                        this.coinone_krw_org = result.krw;
-                    }
-                }
-            });
-        },
-        getUpbitFromServer : function() {
-            asyncRequest({
-                url : '/homepage/ajax/get_coin_info',
-                data: {
-                    currency : this.coin_name,
-                    trade_market : 4,
-                },
-                dataType : 'json',
-                success: (result) => {
-                    if (typeof result.usd !== 'undefined') {
-                        this.upbit_usd = number_format(result.usd, 2);
-                        this.upbit_krw = number_format(result.krw);                    
-                        this.upbit_usd_org = result.usd;
-                        this.upbit_krw_org = result.krw;
-                    }
-                }
-            });
-        },
-        getBitfinexInfo : function() {
-            this.biffiex_interval_id = setInterval(() => {
-                this.getBitfinexFromServer();
-            }, 3000);
-        },
-        getBithumbInfo : function() {
-            var currency = this.coin_name.toUpperCase();
-            
-            this.bithumb_interval_id = setInterval(() => {
-            
-                $.ajax({
-                    type : 'GET',
-                    url  : 'https://api.bithumb.com/public/orderbook/'+currency,
-                    data : {},
-                    dataType : 'json',
-                    success: (result) => {
-                        
-                        var this_coin_name = this.coin_name.toUpperCase();
-                        if (currency != this_coin_name) {
-                            return;
-                        }
-                        
-                        if (result.status != '5500') {
-                            var price = result.data.asks[0].price;
-                            
-                            this.bithumb_usd = number_format(price/this.dollar, 2);
-                            this.bithumb_krw = number_format(price);
-                            
-                            // border 깜박임
-                            if (this.bithumb_usd_org != price/this.dollar) {
-                                $('#bithumb_usd').addClass('change_border');
-                            }
-                            if (this.bithumb_krw_org != price) {
-                                $('#bithumb_krw').addClass('change_border');
-                                $('#bithumb_krw_mobile').addClass('change_border');
-                            }
-
-                            this.bithumb_usd_org = price/this.dollar;
-                            this.bithumb_krw_org = price;
-                            
-                            document.title = this.bithumb_krw+ " " +this.coin_name_upper+"/KRW";
-                            
-                            this.setBithumbPremium();
-                        } else {
-                            clearInterval(this.bithumb_interval_id);
-                            this.bithumb_usd                 = 0;
-                            this.bithumb_usd_org             = 0;
-                            this.bithumb_premium_usd         = 0;
-                            this.bithumb_premium_usd_percent = 0;
-                            this.bithumb_krw                 = 0;
-                            this.bithumb_krw_org             = 0;
-                            this.bithumb_premium_krw         = 0;
-                            this.bithumb_premium_krw_percent = 0;
-                        }
-                    },
-                    error: (result) => {
-                        clearInterval(this.bithumb_interval_id);
-                        this.bithumb_usd                 = 0;
-                        this.bithumb_usd_org             = 0;
-                        this.bithumb_premium_usd         = 0;
-                        this.bithumb_premium_usd_percent = 0;
-                        this.bithumb_krw                 = 0;
-                        this.bithumb_krw_org             = 0;
-                        this.bithumb_premium_krw         = 0;
-                        this.bithumb_premium_krw_percent = 0;
-                    }
-                });
-
-            }, 2400);
-        },
-        getCoinoneInfo : function() {
-            var currency = this.coin_name.toLowerCase();
-            
-            this.coinone_interval_id = setInterval(() => {
-                $.ajax({
-                    type : 'GET',
-                    url: 'https://api.coinone.co.kr/orderbook/',
-                    data : {
-                        'currency' : currency
-                    },
-                    dataType : 'json',
-                    success: (result) => {
-
-                        var this_coin_name = this.coin_name.toLowerCase();
-                        if (currency != this_coin_name) {
-                            return;
-                        }
-                        
-                        if (result.errorCode === '0' && result.currency == currency) {
-                            var price = result.ask[0].price;
-                            this.coinone_usd = number_format(price/this.dollar, 2);
-                            this.coinone_krw = number_format(price);
-                            
-                            // border 깜박임
-                            if (this.coinone_usd_org != price/this.dollar) {
-                                $('#coinone_usd').addClass('change_border');
-                            }
-                            if (this.coinone_krw_org != price) {
-                                $('#coinone_krw').addClass('change_border');
-                                $('#coinone_krw_mobile').addClass('change_border');
-                            }
-                    
-                            this.coinone_usd_org = price/this.dollar;
-                            this.coinone_krw_org = price;
-                            this.setCoinonePremium();
-                        } else {
-                            clearInterval(this.coinone_interval_id);
-                            this.coinone_usd                 = 0;
-                            this.coinone_usd_org             = 0;
-                            this.coinone_premium_usd         = 0;
-                            this.coinone_premium_usd_percent = 0;
-                            this.coinone_krw                 = 0;
-                            this.coinone_krw_org             = 0;
-                            this.coinone_premium_krw         = 0;
-                            this.coinone_premium_krw_percent = 0;
-                        }
-                    }
-                });
-            }, 2400);
-        },
-        getUpbitInfo : function() {
-            var currency = this.coin_name.toUpperCase();
-            if (currency == 'BCH') {
-                currency = 'BCC';
-            }                                 
-            
-            this.upbit_interval_id = setInterval(() => {
-                $.ajax({
-                    type : 'GET',
-                    url: 'https://crix-api-endpoint.upbit.com/v1/crix/candles/minutes/1?code=CRIX.UPBIT.KRW-'+currency+'&count=1',
-                    dataType : 'json',
-                    success: (result) => {
-                        
-                        var this_coin_name = this.coin_name.toUpperCase();
-                        if (this_coin_name == 'BCH') {
-                            this_coin_name = 'BCC';
-                        }
-                        if (currency != this_coin_name) {
-                            return;
-                        }
-                        
-                        if (typeof result[0] != 'undefined' && result[0].code == 'CRIX.UPBIT.KRW-'+currency) {
-                            
-                            var price = result[0].tradePrice;
-
-                            this.upbit_usd = number_format(price/this.dollar, 2);
-                            this.upbit_krw = number_format(price);
-                            
-                            // border 깜박임
-                            if (this.upbit_usd_org != price/this.dollar) {
-                                $('#upbit_usd').addClass('change_border');
-                            }
-                            if (this.upbit_krw_org != price) {
-                                $('#upbit_krw').addClass('change_border');
-                                $('#upbit_krw_mobile').addClass('change_border');
-                            }
-                    
-                            this.upbit_usd_org = price/this.dollar;
-                            this.upbit_krw_org = price;
-                            
-                            this.setUpbitPremium();
-                        } else {
-                            clearInterval(this.upbit_interval_id);
-                            this.upbit_usd                 = 0;
-                            this.upbit_usd_org             = 0;
-                            this.upbit_premium_usd         = 0;
-                            this.upbit_premium_usd_percent = 0;
-                            this.upbit_krw                 = 0;
-                            this.upbit_krw_org             = 0;
-                            this.upbit_premium_krw         = 0;
-                            this.upbit_premium_krw_percent = 0;
-                        }
-                    }
-                });
-            }, 2400);
-        },
-        setBithumbPremium : function() {
-            if (this.bitfinex_usd !== 'load..' && this.bithumb_usd !== 'load..' && this.bithumb_usd !== 0) {
-                this.bithumb_premium_usd = number_format(this.bithumb_usd_org - this.bitfinex_usd_org, 2);
-                this.bithumb_premium_krw  = number_format(this.bithumb_krw_org - this.bitfinex_krw_org);
-                this.bithumb_premium_usd_percent = number_format((this.bithumb_usd_org - this.bitfinex_usd_org) / this.bitfinex_usd_org * 100, 2);
-                this.bithumb_premium_krw_percent = number_format((this.bithumb_krw_org - this.bitfinex_krw_org) / this.bitfinex_krw_org * 100, 2);
-            }
-        },
-        setCoinonePremium : function() {
-            if (this.bitfinex_usd !== 'load..'  && this.coinone_usd !== 'load..' && this.coinone_usd !== 0) {
-                this.coinone_premium_usd = number_format(this.coinone_usd_org - this.bitfinex_usd_org, 2);
-                this.coinone_premium_krw  = number_format(this.coinone_krw_org - this.bitfinex_krw_org);
-                this.coinone_premium_usd_percent = number_format((this.coinone_usd_org - this.bitfinex_usd_org) / this.bitfinex_usd_org * 100, 2);
-                this.coinone_premium_krw_percent = number_format((this.coinone_krw_org - this.bitfinex_krw_org) / this.bitfinex_krw_org * 100, 2);
-            }
-        },
-        setUpbitPremium : function() {
-            if (this.bitfinex_usd !== 'load..'  && this.upbit_usd !== 'load..' && this.upbit_usd !== 0) {
-                this.upbit_premium_usd = number_format(this.upbit_usd_org - this.bitfinex_usd_org, 2);
-                this.upbit_premium_krw  = number_format(this.upbit_krw_org - this.bitfinex_krw_org);
-                this.upbit_premium_usd_percent = number_format((this.upbit_usd_org - this.bitfinex_usd_org) / this.bitfinex_usd_org * 100, 2);
-                this.upbit_premium_krw_percent = number_format((this.upbit_krw_org - this.bitfinex_krw_org) / this.bitfinex_krw_org * 100, 2);
-            }
-        },
-        setChartIframe : function() {
-            this.iframe = '<iframe style="width:100%; height:100%;" src="https://embed.cryptowat.ch/bitfinex/'+this.coin_name+'usd/15m"></iframe>';
-        },
-        setAccount : function() {
-            
-            this.account = 'rN9qNpgnBaZwqCg8CvUZRPqCcPPY7wfWep <br> 1752738475';
-            
-            //if (this.coin_name == 'btc') {
-            //    this.account = '3GavawtgH2CFKthH2EoswfxaMiiQh68Sjx';
-            //} else if (this.coin_name == 'bch') {
-            //    this.account = '3KWo7RVc99PGryiQRguDg8vFBJNcAjvtjR';
-            //} else if (this.coin_name == 'eth') {
-            //    this.account = '0x345fae7b1e8ba8928574325e3c20e5f8a52b5da8';
-            //} else if (this.coin_name == 'etc') {
-            //    this.account = '0xb65a305af59396f65f1c615fb9df1e934dcab48b';
-            //} else if (this.coin_name == 'xrp') {
-            //    this.account = 'rN9qNpgnBaZwqCg8CvUZRPqCcPPY7wfWep <br> 1752738475';
-            //} else if (this.coin_name == 'ltc') {
-            //    this.account = '3J3vtAJ1AkvxU5EZQS11q8awzKxAozxpdo';
-            //} else if (this.coin_name == 'btg') {
-            //    this.account = 'AZ9vxk6kxhCxkX5nGfmu85ayRCTsnAnHmR';
-            //}
-        },
-        changeCoinInfo : function() {
-            this.setInitData();
-            this.createdFunction();
-            this.mountedFunction();
-        },
-        setInitData : function() {
-            this.coin_name = $('#select_coin').val();
-            this.coin_name_upper = this.coin_name.toUpperCase();
-            clearInterval(this.biffiex_interval_id);
-            clearInterval(this.bithumb_interval_id);
-            clearInterval(this.coinone_interval_id);
-            clearInterval(this.upbit_interval_id);
-
-            this.bitfinex_usd                = 'load..';
-            this.bitfinex_usd_org            = 0;
-            this.bitfinex_krw                = 'load..';
-            this.bitfinex_krw_org            = 0;
-
-            this.bithumb_usd                 = 'load..';
-            this.bithumb_usd_org             = 0;
-            this.bithumb_premium_usd         = 'load..';
-            this.bithumb_premium_usd_percent = 'load..';
-            this.bithumb_krw                 = 'load..';
-            this.bithumb_krw_org             = 0;
-            this.bithumb_premium_krw         = 'load..';
-            this.bithumb_premium_krw_percent = 'load..';
-
-            this.coinone_usd                 = 'load..';
-            this.coinone_usd_org             = 0;
-            this.coinone_premium_usd         = 'load..';
-            this.coinone_premium_usd_percent = 'load..';
-            this.coinone_krw                 = 'load..';
-            this.coinone_krw_org             = 0,
-            this.coinone_premium_krw         = 'load..';
-            this.coinone_premium_krw_percent = 'load..';
-            
-            this.upbit_usd                 = 'load..';
-            this.upbit_usd_org             = 0;
-            this.upbit_premium_usd         = 'load..';
-            this.upbit_premium_usd_percent = 'load..';
-            this.upbit_krw                 = 'load..';
-            this.upbit_krw_org             = 0;
-            this.upbit_premium_krw         = 'load..';
-            this.upbit_premium_krw_percent = 'load..';
-        },
-        setRate : function() {
-            asyncRequest({
-                url : '/homepage/ajax/get_rate_info',
-                data: {
-                },
-                success: (result) => {
-                    this.dollar = result.usd;
-                    this.show_dollar = number_format(this.dollar, 2);
-                }
-            });
-        }
-    }
+    ]
 }
-</script>
+</script><

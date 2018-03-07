@@ -5,17 +5,17 @@
     </head>
     @yield('sass')
     <body>
-      <div class="container">
+      <div class="container-fluid">
             
         <nav class="navbar navbar-default">
           <div class="container-fluid">
             <div class="navbar-header">
-              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+              <!--button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
-              </button>
+              </button-->
               <a class="navbar-brand" href="#1xrp_please">Zonber</a>
             </div>
 
@@ -30,12 +30,12 @@
         <div id="app">
             <div class="row">
                 <!-- 정보 -->
-                <div class='col-lg-8 col-xs-12'>
+                <div class='col-lg-9 col-xs-12'>
                     @yield('info')
                 </div>
                     
                 <!-- 대화 -->
-                <div class='col-lg-4 col-xs-12'>
+                <div class='col-lg-3 col-xs-12'>
                     @yield('chat')
                 </div>
             </div>

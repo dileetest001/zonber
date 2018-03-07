@@ -52,27 +52,19 @@ class CurlBtcInfo extends Command
             
             // 비트파이넥스 DB 저장
             $bitfinex_info = $CurlExchange->getBitfinextInfo($currency);
-            if ($bitfinex_info['status'] != 5500) {
-                $this->setDatabaseCoin(1, $currency, $bitfinex_info);
-            }
+            $this->setDatabaseCoin(1, $currency, $bitfinex_info);
             
             // 빗썸 DB 저장
             $bithumb_info  = $CurlExchange->getBithumbInfo($currency);
-            if ($bithumb_info['status'] != 5500) {
-                $this->setDatabaseCoin(2, $currency, $bithumb_info);
-            }
+            $this->setDatabaseCoin(2, $currency, $bithumb_info);
             
             // 코인원 DB 저장
             $coinone_info  = $CurlExchange->getCoinoneInfo($currency);
-            if ($coinone_info['status'] != 5500) {
-                $this->setDatabaseCoin(3, $currency, $coinone_info);
-            }
+            $this->setDatabaseCoin(3, $currency, $coinone_info);
             
             // 업비트 DB 저장
             $upbit_info = $CurlExchange->getUpbitInfo($currency);
-            if ($upbit_info['status'] != 5500) {
-                $this->setDatabaseCoin(4, $currency, $upbit_info);
-            }
+            $this->setDatabaseCoin(4, $currency, $upbit_info);
             
         }
 
@@ -92,9 +84,12 @@ class CurlBtcInfo extends Command
                 'usd'          => $info['price_usd'],
             ]);
         } else {
-            $coin_info->krw = $info['price_krw'];
-            $coin_info->usd = $info['price_usd'];
-            $coin_info->save();
+            if (($coin_info->krw && $info['price_krw'] > 0) || ($coin_info->krw == 0 && $info['price_krw'] > 0)) {
+
+                $coin_info->krw = $info['price_krw'];
+                $coin_info->usd = $info['price_usd'];
+                $coin_info->save();
+            }
         }
     }
 }

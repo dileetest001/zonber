@@ -33,13 +33,11 @@ class HomepageAjaxController extends HomepageController
             'user_id'   => $user_id,
             'user_name' => $user_name,
             'message'   => $message,
-            'room_id'   => $room_id,
             'type'      => 'send_message',
         ];
 
         Chatting::create([
             'user_id'   => $user_id,
-            'room_id'   => $room_id,
             'user_name' => $user_name,
             'message'   => $message,
             'type'      => 0,
@@ -51,20 +49,21 @@ class HomepageAjaxController extends HomepageController
     }
          
     /*
-     * get bitfinex info
+     * get info
      *
      */
     public function getCoinInfo()
     {
-        $currency = request('currency');
-        $trade_market = request('trade_market');
+        $return_arr = [];
         
-        $coin_info = CoinInfo::where([
-            ['currency', $currency],
-            ['trade_market', $trade_market]
-        ])->first();
+        $coin_infos = CoinInfo::get();
         
-        return $coin_info;
+        foreach ($coin_infos as $coin_info) {
+            $return_arr[$coin_info->currency][$coin_info->trade_market]['usd'] = $coin_info->usd;
+            $return_arr[$coin_info->currency][$coin_info->trade_market]['krw'] = $coin_info->krw;
+        }
+
+        return $return_arr;
     }
 
     /*
