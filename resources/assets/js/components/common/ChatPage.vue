@@ -131,7 +131,7 @@ export default {
                     this.makeMessageLine(result);
                     break;
                 case 'client_count' :
-                    this.client_count  = result['client_count'];
+                    this.client_count  = result['client_count'] + 27;
                     break;
                 default:
                     break;
